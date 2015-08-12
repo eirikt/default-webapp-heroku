@@ -50,7 +50,7 @@ CD default-webapp-heroku
     ```json
     {
         "name": "default-webapp-heroku",
-        "version": "0.0.1"
+        "version": "0.1.0"
    }
     ```
 
@@ -59,7 +59,7 @@ CD default-webapp-heroku
     ```git
 $ git add package.json
 $ git add server.js
-$ git commit -m "Vanilla Node.js HTTP server responding with HTTP response code '200 OK' only"
+$ git commit -m "v0.1.0: Vanilla Node.js HTTP server responding with HTTP response code '200 OK' only"
     ```
 
 1. Configure Heroku environment
