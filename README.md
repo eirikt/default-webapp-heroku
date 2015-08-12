@@ -32,27 +32,26 @@ CD default-webapp-heroku
     Add a vanilla Node.js HTTP server:
 
     `server.js`
-
     ```javascript
-var http = require('http'),
-    port = process.env.PORT || 8000,
-    server = http.createServer(function (request, response) {
-        response.writeHead(200);
-        response.end();
-    });
-server.listen(port);
-console.log('HTTP server is listening on port %s', port);
+    var http = require('http'),
+       port = process.env.PORT || 8000,
+       server = http.createServer(function (request, response) {
+           response.writeHead(200);
+           response.end();
+       });
+
+   server.listen(port);
+   console.log('HTTP server is listening on port %s', port);
     ```
 
     ... and a tiny ***npm*** configuration to make the Heroku deployment work:
 
     `package.json`
-
     ```json
-{
-    "name": "default-webapp-heroku",
-    "version": "0.0.1"
-}
+    {
+       "name": "default-webapp-heroku",
+       "version": "0.0.1"
+   }
     ```
 
 1. Commit the minimal Heroku-compliant Node.js HTTP server:
@@ -99,6 +98,7 @@ $ heroku open
 
 ...
 
+For a full public launch, the site should be given a proper domain name.
 That is easily accomplished with Heroku's [custom domain][heroku-custom-domains] functionality.
 
 
