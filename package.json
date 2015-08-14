@@ -1,10 +1,13 @@
 {
     "name": "default-webapp-heroku",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "license": "MIT",
     "author": "Eirik Torske <eirik.torske@gmail.com>",
     "repository": {
         "type": "git",
         "url": "https://github.com/eirikt/default-webapp-heroku.git"
+    },
+    "dependencies": {
+        "express": "4.x"
     }
 }

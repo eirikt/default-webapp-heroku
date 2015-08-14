@@ -11,7 +11,7 @@ A live version is hosted on [Heroku][heroku], as https://lit-sea-2983.herokuapp.
 
 
 ## Prepare
-1. Install [Node.js][node] (***npm*** included)
+1. Install [Node.js][node] (The Node package manager ***npm*** is included)
 1. Sign up for a Heroku [account][heroku-account]
 1. Install [Heroku Toolbelt][heroku-setup]
 
@@ -24,26 +24,13 @@ git clone https://github.com/eirikt/default-webapp-heroku
 CD default-webapp-heroku
     ```
 
-1. Configure Heroku environment
-
-    First, log in with your Heroku account:
-
-    ```
-$ heroku login
-    ```
-
-    Create a Heroku app, which prepares Heroku to receive your source code.
-
-    ```
-$ heroku create
-    ```
-
-    When you create an app, a git remote (called `heroku`) is also created and associated with your local git repository.
-    Heroku generates a random name for your app, or you can pass a parameter to specify your own app name.
-
-
-
 ## Deploy locally
+1. Fetch dependencies with `npm`
+
+    ```
+npm install
+    ```
+
 1. Start the web application
 
     ```
@@ -54,7 +41,24 @@ node server.js
 
 
 ## Deploy to Heroku
-1. Just push your commits to the `heroku` git remote branch:
+1. If not already done; Configure Heroku environment
+
+    First, log in with your Heroku account.
+
+    ```
+    $ heroku login
+    ```
+
+    Create a Heroku app, which prepares Heroku to receive your source code.
+
+    ```
+    $ heroku create
+    ```
+
+    When you create an app, a git remote (called `heroku`) is also created and associated with your local git repository.
+    Heroku generates a random name for your app, or you can pass a parameter to specify your own app name.
+
+1. The just push your commits to the `heroku` git remote branch
 
     ```
 $ git push heroku master
@@ -79,11 +83,17 @@ That is easily accomplished with Heroku's [custom domain][heroku-custom-domains]
 ## Commit history
 Some arguments and rationale for the design choices of some essential commits ...
 
-##### v0.1.0: The archetypical vanilla Node.js HTTP server [ [diff](https://github.com/eirikt/default-webapp-heroku/blob/f06222138d276cfb8fa302509d05a015a3ac6aed/server.js) ]
+##### v0.1: The archetypical vanilla Node.js HTTP server [ [iteration zero](https://github.com/eirikt/default-webapp-heroku/blob/master/ITERATION-ZERO.md) ]
 
 Walking the continuous delivery walk;
 We are starting with the simplest possible webapp, just returning `200 OK` - a heartbeat service.
 Tell your client that their webapp has awakened.
+
+...
+
+##### v0.2: The archetypical vanilla Node.js "Hello World" [ [hello world](https://github.com/eirikt/default-webapp-heroku/blob/1f5f7e824f10ca3f47f7067c9ba7ffc098838ee4/server.js) ]
+
+Tell your client that their webapp has said hello.
 
 
 

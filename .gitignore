@@ -6,5 +6,9 @@
 # Ignore derived/generated project resources
 
 # Ignore downloaded project resources
+node_modules
+
+# Ignore fixated project resources
+ITERATION-ZERO.md
 
 # Ignore personal development stuff
