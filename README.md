@@ -40,6 +40,17 @@ node server.js
 1. Navigate to [http://localhost:8000]()
 
 
+## Stage the webapp
+1. Use Heroku Toolbelt to stage your webapp using production environment configuration.
+    Kill your local server and redeploy on port 8000.
+
+    ```
+    heroku local -p 8000
+    ```
+
+1. Navigate to [http://localhost:8000]()
+
+
 ## Deploy to Heroku
 1. If not already done; Configure Heroku environment
 
