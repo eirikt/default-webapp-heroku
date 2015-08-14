@@ -1,0 +1,10 @@
+# Always ignore
+.ssh
+
+# Ignore IDE stuff
+
+# Ignore derived/generated project resources
+
+# Ignore downloaded project resources
+
+# Ignore personal development stuff
