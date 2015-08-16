@@ -105,7 +105,8 @@ Then just develop, stage, and deploy as described above.
 Some arguments and rationale for the design choices of some essential commits ...
 
 ### v0.1: Establish project and deploy
-Walking the continuous delivery walk; We are starting with the simplest possible webapp, just returning `200 OK` - a heartbeat service.
+Walking the continuous delivery walk;
+We are starting with the simplest possible webapp, just returning `200 OK` - a heartbeat service.
 - [Walkthrough](https://github.com/eirikt/default-webapp-heroku/blob/master/ITERATION-ZERO.md)
 - [`Procfile` (Heroku-specific) for local staging and easier deployment](https://github.com/eirikt/default-webapp-heroku/commit/edeedc577e27c8d8e107b277079b7cbae87f0e37)
 
@@ -115,8 +116,9 @@ _Tell your client that their webapp has awakened._
 
 ### v0.2: Hello World!
 Putting together a decent default `index.html`.
-- [Serving static content with Express.](https://github.com/eirikt/default-webapp-heroku/blob/0e00c71001074200bb27d4bea33379bd82abae58/server.js)
-- [Express favicon trick to avoid '404 Not Found' in browsers.]([https://github.com/eirikt/default-webapp-heroku/commit/180f48f8b3e927335092bbd409175ba64b623fa4](https://github.com/eirikt/default-webapp-heroku/commit/180f48f8b3e927335092bbd409175ba64b623fa4)
+- [Serving static content with Express](https://github.com/eirikt/default-webapp-heroku/blob/0e00c71001074200bb27d4bea33379bd82abae58/server.js)
+- [HTTP Header settings for no caching.](https://github.com/eirikt/default-webapp-heroku/commit/abcdfcab93961dceff8d29a1faae49a798313d42) Inspired by [this](http://stackoverflow.com/questions/49547/making-sure-a-web-page-is-not-cached-across-all-browsers) Stack Overflow thread.
+- [Favicon trick to avoid '404 Not Found' in browsers]([https://github.com/eirikt/default-webapp-heroku/commit/180f48f8b3e927335092bbd409175ba64b623fa4](https://github.com/eirikt/default-webapp-heroku/commit/180f48f8b3e927335092bbd409175ba64b623fa4)
 - [Warning users with IE9 and worse.](https://github.com/eirikt/default-webapp-heroku/commit/447a8f444a81a63d3d16470ab3a1c42f9b9cb4ea)
   Just take a stand!
   But at least warn users about the situation.
