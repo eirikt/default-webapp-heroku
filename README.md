@@ -118,7 +118,7 @@ _Tell your client that their webapp has awakened._
 Putting together a decent default `index.html`.
 - [Serving static content with Express](https://github.com/eirikt/default-webapp-heroku/blob/0e00c71001074200bb27d4bea33379bd82abae58/server.js)
 - [HTTP Header settings for no caching.](https://github.com/eirikt/default-webapp-heroku/commit/abcdfcab93961dceff8d29a1faae49a798313d42) Inspired by [this](http://stackoverflow.com/questions/49547/making-sure-a-web-page-is-not-cached-across-all-browsers) Stack Overflow thread.
-- [Favicon trick to avoid '404 Not Found' in browsers]([https://github.com/eirikt/default-webapp-heroku/commit/180f48f8b3e927335092bbd409175ba64b623fa4](https://github.com/eirikt/default-webapp-heroku/commit/180f48f8b3e927335092bbd409175ba64b623fa4)
+- [Favicon trick to avoid '404 Not Found' in browsers](https://github.com/eirikt/default-webapp-heroku/commit/180f48f8b3e927335092bbd409175ba64b623fa4)
 - [Warning users with IE9 and worse.](https://github.com/eirikt/default-webapp-heroku/commit/447a8f444a81a63d3d16470ab3a1c42f9b9cb4ea)
   Just take a stand!
   But at least warn users about the situation.
