@@ -6,8 +6,15 @@ var path = require('path'),
     port = process.env.PORT || 8000,
     appServer;
 
-// Application server configuration
+// Application server middleware configuration
 appServer = express();
+
+// Header setting suggesting the latest rendering engine version of Internet Explorer
+appServer.use(function(request, response, next) {
+    response.setHeader("X-UA-Compatible", "IE=edge");
+    return next();
+});
+
 // Default: Header settings suggesting no caching whatsoever
 appServer.use(function(request, response, next) {
     response.setHeader("Pragma", "no-cache"); // HTTP 1.0
@@ -15,8 +22,12 @@ appServer.use(function(request, response, next) {
     response.setHeader("Expires", "0"); // Proxies
     return next();
 });
-appServer.use(express.static(path.join(applicationAbsolutePath, clientResourcesRelativePath)));
 
+// Setting the root folder and serving static content
+appServer.use(express.static(path.join(applicationAbsolutePath, clientResourcesRelativePath)));
+// /Application server middleware configuration
+
+// Application server paths
 // (Empty) Favicon trick to avoid '404 Not Found' in browsers
 appServer.get('/favicon.ico', function(request, response) {
     response.writeHead(200, {
@@ -24,8 +35,9 @@ appServer.get('/favicon.ico', function(request, response) {
     });
     response.end();
 });
+// /Application server paths
 
 // Start application server
-appServer.listen(port, function () {
+appServer.listen(port, function() {
     console.log('Application server listening at port %s', port);
 });
