@@ -1,6 +1,6 @@
 {
     "name": "default-webapp-heroku",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "license": "MIT",
     "author": "Eirik Torske <eirik.torske@gmail.com>",
     "repository": {
