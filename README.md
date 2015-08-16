@@ -29,6 +29,12 @@ CD default-webapp-heroku
    npm install
    ```
 
+1. Show project info and tasks
+
+   ```
+   .\node_modules\.bin\grunt
+   ```
+
 1. Start the web application
 
    ```
