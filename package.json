@@ -1,6 +1,6 @@
 {
     "name": "default-webapp-heroku",
-    "version": "0.3.7",
+    "version": "0.3.8",
     "license": "MIT",
     "author": "Eirik Torske <eirik.torske@gmail.com>",
     "repository": {
@@ -8,15 +8,17 @@
         "url": "https://github.com/eirikt/default-webapp-heroku.git"
     },
     "dependencies": {
-        "express": "4.x"
-    },
-    "devDependencies": {
+        "express": "4.x",
+
         "grunt": "0.4.x",
         "grunt-cli": "0.1.x",
         "grunt-shell": "1.1.x",
         "grunt-contrib-copy": "0.8.x"
     },
+    "engines": {
+        "iojs": "3.x"
+    },
     "scripts": {
         "postinstall": "./node_modules/.bin/grunt copy"
-    }
+    },
 }
