@@ -23,22 +23,18 @@ CD default-webapp-heroku
 ```
 
 ## Build
-1. Fetch dependencies with `npm`
+1. Fetch dependencies with `npm` and build web application
 
    ```
    npm install
    ```
 
+   The web application is built by the `postinstall` script declared in `package.json`.
+
 1. Show project info and available tasks (_optional_)
 
    ```
    grunt
-   ```
-
-1. Build the web application
-
-   ```
-   grunt copy
    ```
 
 ## Deploy locally
@@ -80,6 +76,12 @@ CD default-webapp-heroku
    When you create an app, a git remote (called `heroku`) is also created and associated with your local git repository.
 
    Heroku generates a random name for your app, or you can pass a parameter to specify your own app name.
+
+   Then set a [buildpack][heroku-buildpacks] for you Heroku environment.
+
+   ```
+   heroku buildpacks:set https://github.com/heroku/heroku-buildpack-nodejs
+   ```
 
 1. Just push your commits to the `heroku` git remote branch
 
@@ -169,6 +171,7 @@ _Tell your client that their webapp is developing at full speed, with no waste -
 [node]: https://iojs.org
 [heroku]: https://www.heroku.com
 [heroku-account]: https://signup.heroku.com/dc/
+[heroku-buildpacks]: https://devcenter.heroku.com/articles/buildpacks/
 [heroku-setup]: https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up
 [heroku-intro]: https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction
 [heroku-custom-domains]: https://devcenter.heroku.com/articles/custom-domains/

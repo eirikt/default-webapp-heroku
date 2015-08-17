@@ -1,6 +1,6 @@
 {
     "name": "default-webapp-heroku",
-    "version": "0.3.8",
+    "version": "0.3.9",
     "license": "MIT",
     "author": "Eirik Torske <eirik.torske@gmail.com>",
     "repository": {
@@ -19,6 +19,6 @@
         "iojs": "3.x"
     },
     "scripts": {
-        "postinstall": "./node_modules/.bin/grunt copy"
+        "postinstall": "./node_modules/.bin/grunt build"
     }
 }
