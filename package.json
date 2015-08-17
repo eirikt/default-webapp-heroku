@@ -20,5 +20,5 @@
     },
     "scripts": {
         "postinstall": "./node_modules/.bin/grunt copy"
-    },
+    }
 }
