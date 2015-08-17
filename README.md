@@ -113,7 +113,7 @@ Some arguments and rationale for the design choices of some essential commits ..
 ### v0.1: Establish project and deploy
 Walking the continuous delivery walk;
 We are starting with the simplest possible webapp, just returning `200 OK` - a heartbeat service.
-- [Walkthrough](https://github.com/eirikt/default-webapp-heroku/blob/master/ITERATION-ZERO.md)
+- [Walkthrough](https://github.com/eirikt/default-webapp-heroku/blob/master/SETUP.md)
 - [`Procfile` (Heroku-specific) for local staging and easier deployment](https://github.com/eirikt/default-webapp-heroku/commit/edeedc577e27c8d8e107b277079b7cbae87f0e37)
 
 _Tell your client that their webapp has awakened._
@@ -124,9 +124,9 @@ _Tell your client that their webapp has awakened._
 Putting together a decent default `index.html`.
 Rather inspired by [HTML5 Boilerplate][html5boilerplate-explained], and such.
 - [Serving static content with Express](https://github.com/eirikt/default-webapp-heroku/blob/0e00c71001074200bb27d4bea33379bd82abae58/server.js)
-- [HTTP Header settings for no caching.](https://github.com/eirikt/default-webapp-heroku/commit/abcdfcab93961dceff8d29a1faae49a798313d42) Inspired by [this](http://stackoverflow.com/questions/49547/making-sure-a-web-page-is-not-cached-across-all-browsers) Stack Overflow thread.
+- [HTTP Header settings for no caching](https://github.com/eirikt/default-webapp-heroku/commit/abcdfcab93961dceff8d29a1faae49a798313d42). Inspired by [this](http://stackoverflow.com/questions/49547/making-sure-a-web-page-is-not-cached-across-all-browsers) Stack Overflow thread.
 - [Favicon trick to avoid '404 Not Found' in browsers](https://github.com/eirikt/default-webapp-heroku/commit/180f48f8b3e927335092bbd409175ba64b623fa4)
-- [Warning users with IE9 and worse.](https://github.com/eirikt/default-webapp-heroku/commit/447a8f444a81a63d3d16470ab3a1c42f9b9cb4ea)
+- [Warning users with IE9 and worse](https://github.com/eirikt/default-webapp-heroku/commit/447a8f444a81a63d3d16470ab3a1c42f9b9cb4ea).
   Just take a stand!
   But at least warn users about the situation.
   We should not waste time on those troublesome browsers unless _absolutely necessary_.
@@ -142,12 +142,18 @@ _Tell your client that their webapp has said 'hello'. Also, mention that it is m
 ### v0.3: Ease of development
 Setting up a smooth development environment where the goal is extremely fast and frequent micro-iterations.
 
+- [EditorConfig](https://github.com/eirikt/default-webapp-heroku/commit/af9af9df9b720994f21352225a65c6fb24c59c78), IDE-agnostic editor configurations.
+- [Grunt as Build tool](https://github.com/eirikt/default-webapp-heroku/commit/8dbcf0164b4da8f69ac60c6b11dd4f311335132c).
+  Even though the usage of tools like [Grunt][grunt] and [Gulp][gulp] lately have been [questioned](http://blog.keithcirkel.co.uk/how-to-use-npm-as-a-build-tool/) as the primary build tool, I find Grunt still very useful. In my opinion it scales better than e.g. `npm` when the build configuration gets large and complex.
+
 _Tell your client that their webapp is developing at full speed, with no waste - and that they will be able to monitor all progress live._
 
 
 
 [continuous-delivery]: https://en.wikipedia.org/wiki/Continuous_delivery/
 [github]: https://github.com
+[grunt]: http://gruntjs.com
+[gulp]: http://gulpjs.com
 [html5boilerplate]: https://html5boilerplate.com
 [html5boilerplate-explained]: http://ningbit.github.io/blog/2013/09/30/html5-boilerplate-explained-in-simple-terms/
 [node]: https://iojs.org
