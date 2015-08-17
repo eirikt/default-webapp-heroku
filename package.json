@@ -1,6 +1,6 @@
 {
     "name": "default-webapp-heroku",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "license": "MIT",
     "author": "Eirik Torske <eirik.torske@gmail.com>",
     "repository": {
@@ -13,6 +13,7 @@
     "devDependencies": {
         "grunt": "0.4.x",
         "grunt-cli": "0.1.x",
-        "grunt-shell": "1.1.x"
+        "grunt-shell": "1.1.x",
+        "grunt-contrib-copy": "0.8.x"
     }
 }

@@ -1,6 +1,9 @@
 module.exports = function(grunt) {
     'use strict';
+
     grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         shell: {
@@ -21,8 +24,19 @@ module.exports = function(grunt) {
                     'ECHO    ...'
                 ].join('&&')
             }
-        }
+        },
+
+        copy: {
+            public: {
+                files: [{
+                    src: 'index.html',
+                    dest: 'public'
+                }]
+            }
+        },
     });
+
     grunt.registerTask('help', ['shell:help']);
+
     grunt.registerTask('default', ['help']);
 };

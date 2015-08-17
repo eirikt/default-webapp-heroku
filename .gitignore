@@ -4,6 +4,7 @@
 # Ignore IDE stuff
 
 # Ignore derived/generated project resources
+public
 
 # Ignore downloaded project resources
 node_modules
