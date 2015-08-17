@@ -22,18 +22,26 @@ git clone https://github.com/eirikt/default-webapp-heroku
 CD default-webapp-heroku
 ```
 
-## Deploy locally
+## Build
 1. Fetch dependencies with `npm`
 
    ```
    npm install
    ```
 
-1. Show project info and tasks
+1. Show project info and available tasks (_optional_)
 
    ```
    grunt
    ```
+
+1. Build the web application
+
+   ```
+   grunt copy
+   ```
+
+## Deploy locally
 
 1. Start the web application
 
@@ -44,7 +52,7 @@ CD default-webapp-heroku
 1. Navigate to [http://localhost:8000]()
 
 ## Stage the webapp
-1. Use Heroku Toolbelt to stage your webapp using production environment configuration.
+1. Use Heroku Toolbelt to stage your webapp using production environment configuration
 
    Kill your local server and redeploy on port `8000`.
 
@@ -98,8 +106,8 @@ For a full public launch, the site should be given a proper domain name. That is
 
 This project is meant as a well-documented starting-point for a project, like a boilerplate.
 
-First, look through the commit log and find the wanted version (*optional)*.
-Then either fork this GitHub repository for preserving the commit history (*recommended*), or just copy the code base to your own project folder.
+First, look through the commit log and find the wanted version (_optional_).
+Then either fork this GitHub repository for preserving the commit history (_recommended_), or just copy the code base to your own project folder.
 Also, you could delete the `.git` folder and turn the `default-webapp-heroku` folder into your own project folder.
 Either way, "reset"/modify the `LICENCE.txt`, `package.json`, and `README.md`.
 
@@ -145,6 +153,8 @@ Setting up a smooth development environment where the goal is extremely fast and
 - [EditorConfig](https://github.com/eirikt/default-webapp-heroku/commit/af9af9df9b720994f21352225a65c6fb24c59c78), IDE-agnostic editor configurations.
 - [Grunt as Build tool](https://github.com/eirikt/default-webapp-heroku/commit/8dbcf0164b4da8f69ac60c6b11dd4f311335132c).
   Even though the usage of tools like [Grunt][grunt] and [Gulp][gulp] lately have been [questioned](http://blog.keithcirkel.co.uk/how-to-use-npm-as-a-build-tool/) as the primary build tool, I find Grunt still very useful. In my opinion it scales better than e.g. `npm` when the build configuration gets large and complex.
+- [Dedicated folder for public resources](https://github.com/eirikt/default-webapp-heroku/commit/039dee0e960b793174b2caaffa2b52483a9bdfd6) for file processing without renaming.
+  Also, gives cleaner project layout and increased security.
 
 _Tell your client that their webapp is developing at full speed, with no waste - and that they will be able to monitor all progress live._
 
