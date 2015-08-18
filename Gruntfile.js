@@ -1,8 +1,9 @@
 module.exports = function(grunt) {
     'use strict';
 
-    grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-processhtml');
+    grunt.loadNpmTasks('grunt-shell');
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -35,10 +36,24 @@ module.exports = function(grunt) {
                 }]
             }
         },
+
+        processhtml: {
+            main: {
+                options: {
+                    data: {
+                        name: '<%= pkg.description %>',
+                        version: '<%= pkg.version %>',
+                        timestamp: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+                    }
+                },
+                files: {
+                    'public/index.html': ['public/index.html']
+                }
+            }
+        }
     });
 
-    grunt.registerTask('help', ['shell:help']);
-    grunt.registerTask('build', ['copy']);
+    grunt.registerTask('build', ['copy', 'processhtml']);
 
-    grunt.registerTask('default', ['help']);
+    grunt.registerTask('default', ['shell:help']);
 };

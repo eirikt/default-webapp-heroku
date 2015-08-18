@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Default Webapp</title>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
 </head>
@@ -14,15 +14,18 @@
 Please <a href="http://browsehappy.com">upgrade your browser</a> to improve your experience.</p>
 <hr/>
 <![endif]-->
+
     <section>
-        <p style="font-size:larger;margin-left:.5rem;"><strong>Default Webapp</strong></p>
+        <p style="font-size:larger;margin-top:1rem;margin-left:.5rem;"><strong>Default Webapp</strong></p>
     </section>
 
+    <!--build:template
     <footer style="position:fixed;bottom:0;width:100%;">
         <hr/>
-        <span style="float:left;margin-bottom:.5rem;margin-left:.5rem;color:grey;"><em><strong>Default Webapp v0.3.0</strong></em></span>
-        <span style="float:right;margin-bottom:.5rem;margin-right:.5rem;color:grey;"><em><strong>Development configuration</strong></em></span>
+        <span style="float:left;margin-bottom:.5rem;margin-left:.5rem;color:grey;"><em><strong><%= name %> v<%= version %></strong> - built <%= timestamp %></strong></em></span>
+        <span style="float:right;margin-bottom:1rem;margin-right:.5rem;color:grey;"><em><strong>Development configuration</strong></em></span>
     </footer>
+    /build-->
 </body>
 
 </html>
