@@ -77,11 +77,14 @@ CD default-webapp-heroku
 
    Heroku generates a random name for your app, or you can pass a parameter to specify your own app name.
 
-   Then set a [buildpack][heroku-buildpacks] for you Heroku environment.
+   Then set a ["buildpack"][heroku-buildpacks] for you Heroku environment.
 
    ```
    heroku buildpacks:set https://github.com/heroku/heroku-buildpack-nodejs
    ```
+
+   This sets the default "buildpack", which handles the pushed changes on the `heroku` branch.
+   This includes running `npm install` and what's declared in the `Procfile`.
 
 1. Just push your commits to the `heroku` git remote branch
 
@@ -154,9 +157,12 @@ Setting up a smooth development environment where the goal is extremely fast and
 
 - [EditorConfig](https://github.com/eirikt/default-webapp-heroku/commit/af9af9df9b720994f21352225a65c6fb24c59c78), IDE-agnostic editor configurations.
 - [Grunt as Build tool](https://github.com/eirikt/default-webapp-heroku/commit/8dbcf0164b4da8f69ac60c6b11dd4f311335132c).
-  Even though the usage of tools like [Grunt][grunt] and [Gulp][gulp] lately have been [questioned](http://blog.keithcirkel.co.uk/how-to-use-npm-as-a-build-tool/) as the primary build tool, I find Grunt still very useful. In my opinion it scales better than e.g. `npm` when the build configuration gets large and complex.
+  Even though the usage of tools like [Grunt][grunt] and [Gulp][gulp] lately have been [questioned](http://blog.keithcirkel.co.uk/how-to-use-npm-as-a-build-tool/) as the primary build tool, I find Grunt still very useful.
+  In my opinion it scales better than e.g. `npm` when the build configuration gets large and complex.
 - [Dedicated folder for public resources](https://github.com/eirikt/default-webapp-heroku/commit/039dee0e960b793174b2caaffa2b52483a9bdfd6) for file processing without renaming.
-  Also, gives cleaner project layout and increased security.
+  Also, it gives cleaner project layout and increased security.
+  This is a transient ("temp") folder named `public`.
+- [HTML templating](https://github.com/eirikt/default-webapp-heroku/commit/d2ef0ac25022eb11a7d4578721aa5125c04c4bb6)
 
 _Tell your client that their webapp is developing at full speed, with no waste - and that they will be able to monitor all progress live._
 
@@ -168,6 +174,7 @@ _Tell your client that their webapp is developing at full speed, with no waste -
 [gulp]: http://gulpjs.com
 [html5boilerplate]: https://html5boilerplate.com
 [html5boilerplate-explained]: http://ningbit.github.io/blog/2013/09/30/html5-boilerplate-explained-in-simple-terms/
+[npm-scripts]: https://docs.npmjs.com/misc/scripts
 [node]: https://iojs.org
 [heroku]: https://www.heroku.com
 [heroku-account]: https://signup.heroku.com/dc/
