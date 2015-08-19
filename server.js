@@ -2,7 +2,7 @@ var path = require('path'),
     express = require('express'),
 
     applicationAbsolutePath = __dirname,
-    clientResourcesRelativePath = 'public',
+    staticResourcesRelativePath = 'public',
     port = process.env.PORT || 8000,
     appServer;
 
@@ -24,7 +24,7 @@ appServer.use(function(request, response, next) {
 });
 
 // Setting the root folder and serving static content
-appServer.use(express.static(path.join(applicationAbsolutePath, clientResourcesRelativePath)));
+appServer.use(express.static(path.join(applicationAbsolutePath, staticResourcesRelativePath)));
 // /Application server middleware configuration
 
 // Application server paths

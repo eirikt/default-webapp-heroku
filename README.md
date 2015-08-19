@@ -23,13 +23,11 @@ CD default-webapp-heroku
 ```
 
 ## Build
-1. Fetch dependencies with `npm` and build web application
+1. Fetch dependencies with `npm`
 
    ```
    npm install
    ```
-
-   The web application is built by the `postinstall` script declared in `package.json`.
 
 1. Show project info and available tasks (_optional_)
 
@@ -39,8 +37,13 @@ CD default-webapp-heroku
 
 ## Deploy locally
 
-1. Start the web application
+1. Build the web application
 
+   ```
+   grunt build:dev
+   ```
+
+1. Start the web application
    ```
    node server.js
    ```
@@ -50,7 +53,7 @@ CD default-webapp-heroku
 ## Stage the webapp
 1. Use Heroku Toolbelt to stage your webapp using production environment configuration
 
-   Kill your local server and redeploy on port `8000`.
+   Kill your local server, if running, and redeploy on port `8000`.
 
    ```
    heroku local -p 8000
@@ -84,7 +87,7 @@ CD default-webapp-heroku
    ```
 
    This sets the default "buildpack", which handles the pushed changes on the `heroku` branch.
-   This includes running `npm install` and what's declared in the `Procfile`.
+   This includes running `npm install` in addition to what's declared in the `Procfile`, namely `npm start` including all its [hooks][npm-scripts].
 
 1. Just push your commits to the `heroku` git remote branch
 
@@ -159,10 +162,13 @@ Setting up a smooth development environment where the goal is extremely fast and
 - [Grunt as Build tool](https://github.com/eirikt/default-webapp-heroku/commit/8dbcf0164b4da8f69ac60c6b11dd4f311335132c).
   Even though the usage of tools like [Grunt][grunt] and [Gulp][gulp] lately have been [questioned](http://blog.keithcirkel.co.uk/how-to-use-npm-as-a-build-tool/) as the primary build tool, I find Grunt still very useful.
   In my opinion it scales better than e.g. `npm` when the build configuration gets large and complex.
-- [Dedicated folder for public resources](https://github.com/eirikt/default-webapp-heroku/commit/039dee0e960b793174b2caaffa2b52483a9bdfd6) for file processing without renaming.
-  Also, it gives cleaner project layout and increased security.
-  This is a transient ("temp") folder named `public`.
 - [HTML templating](https://github.com/eirikt/default-webapp-heroku/commit/d2ef0ac25022eb11a7d4578721aa5125c04c4bb6)
+- _Build folder_ for file processing without renaming.
+  Also, it gives cleaner project layout.
+  This is a transient ("temp") folder named `build`.
+- Dedicated _folder for public files_.
+  It increases security, and makes multiple build steps easier.
+  This is a transient ("temp") folder named `public`.
 
 _Tell your client that their webapp is developing at full speed, with no waste - and that they will be able to monitor all progress live._
 

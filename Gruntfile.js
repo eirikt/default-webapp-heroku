@@ -1,7 +1,10 @@
 module.exports = function(grunt) {
     'use strict';
 
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-htmlmin');
+    grunt.loadNpmTasks('grunt-mkdir');
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-shell');
 
@@ -16,14 +19,46 @@ module.exports = function(grunt) {
                 },
                 command: [
                     'ECHO.',
-                    'ECHO ########################################',
-                    'ECHO ###   <%= pkg.name %> v<%= pkg.version %>   ###',
-                    'ECHO ########################################',
+                    'ECHO #######################################',
+                    'ECHO ##   <%= pkg.name %> v<%= pkg.version %>',
+                    'ECHO #######################################',
                     'ECHO.',
                     'ECHO Essential Grunt tasks are:',
                     'ECHO.',
-                    'ECHO      build     Builds the web application ready for deployment'
+                    'ECHO    grunt clean              Removes all built stuff',
+                    'ECHO.',
+                    'ECHO    grunt build:dev          Builds the web application',
+                    'ECHO    grunt build:prod         Builds the web application for production environment',
+                    'ECHO.',
+                    'ECHO.',
+                    'ECHO Other commands are:',
+                    'ECHO.',
+                    'ECHO    node server.js           Start web application locally (using latest built configuration)',
+                    'ECHO    heroku local -p 8000     Start web application locally with production configuration',
+                    'ECHO.',
                 ].join('&&')
+            }
+        },
+
+        mkdir: {
+            build: {
+                options: {
+                    create: ['build/client']
+                },
+            },
+            public: {
+                options: {
+                    create: ['public']
+                },
+            },
+        },
+
+        clean: {
+            build: {
+                src: ['build/client']
+            },
+            public: {
+                src: ['public']
             }
         },
 
@@ -31,14 +66,15 @@ module.exports = function(grunt) {
             public: {
                 files: [{
                     expand: true,
-                    src: 'index.html',
+                    cwd: 'build/client',
+                    src: ['index.html'],
                     dest: 'public'
                 }]
             }
         },
 
         processhtml: {
-            main: {
+            dev: {
                 options: {
                     data: {
                         name: '<%= pkg.description %>',
@@ -47,13 +83,35 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    'public/index.html': ['public/index.html']
+                    'build/client/index.html': ['index.html']
+                }
+            },
+            prod: {
+                files: {
+                    'build/client/index.html': ['index.html']
+                }
+            }
+        },
+
+        htmlmin: {
+            prod: {
+                options: {
+                    removeComments: true,
+                    collapseWhitespace: true
+                },
+                files: {
+                    'build/client/index.html': 'build/client/index.html'
                 }
             }
         }
     });
 
-    grunt.registerTask('build', ['copy', 'processhtml']);
+    grunt.registerTask('compile:html:dev', ['processhtml:dev']);
+    grunt.registerTask('compile:html:prod', ['processhtml:prod', 'htmlmin:prod']);
+
+    grunt.registerTask('build:init', ['clean', 'mkdir']);
+    grunt.registerTask('build:dev', ['build:init', 'compile:html:dev', 'copy:public']);
+    grunt.registerTask('build:prod', ['build:init', 'compile:html:prod', 'copy:public']);
 
     grunt.registerTask('default', ['shell:help']);
 };

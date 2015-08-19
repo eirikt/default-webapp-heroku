@@ -4,12 +4,14 @@
 # Ignore IDE stuff
 
 # Ignore derived/generated project resources
+build
 public
 
 # Ignore downloaded project resources
 node_modules
 
-# Ignore fixated project resources
+# Ignore frozen project resources
 SETUP.md
 
 # Ignore personal development stuff
+npm-debug.log
