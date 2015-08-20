@@ -4,6 +4,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-mkdir');
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-shell');
@@ -102,6 +103,17 @@ module.exports = function(grunt) {
                 files: {
                     'build/client/index.html': 'build/client/index.html'
                 }
+            }
+        },
+
+        watch: {
+            client: {
+                options: {
+                    atBegin: true,
+                    livereload: true
+                },
+                files: ['Gruntfile.js', 'index.html'],
+                tasks: ['build:dev']
             }
         }
     });
