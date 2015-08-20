@@ -52,6 +52,7 @@ CD default-webapp-heroku
 1. Navigate to [http://localhost:8000]()
 
 Depending on your editors auto-save configuration (and capabilities), you should now just be able to code away with instant feedback.
+I use [Atom][atom], the hackable text editor.
 
 ## Deploy locally
 1. If watchers are running, kill them.
@@ -191,10 +192,11 @@ Setting up a smooth development environment where the goal is extremely fast and
 - [Automatic client reload when client-side code changes](https://github.com/eirikt/default-webapp-heroku/commit/5df6035f7a3c6c97db58f9abb08265f9f505a8f8)
 - [Automatic server restart when serve-side code changes](https://github.com/eirikt/default-webapp-heroku/commit/c164227534f561bcf845e237b64de6af7dc559b3)
 
-_Tell your client that their webapp is developing at full speed, with no waste - and that they will be able to monitor all progress live._
+_Tell your client that their webapp is developing at full speed, with no waste - and that they will be able to monitor all progress, live!_
 
 
 
+[atom]: https://atom.io
 [continuous-delivery]: https://en.wikipedia.org/wiki/Continuous_delivery/
 [github]: https://github.com
 [grunt]: http://gruntjs.com
