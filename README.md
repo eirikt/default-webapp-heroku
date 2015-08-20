@@ -65,7 +65,7 @@ I use [Atom][atom], the hackable text editor.
 
 1. Start the web application
    ```
-   node server.js
+   node server/scripts/server.js
    ```
 
 1. Navigate to [http://localhost:8000]()
