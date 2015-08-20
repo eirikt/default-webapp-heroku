@@ -71,7 +71,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     src: ['favicon.ico'],
-                    dest: 'build'
+                    dest: 'build/client'
                 }]
             },
             public: {
