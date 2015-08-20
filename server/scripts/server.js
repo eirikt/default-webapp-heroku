@@ -2,7 +2,7 @@ var path = require('path'),
     express = require('express'),
 
     applicationAbsolutePath = __dirname,
-    staticResourcesRelativePath = 'public',
+    staticResourcesRelativePath = '../../public',
     port = process.env.PORT || 8000,
     appServer;
 

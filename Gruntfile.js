@@ -70,6 +70,7 @@ module.exports = function(grunt) {
             build: {
                 files: [{
                     expand: true,
+                    cwd: 'client',
                     src: ['favicon.ico'],
                     dest: 'build/client'
                 }]
@@ -94,12 +95,12 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    'build/client/index.html': ['index.html']
+                    'build/client/index.html': ['client/index.html']
                 }
             },
             prod: {
                 files: {
-                    'build/client/index.html': ['index.html']
+                    'build/client/index.html': ['client/index.html']
                 }
             }
         },
@@ -122,14 +123,14 @@ module.exports = function(grunt) {
                     atBegin: true,
                     livereload: true
                 },
-                files: ['Gruntfile.js', 'index.html'],
+                files: ['Gruntfile.js', 'client/index.html'],
                 tasks: ['build:dev']
             }
         },
 
         nodemon: {
             server: {
-                script: 'server.js'
+                script: 'server/scripts/server.js'
             }
         }
     });

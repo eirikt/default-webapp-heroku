@@ -184,13 +184,17 @@ Setting up a smooth development environment where the goal is extremely fast and
   In my opinion it scales better than e.g. `npm` when the build configuration gets large and complex.
 - [HTML templating](https://github.com/eirikt/default-webapp-heroku/commit/d2ef0ac25022eb11a7d4578721aa5125c04c4bb6)
 - _Build folder_ for file processing without renaming.
-  Also, it gives cleaner project layout.
+  Also, it gives a cleaner project layout.
   This is a transient ("temp") folder named `build`.
 - Dedicated _folder for public files_.
   It increases security, and makes multiple build steps easier.
   This is a transient ("temp") folder named `public`.
 - [Automatic client reload when client-side code changes](https://github.com/eirikt/default-webapp-heroku/commit/5df6035f7a3c6c97db58f9abb08265f9f505a8f8)
 - [Automatic server restart when serve-side code changes](https://github.com/eirikt/default-webapp-heroku/commit/c164227534f561bcf845e237b64de6af7dc559b3)
+- Client-side resource files moved into `client` source folder.
+  It gives a cleaner project layout.
+- Server-side resource files moved into `server` source folder.
+  Primarily moved for symmetry.
 
 _Tell your client that their webapp is developing at full speed, with no waste - and that they will be able to monitor all progress, live!_
 
