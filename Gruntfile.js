@@ -6,6 +6,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-mkdir');
+    grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-shell');
 
@@ -115,11 +116,19 @@ module.exports = function(grunt) {
                 files: ['Gruntfile.js', 'index.html'],
                 tasks: ['build:dev']
             }
+        },
+
+        nodemon: {
+            server: {
+                script: 'server.js'
+            }
         }
     });
 
     grunt.registerTask('compile:html:dev', ['processhtml:dev']);
     grunt.registerTask('compile:html:prod', ['processhtml:prod', 'htmlmin:prod']);
+
+    grunt.registerTask('watch:server', ['nodemon:server']);
 
     grunt.registerTask('build:init', ['clean', 'mkdir']);
     grunt.registerTask('build:dev', ['build:init', 'compile:html:dev', 'copy:public']);
