@@ -15,6 +15,7 @@ A live version is hosted on [Heroku][heroku], as [https://lit-sea-2983.herokuapp
 1. Install [Heroku Toolbelt][heroku-setup]
 
 ## Get Started
+Open a terminal with Git in its path (in Windows; "Run as Administrator").
 Go to your local workspace folder, and clone `default-webapp-heroku`
 
 ```
@@ -35,7 +36,25 @@ CD default-webapp-heroku
    grunt
    ```
 
+## Develop
+1. Open a couple of terminals (in Windows; Run as Administrator).
+
+1. Start the server-side code monitoring (blocking command)
+   ```
+   grunt watch:server
+   ```
+
+1. Start the client-side code monitoring (blocking command)
+   ```
+   grunt watch:client
+   ```
+
+1. Navigate to [http://localhost:8000]()
+
+Depending on your editors auto-save configuration (and capabilities), you should now just be able to code away with instant feedback.
+
 ## Deploy locally
+1. If watchers are running, kill them.
 
 1. Build the web application
 
@@ -169,6 +188,8 @@ Setting up a smooth development environment where the goal is extremely fast and
 - Dedicated _folder for public files_.
   It increases security, and makes multiple build steps easier.
   This is a transient ("temp") folder named `public`.
+- [Automatic client reload when client-side code changes](https://github.com/eirikt/default-webapp-heroku/commit/5df6035f7a3c6c97db58f9abb08265f9f505a8f8)
+- [Automatic server restart when serve-side code changes](https://github.com/eirikt/default-webapp-heroku/commit/c164227534f561bcf845e237b64de6af7dc559b3)
 
 _Tell your client that their webapp is developing at full speed, with no waste - and that they will be able to monitor all progress live._
 

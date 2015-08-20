@@ -32,12 +32,14 @@ module.exports = function(grunt) {
                     'ECHO    grunt build:dev          Builds the web application',
                     'ECHO    grunt build:prod         Builds the web application for production environment',
                     'ECHO.',
+                    'ECHO    watch:client             Monitors all client code, runs \'build:dev\' on every change, refreshes page    (blocking command)',
+                    'ECHO    watch:server             Monitors all server code, restart server on every change                      (blocking command)',
+                    'ECHO.',
                     'ECHO.',
                     'ECHO Other commands are:',
                     'ECHO.',
                     'ECHO    node server.js           Start web application locally (using latest built configuration)',
-                    'ECHO    heroku local -p 8000     Start web application locally with production configuration',
-                    'ECHO.',
+                    'ECHO    heroku local -p 8000     Start web application locally with production configuration'
                 ].join('&&')
             }
         },
@@ -57,7 +59,7 @@ module.exports = function(grunt) {
 
         clean: {
             build: {
-                src: ['build/client']
+                src: ['build']
             },
             public: {
                 src: ['public']
@@ -128,6 +130,7 @@ module.exports = function(grunt) {
     grunt.registerTask('compile:html:dev', ['processhtml:dev']);
     grunt.registerTask('compile:html:prod', ['processhtml:prod', 'htmlmin:prod']);
 
+    grunt.registerTask('watch:client', ['watch:client']);
     grunt.registerTask('watch:server', ['nodemon:server']);
 
     grunt.registerTask('build:init', ['clean', 'mkdir']);

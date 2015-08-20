@@ -2,6 +2,7 @@
 .ssh
 
 # Ignore IDE stuff
+.idea
 
 # Ignore derived/generated project resources
 build
