@@ -27,16 +27,6 @@ appServer.use(function(request, response, next) {
 appServer.use(express.static(path.join(applicationAbsolutePath, staticResourcesRelativePath)));
 // /Application server middleware configuration
 
-// Application server paths
-// (Empty) Favicon trick to avoid '404 Not Found' in browsers
-appServer.get('/favicon.ico', function(request, response) {
-    response.writeHead(200, {
-        'Content-Type': 'image/x-icon'
-    });
-    response.end();
-});
-// /Application server paths
-
 // Start application server
 appServer.listen(port, function() {
     console.log('Application server listening at port %s', port);

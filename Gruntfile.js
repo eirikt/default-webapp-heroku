@@ -67,11 +67,18 @@ module.exports = function(grunt) {
         },
 
         copy: {
+            build: {
+                files: [{
+                    expand: true,
+                    src: ['favicon.ico'],
+                    dest: 'build'
+                }]
+            },
             public: {
                 files: [{
                     expand: true,
                     cwd: 'build/client',
-                    src: ['index.html'],
+                    src: ['index.html', 'favicon.ico'],
                     dest: 'public'
                 }]
             }
@@ -130,10 +137,10 @@ module.exports = function(grunt) {
     grunt.registerTask('compile:html:dev', ['processhtml:dev']);
     grunt.registerTask('compile:html:prod', ['processhtml:prod', 'htmlmin:prod']);
 
-    grunt.registerTask('watch:client', ['watch:client']);
+    //grunt.registerTask('watch:client', ['watch:client']);
     grunt.registerTask('watch:server', ['nodemon:server']);
 
-    grunt.registerTask('build:init', ['clean', 'mkdir']);
+    grunt.registerTask('build:init', ['clean', 'mkdir', 'copy:build']);
     grunt.registerTask('build:dev', ['build:init', 'compile:html:dev', 'copy:public']);
     grunt.registerTask('build:prod', ['build:init', 'compile:html:prod', 'copy:public']);
 
