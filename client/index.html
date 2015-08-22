@@ -1,36 +1,50 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Default Webapp</title>
+    <!-- build:template
+    <title><%= name %></title>
+     /build -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
 </head>
-
 <body>
     <!--[if lt IE 10]>
-<p class="browsehappy">You are using an <strong>outdated</strong> browser.
-Please <a href="http://browsehappy.com">upgrade your browser</a> to improve your experience.</p>
-<hr/>
-<![endif]-->
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser.
+    Please <a href="http://browsehappy.com">upgrade your browser</a> to improve your experience.</p>
+    <hr/>
+    <![endif]-->
 
     <section>
-        <p style="font-size:larger;margin-top:1rem;margin-left:.5rem;"><strong>Default Webapp</strong></p>
+        <p style="font-size:larger;margin-top:1rem;margin-left:.5rem;">
+        <!-- build:template
+        <strong><%= name %></strong>
+        /build -->
+        </p>
     </section>
 
-    <!-- build:template:dev
-    <footer style="position:fixed;bottom:0;width:100%;">
+    <footer style="position:fixed;bottom:0;width:100%;margin-bottom:.75rem;">
         <hr/>
-        <span style="float:left;margin-bottom:.5rem;margin-left:.5rem;color:grey;"><em><strong><%= name %> v<%= version %></strong> - built <%= timestamp %></strong></em></span>
-        <span style="float:right;margin-bottom:1rem;margin-right:.5rem;color:grey;"><em><strong>Development configuration</strong></em></span>
+        <span style="float:left;margin-left:.5rem;color:grey;">
+            <!-- build:template
+            <em><strong><%= name %> v<%= version %></strong> - built <%= timestamp %></em>
+            /build -->
+        </span>
+        <span class="development-only" style="float:right;margin-right:.5rem;color:orange;"></span>
     </footer>
-    /build -->
 
     <!-- build:remove:prod -->
+    <!-- Add "Development mode" info in footer -->
+    <script>
+        var developmentModeText = "Development configuration";
+        document.getElementsByClassName("development-only")[0]
+            .appendChild(document.createElement("em"))
+            .appendChild(document.createElement("strong"))
+            .appendChild(document.createTextNode(developmentModeText));
+    </script>
+
     <!-- Automatic reload of page, default URL for 'grunt-contrib-watch' reload server -->
     <script src='//localhost:35729/livereload.js'></script>
     <!-- /build -->
 </body>
-
 </html>

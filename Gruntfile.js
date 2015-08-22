@@ -32,8 +32,8 @@ module.exports = function(grunt) {
                     'ECHO    grunt build:dev          Builds the web application',
                     'ECHO    grunt build:prod         Builds the web application for production environment',
                     'ECHO.',
-                    'ECHO    watch:client             Monitors all client code, runs \'build:dev\' on every change, refreshes page    (blocking command)',
-                    'ECHO    watch:server             Monitors all server code, restart server on every change                      (blocking command)',
+                    'ECHO    grunt watch:client       Monitors all client code, runs \'build:dev\' on every change, refreshes page    (blocking command)',
+                    'ECHO    grunt watch:server       Monitors all server code, restart server on every change                      (blocking command)',
                     'ECHO.',
                     'ECHO.',
                     'ECHO Other commands are:',
@@ -86,14 +86,15 @@ module.exports = function(grunt) {
         },
 
         processhtml: {
+            options: {
+                data: {
+                    id: '<%= pkg.name %>',
+                    name: '<%= pkg.description %>',
+                    version: '<%= pkg.version %>',
+                    timestamp: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+                }
+            },
             dev: {
-                options: {
-                    data: {
-                        name: '<%= pkg.description %>',
-                        version: '<%= pkg.version %>',
-                        timestamp: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
-                    }
-                },
                 files: {
                     'build/client/index.html': ['client/index.html']
                 }
@@ -112,7 +113,7 @@ module.exports = function(grunt) {
                     collapseWhitespace: true
                 },
                 files: {
-                    'build/client/index.html': 'build/client/index.html'
+                    'build/client/index.html': ['build/client/index.html']
                 }
             }
         },
@@ -124,7 +125,7 @@ module.exports = function(grunt) {
                     livereload: true
                 },
                 files: ['Gruntfile.js', 'client/index.html'],
-                tasks: ['build:dev']
+                tasks: ['compile:html:dev', 'copy:public']
             }
         },
 
@@ -138,7 +139,7 @@ module.exports = function(grunt) {
     grunt.registerTask('compile:html:dev', ['processhtml:dev']);
     grunt.registerTask('compile:html:prod', ['processhtml:prod', 'htmlmin:prod']);
 
-    //grunt.registerTask('watch:client', ['watch:client']);
+    //grunt.registerTask('watch:client'); // directly supported by plugin
     grunt.registerTask('watch:server', ['nodemon:server']);
 
     grunt.registerTask('build:init', ['clean', 'mkdir', 'copy:build']);
