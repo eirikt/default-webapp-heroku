@@ -71,7 +71,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'client',
-                    src: ['favicon.ico'],
+                    src: ['favicon.ico', 'manifest.appcache'],
                     dest: 'build/client'
                 }]
             },
@@ -79,7 +79,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'build/client',
-                    src: ['index.html', 'favicon.ico'],
+                    src: ['index.html', 'manifest.appcache', 'favicon.ico'],
                     dest: 'public'
                 }]
             }
