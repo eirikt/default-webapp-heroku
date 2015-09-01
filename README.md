@@ -192,8 +192,24 @@ in which he talks about the necessity of _having an immediate connection with wh
 
 _Tell your client that their webapp is developing at full speed, with no waste - and that they will be able to monitor all progress, live!_
 
+...
+
+### v0.4: Offline first
+Using the [HTML5 Appliction Cache API][appcache] (_"Appcache"_) to make the web application work even without a network connection.
+The webapp is cached in its entirety on the client, making it independent on an Internet connection to function; at least partially function.
+
+- On Express servers, the MIME type for manifest (`.appcache` => `text/cache-manifest`) files is included already.
+- It's a good idea to set expires headers on your web server for appcache files to expire immediately.
+This avoids the risk of caching manifest files.
+This is already taken care of by [this](https://github.com/eirikt/default-webapp-heroku/commit/abcdfcab93961dceff8d29a1faae49a798313d42) commit (HTTP Header settings for no caching).
+- The Appcache is only active when using the `prod` build tasks.
+When developing, the Appcache is, and always should be -[deactivated](https://github.com/eirikt/default-webapp-heroku/commit/ab0731848132751966161f32922b78cdb59760b8)!
+
+_Tell your client that their webapp works even without an Internet connection! (buzzwords: "offline first", "occasionally connected")_
 
 
+
+[appcache]: https://developer.mozilla.org/en-US/docs/Web/HTML/Using_the_application_cache
 [atom]: https://atom.io
 [continuous-delivery]: https://en.wikipedia.org/wiki/Continuous_delivery/
 [express]: http://expressjs.com

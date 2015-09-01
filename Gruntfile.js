@@ -139,7 +139,7 @@ module.exports = function(grunt) {
     grunt.registerTask('compile:html:dev', ['processhtml:dev']);
     grunt.registerTask('compile:html:prod', ['processhtml:prod', 'htmlmin:prod']);
 
-    //grunt.registerTask('watch:client'); // directly supported by plugin
+    //grunt.registerTask('watch:client'); // supported directly by plugin
     grunt.registerTask('watch:server', ['nodemon:server']);
 
     grunt.registerTask('build:init', ['clean', 'mkdir', 'copy:build']);
