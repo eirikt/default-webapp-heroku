@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+<!-- build:[manifest]:prod manifest.appcache -->
 <html>
+<!-- /build -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -35,6 +37,30 @@
         /build -->
         <span class="development-only" style="float:right;margin-right:.5rem;color:orange;"></span>
     </footer>
+
+    <!-- build:remove:dev -->
+    <!-- build:template
+    <script>
+    var upgradeMessage = '<%= name %> v<%= version %> is available! Load it?';
+    </script>
+    /build -->
+    <!-- Check if a new cache is available on page load -->
+    <script>
+        var appCache = window.applicationCache;
+        if (appCache) {
+            window.addEventListener('load', function() {
+                appCache.addEventListener('updateready', function() {
+                    if (appCache.status === appCache.UPDATEREADY) {
+                        // The browser has downloaded a new application cache.
+                        if (window.confirm(upgradeMessage)) {
+                            window.location.reload();
+                        }
+                    }
+                }, false);
+            }, false);
+        }
+    </script>
+    <!-- /build -->
 
     <!-- build:remove:prod -->
     <!-- Add "Development mode" info in footer -->
