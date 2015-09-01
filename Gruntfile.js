@@ -27,20 +27,29 @@ module.exports = function(grunt) {
                     'ECHO.',
                     'ECHO Essential Grunt tasks are:',
                     'ECHO.',
-                    'ECHO    grunt clean              Removes all built stuff',
+                    'ECHO    grunt clean             Removes all built stuff',
                     'ECHO.',
-                    'ECHO    grunt build:dev          Builds the web application',
-                    'ECHO    grunt build:prod         Builds the web application for production environment',
+                    'ECHO    grunt build:dev         Builds the web application',
+                    'ECHO    grunt build:prod        Builds the web application for production environment',
                     'ECHO.',
-                    'ECHO    grunt watch:client       Monitors all client code, runs \'build:dev\' on every change, refreshes page    (blocking command)',
-                    'ECHO    grunt watch:server       Monitors all server code, restart server on every change                      (blocking command)',
+                    'ECHO    grunt watch:client      Monitors all client code, runs \'build:dev\' on every change, refreshes page      (blocking command)',
+                    'ECHO    grunt watch:server      Monitors all server code, restart server on every change                        (blocking command)',
                     'ECHO.',
                     'ECHO.',
                     'ECHO Other commands are:',
                     'ECHO.',
-                    'ECHO    node server.js           Start web application locally (using latest built configuration)',
-                    'ECHO    heroku local -p 8000     Start web application locally with production configuration'
+                    'ECHO    node server/scripts/server.js      Start web application locally (using latest built configuration)',
+                    'ECHO    heroku local -p 8000               Start web application locally with production configuration'
                 ].join('&&')
+            }
+        },
+
+        clean: {
+            build: {
+                src: ['build']
+            },
+            public: {
+                src: ['public']
             }
         },
 
@@ -55,15 +64,6 @@ module.exports = function(grunt) {
                     create: ['public']
                 },
             },
-        },
-
-        clean: {
-            build: {
-                src: ['build']
-            },
-            public: {
-                src: ['public']
-            }
         },
 
         copy: {

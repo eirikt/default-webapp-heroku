@@ -1,7 +1,7 @@
 {
     "name": "default-webapp-heroku",
     "description": "Default Webapp",
-    "version": "0.3.18",
+    "version": "0.4.0",
     "license": "MIT",
     "author": "Eirik Torske <eirik.torske@gmail.com>",
     "repository": {
@@ -20,7 +20,7 @@
         "grunt-mkdir": "0.1.x",
         "grunt-nodemon": "0.4.x",
         "grunt-processhtml": "0.3.x",
-        "grunt-shell": "1.1.x"
+        "grunt-shell": "1.x"
     },
     "engines": {
         "iojs": "3.x"
