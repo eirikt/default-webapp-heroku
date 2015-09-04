@@ -75,11 +75,24 @@ module.exports = function(grunt) {
                     dest: 'build/client'
                 }]
             },
-            public: {
+            'public': {
                 files: [{
                     expand: true,
                     cwd: 'build/client',
-                    src: ['index.html', 'manifest.appcache', 'favicon.ico'],
+                    src: ['index.html', 'favicon.ico'],
+                    dest: 'public'
+                },{
+                    expand: true,
+                    cwd: 'node_modules/socket.io/node_modules/socket.io-client',
+                    src: ['socket.io.js'],
+                    dest: 'public/scripts/vendor'
+                }]
+            },
+            'public-appcache': {
+                files: [{
+                    expand: true,
+                    cwd: 'build/client',
+                    src: ['manifest.appcache'],
                     dest: 'public'
                 }]
             }
@@ -125,7 +138,7 @@ module.exports = function(grunt) {
                     livereload: true
                 },
                 files: ['Gruntfile.js', 'client/index.html'],
-                tasks: ['compile:html:dev', 'copy:public']
+                tasks: ['mkdir', 'copy:build', 'compile:html:dev', 'copy:public']
             }
         },
 
@@ -142,9 +155,8 @@ module.exports = function(grunt) {
     //grunt.registerTask('watch:client'); // supported directly by plugin
     grunt.registerTask('watch:server', ['nodemon:server']);
 
-    grunt.registerTask('build:init', ['clean', 'mkdir', 'copy:build']);
-    grunt.registerTask('build:dev', ['build:init', 'compile:html:dev', 'copy:public']);
-    grunt.registerTask('build:prod', ['build:init', 'compile:html:prod', 'copy:public']);
+    grunt.registerTask('build:dev', [/*'clean',*/ 'mkdir', 'copy:build', 'compile:html:dev', 'copy:public']);
+    grunt.registerTask('build:prod', ['clean', 'mkdir', 'copy:build', 'compile:html:prod', 'copy:public', 'copy:public-appcache']);
 
     grunt.registerTask('default', ['shell:help']);
 };
