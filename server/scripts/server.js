@@ -6,7 +6,7 @@ var path = require('path'),
     port = process.env.PORT || 8000,
     appServer;
 
-// Application server middleware configuration
+// Application server (middleware configuration)
 appServer = express();
 
 // Header setting suggesting the latest rendering engine version of Internet Explorer
@@ -25,9 +25,10 @@ appServer.use(function(request, response, next) {
 
 // Setting the root folder and serving static content
 appServer.use(express.static(path.join(applicationAbsolutePath, staticResourcesRelativePath)));
-// /Application server middleware configuration
+// /Application server (middleware configuration)
+
 
 // Start application server
 appServer.listen(port, function() {
-    console.log('Application server listening at port %s', port);
+    console.log('Application server listening on port %s', port);
 });

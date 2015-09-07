@@ -1,5 +1,5 @@
 # Default Webapp
-My default and favourite setup (at the latest commit date, anyway) for web application development.
+My default and opinionated/favourite setup (at the latest commit date, anyway) for web application development.
 The main objectives being:
 - Ease of development
 - Very compact code base
@@ -117,7 +117,11 @@ I use [Atom][atom], the hackable text editor.
 
 ...
 
-For a full public launch, the site should be given a proper domain name. That is easily accomplished with Heroku's [custom domain][heroku-custom-domains] functionality.
+For a full public launch, the site should be given a proper domain name.
+That is easily accomplished with Heroku's [custom domain][heroku-custom-domains] functionality.
+
+Node's embedded HTTP server is superfast and scalable, but is by default quite stripped with regard to security configurations.
+Have a look at e.g. [this](https://blog.liftsecurity.io/2012/12/07/writing-secure-express-js-apps) and [this](http://recxltd.blogspot.no/2012/03/seven-web-server-http-headers-that.html) blog posts describing some quick and easy ways of increasing your site's protection against the usual malicious attack suspects.
 
 ---
 
@@ -203,7 +207,7 @@ The webapp is cached in its entirety on the client, making it independent on an 
 This avoids the risk of caching manifest files.
 This is already taken care of by [this](https://github.com/eirikt/default-webapp-heroku/commit/abcdfcab93961dceff8d29a1faae49a798313d42) commit (HTTP Header settings for no caching).
 - The Appcache is only active when using the `prod` build tasks.
-When developing, the Appcache is, and always should be -[deactivated](https://github.com/eirikt/default-webapp-heroku/commit/ab0731848132751966161f32922b78cdb59760b8)!
+When developing, the Appcache is, and always should be - [deactivated](https://github.com/eirikt/default-webapp-heroku/commit/ab0731848132751966161f32922b78cdb59760b8)!
 
 _Tell your client that their webapp works even without an Internet connection! (buzzwords: "offline first", "occasionally connected")_
 
