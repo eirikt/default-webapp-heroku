@@ -19,9 +19,9 @@
 
     <section>
         <p style="font-size:larger;margin-top:1rem;margin-left:.5rem;">
-        <!-- build:template
-        <strong><%= name %></strong>
-        /build -->
+            <!-- build:template
+            <strong><%= name %></strong>
+            /build -->
         </p>
     </section>
 
@@ -35,21 +35,25 @@
             <em>built <%= timestamp %></em>
         </span>
         /build -->
-        <span class="development-only" style="float:right;margin-right:.5rem;color:orange;"></span>
+
+        <!-- build:remove:prod -->
+        <!-- Add "Development mode" info in footer -->
+        <span class="development" style="float:right;margin-right:.5rem;color:orange;">Development configuration</span>
+        <!-- /build -->
     </footer>
 
     <!-- build:remove:dev -->
     <!-- build:template
     <script>
-    var upgradeMessage = 'A newer version of <%= name %> is available! Load it?';
+    var upgradeMessage = 'A newer version of <%= name %> is available! Wanna load it?';
     </script>
     /build -->
     <!-- Check if a new cache is available on page load -->
     <script>
         var appCache = window.applicationCache;
         if (appCache) {
-            window.addEventListener('load', function() {
-                appCache.addEventListener('updateready', function() {
+            window.addEventListener("load", function() {
+                appCache.addEventListener("updateready", function() {
                     if (appCache.status === appCache.UPDATEREADY) {
                         // The browser has downloaded a new application cache.
                         if (window.confirm(upgradeMessage)) {
@@ -62,18 +66,8 @@
     </script>
     <!-- /build -->
 
-    <!-- build:remove:prod -->
-    <!-- Add "Development mode" info in footer -->
-    <script>
-        var developmentModeText = "Development configuration";
-        document.getElementsByClassName("development-only")[0]
-            .appendChild(document.createElement("em"))
-            .appendChild(document.createElement("strong"))
-            .appendChild(document.createTextNode(developmentModeText));
-    </script>
-
     <!-- Automatic reload of page, default URL for 'grunt-contrib-watch' reload server -->
-    <script src='//localhost:35729/livereload.js'></script>
+    <script src="//localhost:35729/livereload.js"></script>
     <!-- /build -->
 </body>
 </html>
