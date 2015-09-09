@@ -1,10 +1,18 @@
 var path = require('path'),
     express = require('express'),
+    http = require('http'),
+    socketio = require('socket.io'),
+
+    httpServer,
 
     applicationAbsolutePath = __dirname,
     staticResourcesRelativePath = '../../public',
     port = process.env.PORT || 8000,
-    appServer;
+    appServer,
+
+    serverPush,
+    userCounter = 0; // User connection counter.
+
 
 // Application server (middleware configuration)
 appServer = express();
@@ -28,7 +36,17 @@ appServer.use(express.static(path.join(applicationAbsolutePath, staticResourcesR
 // /Application server (middleware configuration)
 
 
-// Start application server
-appServer.listen(port, function() {
-    console.log('Application server listening on port %s', port);
+// HTTP server
+httpServer = http.createServer(appServer);
+// /HTTP server
+
+
+// HTTP server push (by Socket.IO)
+serverPush = socketio.listen(httpServer);
+// /HTTP server push (by Socket.IO)
+
+
+// Start HTTP server
+httpServer.listen(port, function() {
+    console.log('HTTP server listening on port %s', port);
 });

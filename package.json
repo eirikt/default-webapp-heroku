@@ -1,7 +1,7 @@
 {
     "name": "default-webapp-heroku",
     "description": "Default Webapp",
-    "version": "0.4.7",
+    "version": "0.5.0",
     "license": "MIT",
     "author": "Eirik Torske <eirik.torske@gmail.com>",
     "repository": {
@@ -10,6 +10,7 @@
     },
     "dependencies": {
         "express": "4.x",
+        "socket.io": "1.x",
 
         "grunt": "0.4.x",
         "grunt-cli": "0.1.x",
