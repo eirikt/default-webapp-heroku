@@ -81,11 +81,6 @@ module.exports = function(grunt) {
                     cwd: 'build/client',
                     src: ['index.html', 'favicon.ico'],
                     dest: 'public'
-                },{
-                    expand: true,
-                    cwd: 'node_modules/socket.io/node_modules/socket.io-client',
-                    src: ['socket.io.js'],
-                    dest: 'public/scripts/vendor'
                 }]
             },
             'public-appcache': {
