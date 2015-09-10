@@ -42,12 +42,12 @@
         <!-- /build -->
     </footer>
 
-    <!-- build:remove:dev -->
     <!-- build:template
     <script>
-    var upgradeMessage = 'A newer version of <%= name %> is available! Wanna load it?';
+        var upgradeMessage = 'A newer version of <%= name %> is available! Load it?';
     </script>
     /build -->
+    <!-- build:remove:dev -->
     <!-- Check if a new cache is available on page load -->
     <script>
         var appCache = window.applicationCache;
@@ -67,7 +67,9 @@
     <!-- /build -->
 
     <!-- HTTP server push (with Socket.IO) -->
+    <!-- build:[src]:prod scripts/vendor/socket.io.min.js -->
     <script src="scripts/vendor/socket.io.js"></script>
+    <!-- /build -->
     <script>
         /*
         <!-- build:remove:prod -->

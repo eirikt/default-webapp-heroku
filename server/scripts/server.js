@@ -1,39 +1,46 @@
-var path = require('path'),
+// Environment
+var env = process.env.NODE_ENV || 'development',
+    port = Number(process.env.PORT || 8000),
+
+    applicationRootAbsolutePath = __dirname,
+    productionWebRootRelativePath = '../../public',
+    developmentWebRootRelativePath = '../../build/client',
+
+    path = require('path'),
     express = require('express'),
     http = require('http'),
     socketio = require('socket.io'),
 
     httpServer,
-
-    applicationAbsolutePath = __dirname,
-    staticResourcesRelativePath = '../../public',
-    port = process.env.PORT || 8000,
     appServer,
-
     serverPush,
     userCounter = 0; // User connection counter.
 
 
-// Application server (middleware configuration)
+// Application server (Express middleware configuration)
 appServer = express();
 
 // Header setting suggesting the latest rendering engine version of Internet Explorer
 appServer.use(function(request, response, next) {
-    response.setHeader("X-UA-Compatible", "IE=edge");
+    response.setHeader('X-UA-Compatible', 'IE=edge');
     return next();
 });
 
 // Default: Header settings suggesting no caching whatsoever
 appServer.use(function(request, response, next) {
-    response.setHeader("Pragma", "no-cache"); // HTTP 1.0
-    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
-    response.setHeader("Expires", "0"); // Proxies
+    response.setHeader('Pragma', 'no-cache'); // HTTP 1.0
+    response.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate'); // HTTP 1.1
+    response.setHeader('Expires', '0'); // Proxies
     return next();
 });
 
 // Setting the root folder and serving static content
-appServer.use(express.static(path.join(applicationAbsolutePath, staticResourcesRelativePath)));
-// /Application server (middleware configuration)
+if (env === 'development') {
+    appServer.use(express.static(path.join(applicationRootAbsolutePath, developmentWebRootRelativePath)));
+} else {
+    appServer.use(express.static(path.join(applicationRootAbsolutePath, productionWebRootRelativePath)));
+}
+// /Application server (Express middleware configuration)
 
 
 // HTTP server
@@ -63,7 +70,7 @@ setTimeout(function () {
 // Emitting of current number of users every 10 seconds
 setInterval(function () {
     'use strict';
-    console.log('Socket.IO: Number of connected users: ' + userCounter);
+    console.log('Number of connected users: ' + userCounter);
     serverPush.emit('number-of-connections', userCounter);
 }, 10000);
 // /HTTP server push (by Socket.IO)

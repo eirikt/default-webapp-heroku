@@ -16,7 +16,7 @@ A live version is hosted on [Heroku][heroku], as [https://lit-sea-2983.herokuapp
 
 ## Get Started
 Open a terminal with Git in its path (in Windows; "Run as Administrator").
-Go to your local workspace folder, and clone `default-webapp-heroku`
+Go to your local workspace folder, and clone `default-webapp-heroku`.
 ```
 git clone https://github.com/eirikt/default-webapp-heroku
 CD default-webapp-heroku
@@ -32,10 +32,10 @@ CD default-webapp-heroku
    ```
    grunt
    ```
-   (This task may be somewhat Windows-specific ...)
+   (This task has a somewhat Windows-specific implementation ...)
 
 ## Develop
-1. Open a couple of terminals (in Windows; Run as Administrator).
+1. Open a couple of terminals
 
 1. Start the server-side code monitoring (blocking command)
    ```
@@ -53,7 +53,7 @@ Depending on your editors auto-save configuration (and capabilities), you should
 I use [Atom][atom], the hackable text editor.
 
 ## Deploy locally
-1. If watchers are running, kill them.
+1. If watchers are running, kill them!
 
 1. Build the web application
    ```
@@ -68,9 +68,18 @@ I use [Atom][atom], the hackable text editor.
 1. Navigate to [http://localhost:8000]()
 
 ## Stage the webapp
-1. Use Heroku Toolbelt to stage your webapp using production environment configuration
+1. Use Heroku Toolbelt to stage your web application using production environment configuration
 
-   Kill your local server, if running, and redeploy on port `8000`.
+   If on Windows, first set the production environment variable.
+   ```
+   $env:NODE_ENV="production"
+   ```
+   or in `cmd`.
+   ```
+   set NODE_ENV=production
+   ```
+
+   Then redeploy on port `8000`.
    ```
    heroku local -p 8000
    ```
@@ -187,6 +196,7 @@ in which he talks about the necessity of _having an immediate connection with wh
   This is a transient ("temp") folder named `build`.
 - Dedicated _folder for public files_.
   It increases security, and makes multiple build steps easier.
+  A typical example is transpiling and then minifying.
   This is a transient ("temp") folder named `public`.
 - [Automatic client reload when client-side code changes](https://github.com/eirikt/default-webapp-heroku/commit/5df6035f7a3c6c97db58f9abb08265f9f505a8f8)
 - [Automatic server restart when serve-side code changes](https://github.com/eirikt/default-webapp-heroku/commit/c164227534f561bcf845e237b64de6af7dc559b3)
@@ -194,7 +204,7 @@ in which he talks about the necessity of _having an immediate connection with wh
   Server-side resource files moved into `server` source folder.
   It gives a cleaner project layout.
 
-_Tell your client that their webapp is developing at full speed, with no waste - and that they will be able to monitor all progress, live!_
+_Tell your client that their webapp is developing at full speed, with no waste - and that they will be able to monitor all progress, live._
 
 ...
 
@@ -202,7 +212,7 @@ _Tell your client that their webapp is developing at full speed, with no waste -
 Using the [HTML5 Appliction Cache API][appcache] (_"Appcache"_) to make the web application work even without a network connection.
 The webapp is cached in its entirety on the client, making it independent on an Internet connection to function; at least partially function.
 
-- On Express servers, the MIME type for manifest (`.appcache` => `text/cache-manifest`) files is included already.
+- On Express servers, the MIME type for manifest (`.appcache` => `text/cache-manifest`) files is already included.
 - It's a good idea to set expires headers on your web server for appcache files to expire immediately.
 This avoids the risk of caching manifest files.
 This is already taken care of by [this](https://github.com/eirikt/default-webapp-heroku/commit/abcdfcab93961dceff8d29a1faae49a798313d42) commit (HTTP Header settings for no caching).
@@ -210,6 +220,17 @@ This is already taken care of by [this](https://github.com/eirikt/default-webapp
 When developing, the Appcache is, and always should be - [deactivated](https://github.com/eirikt/default-webapp-heroku/commit/ab0731848132751966161f32922b78cdb59760b8)!
 
 _Tell your client that their webapp works even without an Internet connection! (buzzwords: "offline first", "occasionally connected")_
+
+...
+
+### v0.5: Server push
+[HTTP server push techniques](serverpush) makes connected clients possible, with instant synchronized state shared among all clients.
+(One could argue that HTTP server push is the foundation of _Web 2.5_, after Web 1.0 (request/response), and Web 2.0 (AJAX).)
+With server push you can achieve really smooth user experiences for web applications, with a limited increase in network round-trips and less bloated code than would have been the case if we were to implement this using regular web technologies.
+
+The move from the stateless request/response-oriented HTTP towards server push technologies, like [WebSocket][websocket], are questioned by many.
+It is argued that this is yet another road into yet another remote procedure call (RPC) paradigm that has failed numerous times, and will do so again.
+My take on it is to use server push strictly as a supplement to HTTP, not replacing HTTP when it comes to service calls.
 
 
 
@@ -224,6 +245,9 @@ _Tell your client that their webapp works even without an Internet connection! (
 [html5boilerplate-explained]: http://ningbit.github.io/blog/2013/09/30/html5-boilerplate-explained-in-simple-terms/
 [npm-scripts]: https://docs.npmjs.com/misc/scripts
 [node]: https://iojs.org
+[serverpush]: https://en.wikipedia.org/wiki/Push_technology
+[socketio]: http://socket.io
+[websocket]: https://en.wikipedia.org/wiki/WebSocket
 
 [heroku]: https://www.heroku.com
 [heroku-account]: https://signup.heroku.com/dc/

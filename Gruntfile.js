@@ -4,6 +4,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-mkdir');
     grunt.loadNpmTasks('grunt-nodemon');
@@ -12,6 +13,7 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+
         shell: {
             help: {
                 options: {
@@ -61,7 +63,7 @@ module.exports = function(grunt) {
             },
             public: {
                 options: {
-                    create: ['public']
+                    create: ['public/scripts/vendor']
                 },
             },
         },
@@ -71,28 +73,25 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'client',
-                    src: ['favicon.ico', 'manifest.appcache'],
+                    src: ['favicon.ico'],
                     dest: 'build/client'
+                }, {
+                    expand: true,
+                    cwd: 'node_modules/socket.io/node_modules/socket.io-client',
+                    src: ['socket.io.js'],
+                    dest: 'build/client/scripts/vendor'
                 }]
             },
             'public': {
                 files: [{
                     expand: true,
-                    cwd: 'build/client',
-                    src: ['index.html', 'favicon.ico'],
-                    dest: 'public'
-                },{
-                    expand: true,
-                    cwd: 'node_modules/socket.io/node_modules/socket.io-client',
-                    src: ['socket.io.js'],
-                    dest: 'public/scripts/vendor'
-                }]
-            },
-            'public-appcache': {
-                files: [{
-                    expand: true,
-                    cwd: 'build/client',
+                    cwd: 'client',
                     src: ['manifest.appcache'],
+                    dest: 'public'
+                }, {
+                    expand: true,
+                    cwd: 'build/client',
+                    src: ['favicon.ico'],
                     dest: 'public'
                 }]
             }
@@ -126,7 +125,15 @@ module.exports = function(grunt) {
                     collapseWhitespace: true
                 },
                 files: {
-                    'build/client/index.html': ['build/client/index.html']
+                    'public/index.html': ['build/client/index.html']
+                }
+            }
+        },
+
+        uglify: {
+            prod: {
+                files: {
+                    'public/scripts/vendor/socket.io.min.js': ['build/client/scripts/vendor/socket.io.js']
                 }
             }
         },
@@ -138,7 +145,7 @@ module.exports = function(grunt) {
                     livereload: true
                 },
                 files: ['Gruntfile.js', 'client/index.html'],
-                tasks: ['mkdir', 'copy:build', 'compile:html:dev', 'copy:public']
+                tasks: ['build:dev']
             }
         },
 
@@ -155,8 +162,8 @@ module.exports = function(grunt) {
     //grunt.registerTask('watch:client'); // supported directly by plugin
     grunt.registerTask('watch:server', ['nodemon:server']);
 
-    grunt.registerTask('build:dev', [/*'clean',*/ 'mkdir', 'copy:build', 'compile:html:dev', 'copy:public']);
-    grunt.registerTask('build:prod', ['clean', 'mkdir', 'copy:build', 'compile:html:prod', 'copy:public', 'copy:public-appcache']);
+    grunt.registerTask('build:dev', ['mkdir', 'copy:build', 'compile:html:dev']);
+    grunt.registerTask('build:prod', ['mkdir', 'copy:build', 'compile:html:prod', 'uglify', 'copy:public']);
 
     grunt.registerTask('default', ['shell:help']);
 };
