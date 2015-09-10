@@ -66,6 +66,64 @@
     </script>
     <!-- /build -->
 
+    <!-- HTTP server push (with Socket.IO) -->
+    <script src="scripts/vendor/socket.io.js"></script>
+    <script>
+        /*
+        <!-- build:remove:prod -->
+        */
+        if (!window.connected) {
+            window.socket = window.io.connect("//127.0.0.1:8000");
+            console.log("Socket.IO :: Connecting to http://localhost:8000 ...");
+        } else {
+            console.log("Socket.IO :: Already connected to http://localhost:8000 ... not re-trying");
+        }
+        /*
+        <!-- /build -->
+        <!-- build:remove:dev -->
+        */
+        if (!window.connected) {
+            window.socket = window.io.connect("//lit-sea-2983.herokuapp.com");
+            console.log("Socket.IO :: Connecting to https://lit-sea-2983.herokuapp.com ...");
+        } else {
+            console.log("Socket.IO :: Already connected to https://lit-sea-2983.herokuapp.com ... not re-trying");
+        }
+        /*
+        <!-- /build -->
+        */
+        window.socket.on("connect", function () {
+            window.connected = true;
+            /*
+            <!-- build:remove:prod -->
+            */
+            console.log("Socket.IO :: Connected to http://localhost:8000");
+            /*
+            <!-- /build -->
+            <!-- build:remove:dev -->
+            */
+            console.log("Socket.IO :: Connected to https://lit-sea-2983.herokuapp.com");
+            /*
+            <!-- /build -->
+            */
+        });
+        window.socket.on("disconnect", function () {
+            window.connected = false;
+            /*
+            <!-- build:remove:prod -->
+            */
+            console.log("Socket.IO :: Disconnected from http://localhost:8000");
+            /*
+            <!-- /build -->
+            <!-- build:remove:dev -->
+            */
+            console.log("Socket.IO :: Disconnected from https://lit-sea-2983.herokuapp.com");
+            /*
+            <!-- /build -->
+            */
+        });
+    </script>
+    <!-- /HTTP server push (with Socket.IO) -->
+
     <!-- build:remove:prod -->
     <!-- Automatic reload of page, default URL for 'grunt-contrib-watch' reload server -->
     <script src="//localhost:35729/livereload.js"></script>
