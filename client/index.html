@@ -14,6 +14,12 @@
 
     <style>
         body {
+            -webkit-display: flex;
+            -webkit-flex-direction: column;
+            -webkit-justify-content: space-between;
+            -ms-display: flex;
+            -ms-flex-direction: column;
+            -ms-justify-content: space-between;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -21,26 +27,42 @@
             max-height: 100vh;
         }
         header > section {
-            margin-top: 1rem;
-            margin-left: .5rem;
-            margin-right: .5rem;
+            -webkit-display: flex;
+            -webkit-justify-content: space-between;
+            -webkit-align-items: flex-end;
+            -ms-display: flex;
+            -ms-justify-content: space-between;
+            -ms-align-items: flex-end;
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-        }
-        footer > section {
-            margin-bottom: 1rem;
+            margin-top: 1rem;
             margin-left: .5rem;
             margin-right: .5rem;
+        }
+        footer > section {
+            -webkit-display: flex;
+            -webkit-flex-wrap: wrap;
+            -webkit-justify-content: space-between;
+            -ms-display: flex;
+            -ms-flex-wrap: wrap;
+            -ms-justify-content: space-between;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
+            margin-bottom: 1rem;
+            margin-left: .5rem;
+            margin-right: .5rem;
             font-style: italic;
         }
         .title {
             font-size: xx-large;
         }
         .led-container {
+            -webkit-display: flex;
+            -webkit-align-items: flex-end;
+            -ms-display: flex;
+            -ms-align-items: flex-end;
             display: flex;
             align-items: flex-end;
         }
@@ -55,6 +77,14 @@
             font-size: 12px;
         }
         .page-content {
+            -webkit-display: flex;
+            -webkit-flex-direction: column;
+            -webkit-justify-content: space-around;
+            -webkit-flex: 1;
+            -ms-display: flex;
+            -ms-flex-direction: column;
+            -ms-justify-content: space-around;
+            -ms-flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
