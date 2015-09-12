@@ -5,10 +5,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+
     <!-- build:template
     <title><%= name %></title>
     /build -->
+
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            max-height: 100vh;
+        }
+        header > section {
+            margin-top: 1rem;
+            margin-left: .5rem;
+            margin-right: .5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        footer > section {
+            margin-bottom: 1rem;
+            margin-left: .5rem;
+            margin-right: .5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            font-style: italic;
+        }
+        .title {
+            font-size: xx-large;
+        }
+        .led-container {
+            display: flex;
+            align-items: flex-end;
+        }
+        .led {
+            width: 14px;
+        }
+        .led-description {
+            font-size: 12px;
+            margin-left: .2rem;
+        }
+        .number-of-connections {
+            font-size: 12px;
+        }
+        .page-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            flex: 1;
+        }
+        .watermark {
+            text-align: center;
+            font-size: 4rem;
+            opacity: 0.1;
+            z-index: 99;
+        }
+        .development {
+            color: orange;
+        }
+    </style>
 </head>
 <body>
     <!--[if lt IE 10]>
@@ -17,29 +78,44 @@
     <hr/>
     <![endif]-->
 
-    <section>
-        <p style="font-size:larger;margin-top:1rem;margin-left:.5rem;">
-            <!-- build:template
-            <strong><%= name %></strong>
-            /build -->
-        </p>
+    <header>
+        <section>
+            <section class="title">
+                <!-- build:template
+                <%= name %>
+                /build -->
+            </section>
+            <section class="number-of-connections"></section>
+            <section class="led-container">
+                <img src="images/led-red.png" class="disconnected led" alt="disconnected"></img>
+                <span class="disconnected led-description">disconnected</span>
+                <img src="images/led-green.png" class="connected led" alt="connected"></img>
+                <span class="connected led-description">connected</span>
+            </section>
+        </section>
+        <hr/>
+    </header>
+
+    <section class="page-content">
+        <!--<section class="watermark">some<br/>content ...</section>-->
+        <section class="main-content">
+            <section class="watermark">some content ...</section>
+        </section>
     </section>
 
-    <footer style="position:fixed;bottom:0;width:100%;margin-bottom:.75rem;">
+    <footer>
         <hr/>
-        <!-- build:template
-        <span style="float:left;margin-left:.5rem;color:grey;">
-            <em><strong><%= name %> v<%= version %></strong></em>
-        </span>
-        <span style="float:left;margin-left:.5rem;color:grey;">
-            <em>built <%= timestamp %></em>
-        </span>
-        /build -->
-
-        <!-- build:remove:prod -->
-        <!-- Add "Development mode" info in footer -->
-        <span class="development" style="float:right;margin-right:.5rem;color:orange;">Development configuration</span>
-        <!-- /build -->
+        <section>
+            <!-- build:template
+            <span><%= name %> v<%= version %></span>
+            <span>built <%= timestamp %></span>
+            /build -->
+            <!--<span class="development"></span>-->
+            <!-- build:remove:prod -->
+            <!-- Add "Development mode" info in footer -->
+            <span class="development">Development configuration</span>
+            <!-- /build -->
+        </section>
     </footer>
 
     <!-- build:template
@@ -71,6 +147,19 @@
     <script src="scripts/vendor/socket.io.js"></script>
     <!-- /build -->
     <script>
+        function hideElementWithClassName(className) {
+            Array.prototype.forEach.call(document.getElementsByClassName(className), function(el) {
+                el.style.display = "none";
+            });
+        }
+        function showElementWithClassName(className) {
+            Array.prototype.forEach.call(document.getElementsByClassName(className), function(el) {
+                el.style.display = "";
+            });
+        }
+
+        hideElementWithClassName("disconnected");
+        hideElementWithClassName("connected");
         /*
         <!-- build:remove:prod -->
         */
@@ -94,6 +183,8 @@
         <!-- /build -->
         */
         window.socket.on("connect", function () {
+            hideElementWithClassName("disconnected");
+            showElementWithClassName("connected");
             window.connected = true;
             /*
             <!-- build:remove:prod -->
@@ -109,6 +200,12 @@
             */
         });
         window.socket.on("disconnect", function () {
+            hideElementWithClassName("connected");
+            showElementWithClassName("disconnected");
+            Array.prototype.forEach.call(document.getElementsByClassName("number-of-connections"), function(el) {
+                el.innerText = "";
+            });
+
             window.connected = false;
             /*
             <!-- build:remove:prod -->
@@ -122,6 +219,17 @@
             /*
             <!-- /build -->
             */
+        });
+        window.socket.on("number-of-connections", function (numberOfConnections) {
+            console.log("Socket.IO :: Number of connected users: " + numberOfConnections);
+            Array.prototype.forEach.call(document.getElementsByClassName("number-of-connections"), function(el) {
+                //console.log("Updating \"number-of-connections\" element with value "  + numberOfConnections);
+                if (numberOfConnections === 1) {
+                    el.innerText = "one single lonely user connected";
+                } else {
+                    el.innerText = numberOfConnections + " connected users";
+                }
+            });
         });
     </script>
     <!-- /HTTP server push (with Socket.IO) -->

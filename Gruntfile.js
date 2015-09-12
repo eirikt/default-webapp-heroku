@@ -73,7 +73,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'client',
-                    src: ['favicon.ico'],
+                    src: ['favicon.ico', 'images/*'],
                     dest: 'build/client'
                 }, {
                     expand: true,
@@ -91,7 +91,7 @@ module.exports = function(grunt) {
                 }, {
                     expand: true,
                     cwd: 'build/client',
-                    src: ['favicon.ico'],
+                    src: ['favicon.ico', 'images/*'],
                     dest: 'public'
                 }]
             }

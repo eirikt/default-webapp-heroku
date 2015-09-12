@@ -54,25 +54,20 @@ serverPush = socketio.listen(httpServer);
 serverPush.on('connection', function (socket) {
     'use strict';
     userCounter += 1;
+    serverPush.emit('number-of-connections', userCounter);
     console.log('Socket.IO: User connected (now ' + userCounter + ' connected)');
     socket.on('disconnect', function () {
         userCounter -= 1;
         console.log('Socket.IO: User disconnected (now ' + userCounter + ' connected)');
+        serverPush.emit('number-of-connections', userCounter);
     });
 });
 
-// Just a convenience start message ...
+// Just a convenient start message ...
 setTimeout(function () {
     'use strict';
     console.log('Socket.IO server listening on port %d', port);
 }, 200);
-
-// Emitting of current number of users every 10 seconds
-setInterval(function () {
-    'use strict';
-    console.log('Number of connected users: ' + userCounter);
-    serverPush.emit('number-of-connections', userCounter);
-}, 10000);
 // /HTTP server push (by Socket.IO)
 
 

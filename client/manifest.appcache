@@ -1,8 +1,12 @@
 CACHE MANIFEST
-# v0.5.3
+# v0.5.4
 
 CACHE:
 favicon.ico
+images/led-green.png
+images/led-greypng
+images/led-red.png
+images/led-yellow.png
 //cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css
 
 NETWORK:
