@@ -164,6 +164,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('build:dev', ['mkdir', 'copy:build', 'compile:html:dev']);
     grunt.registerTask('build:prod', ['mkdir', 'copy:build', 'compile:html:prod', 'uglify', 'copy:public']);
+    grunt.registerTask('build:travis', ['build:prod']);
 
     grunt.registerTask('default', ['shell:help']);
 };

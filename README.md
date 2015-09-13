@@ -7,9 +7,11 @@ The main objectives being:
 
 The web application is based on **_Node.js_** using [Express][express].
 
+[![Build Status](https://travis-ci.org/eirikt/default-webapp-heroku.png?branch=master)](https://travis-ci.org/eirikt/default-webapp-heroku)
+&nbsp;&nbsp;
+[![Dependency Status](https://www.versioneye.com/user/projects/55f51d813ed894001e000376/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55f51d813ed894001e000376)
+&nbsp;&nbsp;
 [![Codacy Badge](https://api.codacy.com/project/badge/8454bc7b66e74cc4be1fa2d8b2a54394)](https://www.codacy.com/app/eiriktorske/default-webapp-heroku)
-
-<sub><sup>__Server-side__:</sup></sub> [![Dependency Status](https://www.versioneye.com/user/projects/55f51d813ed894001e000376/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55f51d813ed894001e000376)
 
 A live version is hosted on [Heroku][heroku], as [https://lit-sea-2983.herokuapp.com](https://lit-sea-2983.herokuapp.com).
 
