@@ -14,7 +14,7 @@ var env = process.env.NODE_ENV || 'development',
     httpServer,
     appServer,
     serverPush,
-    userCounter = 0; // User connection counter.
+    userCounter = 0; // User connection counter
 
 
 // Application server (Express middleware configuration)

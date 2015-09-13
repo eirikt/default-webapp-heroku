@@ -14,55 +14,54 @@
 
     <style>
         body {
-            -webkit-display: flex;
-            -webkit-flex-direction: column;
-            -webkit-justify-content: space-between;
-            -ms-display: flex;
-            -ms-flex-direction: column;
-            -ms-justify-content: space-between;
+            display: -webkit-flex;
             display: flex;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
             flex-direction: column;
+            -webkit-justify-content: space-between;
+            -ms-justify-content: space-between;
             justify-content: space-between;
             min-height: 100vh;
+            height: 100vh; /* https://alastairc.ac/2014/08/flexbox-ie11-bugs */
             max-height: 100vh;
+            color: #555
         }
         header > section {
-            -webkit-display: flex;
-            -webkit-justify-content: space-between;
-            -webkit-align-items: flex-end;
-            -ms-display: flex;
-            -ms-justify-content: space-between;
-            -ms-align-items: flex-end;
+            display: -webkit-flex;
             display: flex;
+            -webkit-justify-content: space-between;
+            -ms-justify-content: space-between;
             justify-content: space-between;
-            align-items: flex-end;
+            -webkit-align-items: flex-start;
+            -ms-align-items: flex-start;
+            align-items: flex-start;
+            -webkit-flex-wrap: wrap-reverse;
+            -ms-flex-wrap: wrap-reverse;
+            flex-wrap: wrap-reverse;
             margin-top: 1rem;
             margin-left: .5rem;
             margin-right: .5rem;
         }
         footer > section {
-            -webkit-display: flex;
-            -webkit-flex-wrap: wrap;
-            -webkit-justify-content: space-between;
-            -ms-display: flex;
-            -ms-flex-wrap: wrap;
-            -ms-justify-content: space-between;
+            display: -webkit-flex;
             display: flex;
-            flex-wrap: wrap;
+            -webkit-justify-content: space-between;
+            -ms-justify-content: space-between;
             justify-content: space-between;
+            -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
             margin-bottom: 1rem;
             margin-left: .5rem;
             margin-right: .5rem;
             font-style: italic;
+            color: grey;
         }
         .title {
             font-size: xx-large;
         }
         .led-container {
-            -webkit-display: flex;
-            -webkit-align-items: flex-end;
-            -ms-display: flex;
-            -ms-align-items: flex-end;
             display: flex;
             align-items: flex-end;
         }
@@ -75,18 +74,16 @@
         }
         .number-of-connections {
             font-size: 12px;
+            margin-right: 2rem;
         }
         .page-content {
-            -webkit-display: flex;
-            -webkit-flex-direction: column;
-            -webkit-justify-content: space-around;
-            -webkit-flex: 1;
-            -ms-display: flex;
-            -ms-flex-direction: column;
-            -ms-justify-content: space-around;
-            -ms-flex: 1;
+            display: -webkit-flex;
             display: flex;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
             flex-direction: column;
+            -webkit-justify-content: space-around;
+            -ms-justify-content: space-around;
             justify-content: space-around;
             flex: 1;
         }
@@ -97,6 +94,7 @@
             z-index: 99;
         }
         .development {
+            font-weight: bold;
             color: orange;
         }
     </style>
@@ -115,7 +113,7 @@
                 <%= name %>
                 /build -->
             </section>
-            <section class="number-of-connections"></section>
+            <section class="connected number-of-connections"></section>
             <section class="led-container">
                 <img src="images/led-red.png" class="disconnected led" alt="disconnected"></img>
                 <span class="disconnected led-description">disconnected</span>
@@ -232,10 +230,6 @@
         window.socket.on("disconnect", function () {
             hideElementWithClassName("connected");
             showElementWithClassName("disconnected");
-            Array.prototype.forEach.call(document.getElementsByClassName("number-of-connections"), function(el) {
-                el.innerText = "";
-            });
-
             window.connected = false;
             /*
             <!-- build:remove:prod -->
@@ -253,9 +247,8 @@
         window.socket.on("number-of-connections", function (numberOfConnections) {
             console.log("Socket.IO :: Number of connected users: " + numberOfConnections);
             Array.prototype.forEach.call(document.getElementsByClassName("number-of-connections"), function(el) {
-                //console.log("Updating \"number-of-connections\" element with value "  + numberOfConnections);
                 if (numberOfConnections === 1) {
-                    el.innerText = "one single lonely user connected";
+                    el.innerText = "you're the only user connected ...";
                 } else {
                     el.innerText = numberOfConnections + " connected users";
                 }
