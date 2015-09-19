@@ -31,6 +31,7 @@ module.exports = function(grunt) {
                     'ECHO Essential Grunt tasks are:',
                     'ECHO.',
                     'ECHO    grunt clean             Removes all built stuff',
+                    'ECHO    grunt lint              Runs JSHint',
                     'ECHO.',
                     'ECHO    grunt build:dev         Builds the web application',
                     'ECHO    grunt build:prod        Builds the web application for production environment',
@@ -164,6 +165,8 @@ module.exports = function(grunt) {
             }
         }
     });
+
+    grunt.registerTask('lint', ['jshint']);
 
     grunt.registerTask('compile:html:dev', ['processhtml:dev']);
     grunt.registerTask('compile:html:prod', ['processhtml:prod', 'htmlmin:prod']);
