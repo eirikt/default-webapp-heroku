@@ -1,7 +1,7 @@
 {
     "name": "default-webapp-heroku",
     "description": "Default Webapp",
-    "version": "0.5.12",
+    "version": "0.6.0",
     "license": "MIT",
     "author": "Eirik Torske <eirik.torske@gmail.com>",
     "repository": {
@@ -18,6 +18,7 @@
         "grunt-contrib-copy": "0.8.x",
         "grunt-contrib-htmlmin": "0.4.x",
         "grunt-contrib-jshint": "0.11.x",
+        "grunt-contrib-sass": "0.9.x",
         "grunt-contrib-uglify": "0.9.x",
         "grunt-contrib-watch": "0.6.x",
         "grunt-mkdir": "0.1.x",
@@ -26,7 +27,7 @@
         "grunt-shell": "1.x"
     },
     "scripts": {
-        "postinstall": "npm outdated",
+        "postinstall": "npm outdated & gem install sass",
         "prestart": "./node_modules/.bin/grunt build:prod",
         "start": "node server/scripts/server.js"
     }
