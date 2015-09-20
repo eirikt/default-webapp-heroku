@@ -78,7 +78,7 @@ I use [Atom][atom], the hackable text editor.
 
    If on Windows, first set the production environment variable.
    ```
-   $env:NODE_ENV="production"
+   $env:NODE_ENV=production
    ```
    or in `cmd`.
    ```
@@ -210,7 +210,7 @@ in which he talks about the necessity of _having an immediate connection with wh
   Server-side resource files moved into `server` source folder.
   It gives a cleaner project layout.
 
-_Tell your client that their webapp is developing at full speed, with no waste - and that they will be able to monitor all progress, live._
+_Tell your client that their webapp is developing at full speed, with no waste - The code base is ~~idiomatic~~ quite ordinary stuff, and can be transferred to other teams with great ease - Also, one can monitor all progress, live._
 
 ...
 
@@ -231,12 +231,14 @@ _Tell your client that their webapp works even without an Internet connection! (
 
 ### v0.5: Server push
 [HTTP server push techniques](serverpush) makes connected clients possible, with instant synchronized state shared among all clients.
-(One could argue that HTTP server push is the foundation of _Web 2.5_, after Web 1.0 (request/response), and Web 2.0 (AJAX).)
-With server push you can achieve really smooth user experiences for web applications, with a limited increase in network round-trips and less bloated code than would have been the case if we were to implement this using regular web technologies.
+With server push you can achieve smooth user experiences for web applications, with a more limited increase in network round-trips and less bloated code than would have been the case if we were to implement this using regular web technologies.
 
-The move from the stateless request/response-oriented HTTP towards server push technologies, like [WebSocket][websocket], are questioned by many.
-It is argued that this is yet another road into yet another remote procedure call (RPC) paradigm that has failed numerous times, and will do so again.
+The move from the stateless request/response-oriented HTTP towards server push technologies, like [WebSocket][websocket], are questioned by many with regard to [scaling and security](http://blog.synopse.info/post/2014/08/16/Will-WebSockets-replace-HTTP-Do-they-scale).
+Also, it is [argued](http://www.infoq.com/news/2012/02/websockets-rest) that this is yet another road into a remote procedure call (RPC) paradigm that has failed numerous times, and [will do so again](http://www.slideshare.net/jamesalewis/websockets-omg-someone-broke-the-internet).
+
 My take on it is to use server push strictly as a supplement to HTTP, not replacing HTTP when it comes to service calls.
+
+_Tell your client that their webapp is a "connected" one, always **automatically** reflecting the current state, for all users! (When online, that is.)_
 
 
 
