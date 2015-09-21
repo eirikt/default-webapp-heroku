@@ -24,7 +24,7 @@
     "maxdepth": 2,
     "maxlen": 180,
     "maxparams": 4,
-    "maxstatements": 20,
+    "maxstatements": 30,
     "varstmt": false,
 
     "asi": false,

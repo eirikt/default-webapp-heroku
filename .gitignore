@@ -4,6 +4,9 @@
 # Ignore IDE stuff
 .idea
 
+# Ignore temporarily/cached stuff
+.sass-cache
+
 # Ignore derived/generated project resources
 build
 public
@@ -14,5 +17,6 @@ node_modules
 # Ignore frozen project resources
 SETUP.md
 
-# Ignore personal development stuff
+# Ignore development stuff
 npm-debug.log
+dev.log
