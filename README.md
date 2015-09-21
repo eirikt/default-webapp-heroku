@@ -7,6 +7,7 @@ The main objectives being:
 
 The web application is based on **_Node.js_** using [Express][express].
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 [![Build Status](https://travis-ci.org/eirikt/default-webapp-heroku.png?branch=master)](https://travis-ci.org/eirikt/default-webapp-heroku)
 &nbsp;&nbsp;
 [![Dependency Status](https://www.versioneye.com/user/projects/55f51d813ed894001e000376/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55f51d813ed894001e000376)
@@ -18,7 +19,8 @@ A live version is hosted on [Heroku][heroku], as [https://lit-sea-2983.herokuapp
 ## Prepare
 1. Install [Node.js][node] (The Node package manager, **_npm_**, is included)
 1. Sign up for a Heroku [account][heroku-account]
-1. Install [Heroku Toolbelt][heroku-setup]
+1. Install [Heroku Toolbelt][heroku-setup] (Ruby is included)
+1. Add Ruby to your path (for Sass integration)
 
 ## Get Started
 Open a terminal with Git in its path (in Windows; "Run as Administrator").
@@ -109,13 +111,13 @@ I use [Atom][atom], the hackable text editor.
 
    Heroku generates a random name for your app, or you can pass a parameter to specify your own app name.
 
-   Then set a ["buildpack"][heroku-buildpacks] for you Heroku environment.
+   Also, Heroku will _automatically_ detect and add the necessary ["buildpacks"][heroku-buildpacks] for your environment.
+   These buildpacks handles the pushed changes on the `heroku` branch.
+   This includes running `npm install` in addition to what's declared in the `Procfile`, namely `npm start` including all its [hooks][npm-scripts]. One such important hook installs Sass via `gem install sass`, as declared in the   `package.json` file.
+   To be on the safe side, remove all existing buildpacks, if any, with this command.
    ```
-   heroku buildpacks:set https://github.com/heroku/heroku-buildpack-nodejs
+   heroku buildpacks:clear
    ```
-
-   This sets the default "buildpack", which handles the pushed changes on the `heroku` branch.
-   This includes running `npm install` in addition to what's declared in the `Procfile`, namely `npm start` including all its [hooks][npm-scripts].
 
 1. Just push your commits to the `heroku` git remote branch
    ```
@@ -229,7 +231,7 @@ _Tell your client that their webapp works even without an Internet connection! (
 
 ...
 
-### v0.5: Server push
+### v0.5: Server push with [Socket.io][socketio]
 [HTTP server push techniques](serverpush) makes connected clients possible, with instant synchronized state shared among all clients.
 With server push you can achieve smooth user experiences for web applications, with a more limited increase in network round-trips and less bloated code than would have been the case if we were to implement this using regular web technologies.
 
@@ -239,6 +241,14 @@ Also, it is [argued](http://www.infoq.com/news/2012/02/websockets-rest) that thi
 My take on it is to use server push strictly as a supplement to HTTP, not replacing HTTP when it comes to service calls.
 
 _Tell your client that their webapp is a "connected" one, always **automatically** reflecting the current state, for all users! (When online, that is.)_
+
+...
+
+### v0.6: Styling with [Sass][sass]
+[Less][less] vs. [Sass][sass] ...
+Being no frontend guy, here I am finding myself just [googling around](http://www.zingdesign.com/less-vs-sass-its-time-to-switch-to-sass/), following the gut feeling, and [going with the flow](http://blog.getbootstrap.com/2015/08/19/bootstrap-4-alpha/).
+
+_Tell your client that their webapp's theme is highly customizable and switching its "look-and-feel" is a swift exercise!_
 
 
 
@@ -251,8 +261,10 @@ _Tell your client that their webapp is a "connected" one, always **automatically
 [gulp]: http://gulpjs.com
 [html5boilerplate]: https://html5boilerplate.com
 [html5boilerplate-explained]: http://ningbit.github.io/blog/2013/09/30/html5-boilerplate-explained-in-simple-terms/
+[less]: http://lesscss.org
 [npm-scripts]: https://docs.npmjs.com/misc/scripts
 [node]: https://iojs.org
+[sass]: http://sass-lang.com
 [serverpush]: https://en.wikipedia.org/wiki/Push_technology
 [socketio]: http://socket.io
 [websocket]: https://en.wikipedia.org/wiki/WebSocket
