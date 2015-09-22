@@ -153,35 +153,37 @@ footer > {
     animation-play-state: running;
 }
 
-.fadein-connected-led {
+%connected-led {
     background-image: url($green-led);
     background-size: $led-size $led-size;
-    width: $led-size;
     height: $led-size;
+    width: $led-size;
+}
+
+.fadein-connected-led {
+    @extend %connected-led;
     animation: fadein $fade-duration;
 }
 
 .fadeout-connected-led {
-    background-image: url($green-led);
-    background-size: $led-size $led-size;
-    width: $led-size;
-    height: $led-size;
+    @extend %connected-led;
     animation: fadeout $fade-duration;
 }
 
-.fadein-disconnected-led {
+%disconnected-led {
     background-image: url($red-led);
     background-size: $led-size $led-size;
-    width: $led-size;
     height: $led-size;
+    width: $led-size;
+}
+
+.fadein-disconnected-led {
+    @extend %disconnected-led;
     animation: fadein $fade-duration;
 }
 
 .fadeout-disconnected-led {
-    background-image: url($red-led);
-    background-size: $led-size $led-size;
-    width: $led-size;
-    height: $led-size;
+    @extend %disconnected-led;
     animation: fadeout $fade-duration;
 }
 
