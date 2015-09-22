@@ -27,37 +27,41 @@ body {
     color: $primary-color;
 }
 
-header > section {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-justify-content: space-between;
-    -ms-justify-content: space-between;
-    justify-content: space-between;
-    -webkit-align-items: flex-start;
-    -ms-align-items: flex-start;
-    align-items: flex-start;
-    -webkit-flex-wrap: wrap-reverse;
-    -ms-flex-wrap: wrap-reverse;
-    flex-wrap: wrap-reverse;
-    margin-left: $primary-horizontal-margin;
-    margin-right: $primary-horizontal-margin;
-    margin-top: $primary-vertical-margin;
+header > {
+    section {
+        display: -webkit-flex;
+        display: flex;
+        -webkit-justify-content: space-between;
+        -ms-justify-content: space-between;
+        justify-content: space-between;
+        -webkit-align-items: flex-start;
+        -ms-align-items: flex-start;
+        align-items: flex-start;
+        -webkit-flex-wrap: wrap-reverse;
+        -ms-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+        margin-left: $primary-horizontal-margin;
+        margin-right: $primary-horizontal-margin;
+        margin-top: $primary-vertical-margin;
+    }
 }
 
-footer > section {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-justify-content: space-between;
-    -ms-justify-content: space-between;
-    justify-content: space-between;
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin-bottom: $primary-vertical-margin;
-    margin-left: $primary-horizontal-margin;
-    margin-right: $primary-horizontal-margin;
-    font-style: italic;
-    color: $grey;
+footer > {
+    section {
+        display: -webkit-flex;
+        display: flex;
+        -webkit-justify-content: space-between;
+        -ms-justify-content: space-between;
+        justify-content: space-between;
+        -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin-bottom: $primary-vertical-margin;
+        margin-left: $primary-horizontal-margin;
+        margin-right: $primary-horizontal-margin;
+        font-style: italic;
+        color: $grey;
+    }
 }
 
 .title {
