@@ -5,6 +5,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-mkdir');
@@ -31,7 +32,7 @@ module.exports = function(grunt) {
                     'ECHO Essential Grunt tasks are:',
                     'ECHO.',
                     'ECHO    grunt clean             Removes all built stuff',
-                    'ECHO    grunt lint              Runs JSHint',
+                    'ECHO    grunt js:lint           Runs JSHint',
                     'ECHO.',
                     'ECHO    grunt build:dev         Builds the web application',
                     'ECHO    grunt build:prod        Builds the web application for production environment',
@@ -75,7 +76,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'client',
-                    src: ['favicon.ico', 'images/*', 'scripts/*', 'styles/*'],
+                    src: ['favicon.ico', 'images/*', 'scripts/*'],
                     dest: 'build/client'
                 }, {
                     expand: true,
@@ -132,6 +133,17 @@ module.exports = function(grunt) {
             }
         },
 
+        sass: {
+            options: {
+                sourcemap: 'none'
+            },
+            build: {
+                files: {
+                    'build/client/styles/app.css': 'client/styles/app.scss'
+                }
+            }
+        },
+
         jshint: {
             options: {
                 jshintrc: true,
@@ -154,7 +166,7 @@ module.exports = function(grunt) {
                     atBegin: true,
                     livereload: true
                 },
-                files: ['Gruntfile.js', 'client/index.html'],
+                files: ['Gruntfile.js', 'client/index.html', 'client/styles/app.scss'],
                 tasks: ['build:dev']
             }
         },
@@ -166,16 +178,20 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('lint', ['jshint']);
-
     grunt.registerTask('compile:html:dev', ['processhtml:dev']);
     grunt.registerTask('compile:html:prod', ['processhtml:prod', 'htmlmin:prod']);
+
+    grunt.registerTask('css:lint', ['scsslint']);
+    grunt.registerTask('compile:css:dev', ['sass']);
+    grunt.registerTask('compile:css:prod', ['compile:css:dev']);
+
+    grunt.registerTask('js:lint', ['jshint']);
 
     //grunt.registerTask('watch:client'); // supported directly by plugin
     grunt.registerTask('watch:server', ['nodemon:server']);
 
-    grunt.registerTask('build:dev', ['mkdir', 'copy:build', 'compile:html:dev']);
-    grunt.registerTask('build:prod', ['jshint', 'mkdir', 'copy:build', 'compile:html:prod', 'uglify', 'copy:public']);
+    grunt.registerTask('build:dev', ['mkdir', 'copy:build', 'compile:html:dev', 'compile:css:dev']);
+    grunt.registerTask('build:prod', ['js:lint', 'mkdir', 'copy:build', 'compile:html:prod', 'compile:css:prod', 'uglify', 'copy:public']);
     grunt.registerTask('build:travis', ['build:prod']);
 
     grunt.registerTask('default', ['shell:help']);
