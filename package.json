@@ -1,7 +1,7 @@
 {
     "name": "default-webapp-heroku",
     "description": "Default Webapp",
-    "version": "0.6.9",
+    "version": "0.6.10",
     "license": "MIT",
     "author": "Eirik Torske <eirik.torske@gmail.com>",
     "repository": {
@@ -27,8 +27,8 @@
         "grunt-shell": "1.x"
     },
     "scripts": {
-        "postinstall": "npm outdated",
-        "prestart": "gem install sass && grunt build:prod",
+        "postinstall": "npm outdated && gem install sass",
+        "prestart": "grunt build:prod",
         "start": "node server/scripts/server.js"
     }
 }
