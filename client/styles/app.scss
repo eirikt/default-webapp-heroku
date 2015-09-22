@@ -1,3 +1,17 @@
+$font-stack: sans-serif;
+$grey: #808080;
+$orange: #eb5e04;
+$primary-color: #555;
+$small-font-size: 12px;
+$primary-vertical-margin: 1rem;
+$primary-horizontal-margin: $primary-vertical-margin / 2;
+$green-led: '/images/led-green.png';
+$red-led: '/images/led-red.png';
+$led-size: $small-font-size + 2;
+$connected-text: 'connected';
+$disconnected-text: 'disconnected';
+$fade-duration: 1s;
+
 body {
     display: -webkit-flex;
     display: flex;
@@ -8,11 +22,11 @@ body {
     -ms-justify-content: space-between;
     justify-content: space-between;
     min-height: 100vh;
-    height: 100vh;
-    /* https://alastairc.ac/2014/08/flexbox-ie11-bugs */
+    height: 100vh; // https://alastairc.ac/2014/08/flexbox-ie11-bugs
     max-height: 100vh;
-    color: #555
+    color: $primary-color;
 }
+
 header > section {
     display: -webkit-flex;
     display: flex;
@@ -25,10 +39,11 @@ header > section {
     -webkit-flex-wrap: wrap-reverse;
     -ms-flex-wrap: wrap-reverse;
     flex-wrap: wrap-reverse;
-    margin-top: 1rem;
-    margin-left: .5rem;
-    margin-right: .5rem;
+    margin-left: $primary-horizontal-margin;
+    margin-right: $primary-horizontal-margin;
+    margin-top: $primary-vertical-margin;
 }
+
 footer > section {
     display: -webkit-flex;
     display: flex;
@@ -38,19 +53,22 @@ footer > section {
     -webkit-flex-wrap: wrap;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    margin-bottom: 1rem;
-    margin-left: .5rem;
-    margin-right: .5rem;
+    margin-bottom: $primary-vertical-margin;
+    margin-left: $primary-horizontal-margin;
+    margin-right: $primary-horizontal-margin;
     font-style: italic;
-    color: grey;
+    color: $grey;
 }
+
 .title {
     font-size: xx-large;
 }
+
 .number-of-connections {
-    font-size: 12px;
+    font-size: $small-font-size;
     margin-right: 2rem;
 }
+
 .page-content {
     display: -webkit-flex;
     display: flex;
@@ -62,46 +80,56 @@ footer > section {
     justify-content: space-around;
     flex: 1;
 }
+
 .watermark {
     text-align: center;
     font-size: 4rem;
-    opacity: 0.1;
+    opacity: .1;
     z-index: 99;
 }
+
 .development {
     font-weight: bold;
-    color: orange;
+    color: $orange;
 }
+
 .led-container {
     display: flex;
     align-items: flex-end;
 }
+
 .led {
-    width: 14px;
+    width: $led-size;
 }
+
 .led-description {
-    font-size: 12px;
+    font-size: $small-font-size;
     margin-left: .2rem;
 }
+
 @keyframes fadein {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
 }
+
 @keyframes fadeout {
     from {
         opacity: 1;
     }
+
     to {
         opacity: 0;
     }
 }
+
 .fadein {
     animation-name: fadein;
-    animation-duration: 1s;
+    animation-duration: $fade-duration;
     animation-fill-mode: forwards;
     animation-timing-function: linear;
     animation-delay: 0;
@@ -109,9 +137,10 @@ footer > section {
     animation-direction: normal;
     animation-play-state: running;
 }
+
 .fadeout {
     animation-name: fadeout;
-    animation-duration: 1s;
+    animation-duration: $fade-duration;
     animation-fill-mode: forwards;
     animation-timing-function: linear;
     animation-delay: 0;
@@ -119,47 +148,55 @@ footer > section {
     animation-direction: normal;
     animation-play-state: running;
 }
+
 .fadein-connected-led {
-    background-image: url("/images/led-green.png");
-    background-size: 14px 14px;
-    width: 14px;
-    height: 14px;
-    animation: fadein 1s;
+    background-image: url($green-led);
+    background-size: $led-size $led-size;
+    width: $led-size;
+    height: $led-size;
+    animation: fadein $fade-duration;
 }
+
 .fadeout-connected-led {
-    background-image: url("/images/led-green.png");
-    background-size: 14px 14px;
-    width: 14px;
-    height: 14px;
-    animation: fadeout 1s;
+    background-image: url($green-led);
+    background-size: $led-size $led-size;
+    width: $led-size;
+    height: $led-size;
+    animation: fadeout $fade-duration;
 }
+
 .fadein-disconnected-led {
-    background-image: url("/images/led-red.png");
-    background-size: 16px 16px;
-    width: 16px;
-    height: 16px;
-    animation: fadein 1s;
+    background-image: url($red-led);
+    background-size: $led-size $led-size;
+    width: $led-size;
+    height: $led-size;
+    animation: fadein $fade-duration;
 }
+
 .fadeout-disconnected-led {
-    background-image: url("/images/led-red.png");
-    background-size: 16px 16px;
-    height: 16px;
-    width: 16px;
-    animation: fadeout 1s;
+    background-image: url($red-led);
+    background-size: $led-size $led-size;
+    width: $led-size;
+    height: $led-size;
+    animation: fadeout $fade-duration;
 }
+
 .fadein-connected-led-description::after {
-    content: "connected";
-    animation: fadein 1s;
+    content: $connected-text;
+    animation: fadein $fade-duration;
 }
+
 .fadeout-connected-led-description::after {
-    content: "connected";
-    animation: fadeout 1s;
+    content: $connected-text;
+    animation: fadeout $fade-duration;
 }
+
 .fadein-disconnected-led-description::after {
-    content: "disconnected";
-    animation: fadein 1s;
+    content: $disconnected-text;
+    animation: fadein $fade-duration;
 }
+
 .fadeout-disconnected-led-description::after {
-    content: "disconnected";
-    animation: fadeout 1s;
+    content: $disconnected-text;
+    animation: fadeout $fade-duration;
 }
