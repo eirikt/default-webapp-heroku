@@ -1,0 +1,10 @@
+GEM
+  remote: https://rubygems.org/
+    sass (3.4.18)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+
+BUNDLED WITH
