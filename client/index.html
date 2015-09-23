@@ -63,17 +63,15 @@
     </script>
     /build -->
     <!-- build:remove:dev -->
-    <script src="scripts/app-appcache.min.js"></script>
+    <script src="scripts/app.min.js"></script>
     <!-- /build -->
 
+    <!-- build:remove:prod -->
     <!-- HTTP server push (with Socket.IO) -->
-    <!-- build:[src]:prod scripts/vendor/socket.io.min.js -->
     <script src="scripts/vendor/socket.io.js"></script>
-    <!-- /build -->
-    <!-- build:[src]:prod scripts/app-socketio.min.js -->
     <script src="scripts/app-socketio.js"></script>
-    <!-- /build -->
     <!-- /HTTP server push (with Socket.IO) -->
+    <!-- /build -->
 
     <!-- build:remove:prod -->
     <!-- Automatic reload of page, default URL for 'grunt-contrib-watch' reload server -->

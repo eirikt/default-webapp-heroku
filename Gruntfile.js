@@ -63,12 +63,7 @@ module.exports = function(grunt) {
                 options: {
                     create: ['build/client']
                 },
-            },
-            public: {
-                options: {
-                    create: ['public/scripts/vendor']
-                },
-            },
+            }
         },
 
         copy: {
@@ -134,7 +129,7 @@ module.exports = function(grunt) {
         },
 
         sass: {
-            options:{
+            options: {
                 sourcemap: 'none'
             },
             build: {
@@ -155,9 +150,11 @@ module.exports = function(grunt) {
         uglify: {
             prod: {
                 files: {
-                    'public/scripts/app-appcache.min.js': 'build/client/scripts/app-appcache.js',
-                    'public/scripts/app-socketio.min.js': 'build/client/scripts/app-socketio.js',
-                    'public/scripts/vendor/socket.io.min.js': 'build/client/scripts/vendor/socket.io.js'
+                    'public/scripts/app.min.js': [
+                        'build/client/scripts/vendor/socket.io.js',
+                        'build/client/scripts/app-appcache.js',
+                        'build/client/scripts/app-socketio.js'
+                    ]
                 }
             }
         },
