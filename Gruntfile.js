@@ -134,9 +134,6 @@ module.exports = function(grunt) {
         },
 
         sass: {
-            options: {
-                sourcemap: 'none'
-            },
             build: {
                 files: {
                     'build/client/styles/app.css': 'client/styles/app.scss'
