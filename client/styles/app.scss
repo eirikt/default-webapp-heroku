@@ -131,26 +131,16 @@ footer > {
     }
 }
 
+@mixin fading-animation($name) {
+    animation: $name $fade-duration;
+}
+
 .fadein {
-    animation-name: fadein;
-    animation-duration: $fade-duration;
-    animation-fill-mode: forwards;
-    animation-timing-function: linear;
-    animation-delay: 0;
-    animation-iteration-count: 1;
-    animation-direction: normal;
-    animation-play-state: running;
+    @include fading-animation(fadein);
 }
 
 .fadeout {
-    animation-name: fadeout;
-    animation-duration: $fade-duration;
-    animation-fill-mode: forwards;
-    animation-timing-function: linear;
-    animation-delay: 0;
-    animation-iteration-count: 1;
-    animation-direction: normal;
-    animation-play-state: running;
+    @include fading-animation(fadeout);
 }
 
 %connected-led {
@@ -162,12 +152,22 @@ footer > {
 
 .fadein-connected-led {
     @extend %connected-led;
-    animation: fadein $fade-duration;
+    @include fading-animation(fadein);
 }
 
 .fadeout-connected-led {
     @extend %connected-led;
-    animation: fadeout $fade-duration;
+    @include fading-animation(fadeout);
+}
+
+.fadein-connected-led-description::after {
+    content: $connected-text;
+    @include fading-animation(fadein);
+}
+
+.fadeout-connected-led-description::after {
+    content: $connected-text;
+    @include fading-animation(fadeout);
 }
 
 %disconnected-led {
@@ -179,30 +179,20 @@ footer > {
 
 .fadein-disconnected-led {
     @extend %disconnected-led;
-    animation: fadein $fade-duration;
+    @include fading-animation(fadein);
 }
 
 .fadeout-disconnected-led {
     @extend %disconnected-led;
-    animation: fadeout $fade-duration;
-}
-
-.fadein-connected-led-description::after {
-    content: $connected-text;
-    animation: fadein $fade-duration;
-}
-
-.fadeout-connected-led-description::after {
-    content: $connected-text;
-    animation: fadeout $fade-duration;
+    @include fading-animation(fadeout);
 }
 
 .fadein-disconnected-led-description::after {
     content: $disconnected-text;
-    animation: fadein $fade-duration;
+    @include fading-animation(fadein);
 }
 
 .fadeout-disconnected-led-description::after {
     content: $disconnected-text;
-    animation: fadeout $fade-duration;
+    @include fading-animation(fadeout);
 }
