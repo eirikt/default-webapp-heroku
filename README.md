@@ -14,7 +14,7 @@ The web application is based on **_Node.js_** using [Express][express].
 &nbsp;&nbsp;
 [![Codacy Badge](https://api.codacy.com/project/badge/8454bc7b66e74cc4be1fa2d8b2a54394)](https://www.codacy.com/app/eiriktorske/default-webapp-heroku)
 
-A live version is hosted on [Heroku][heroku], as [https://lit-sea-2983.herokuapp.com](https://lit-sea-2983.herokuapp.com).
+A live version is hosted on [Heroku][heroku], as [https://defaultwebapp.herokuapp.com](https://defaultwebapp.herokuapp.com).
 
 ## Prepare
 1. Install [Node.js][node] (The Node package manager, **_npm_**, is included)
@@ -111,13 +111,22 @@ I use [Atom][atom], the hackable text editor.
 
    Heroku generates a random name for your app, or you can pass a parameter to specify your own app name.
 
-   Also, Heroku will _automatically_ detect and add the necessary ["buildpacks"][heroku-buildpacks] for your environment.
-   These buildpacks handles the pushed changes on the `heroku` branch.
-   This includes running `npm install` in addition to what's declared in the `Procfile`, namely `npm start` including all its [hooks][npm-scripts]. One such important hook installs Sass via `gem install sass`, as declared in the   `package.json` file.
-   To be on the safe side, remove all existing buildpacks, if any, with this command.
+   Set the primary ["buildpack"][heroku-buildpacks] for you Heroku environment.
    ```
-   heroku buildpacks:clear
+   heroku buildpacks:set https://github.com/heroku/heroku-buildpack-nodejs
    ```
+   This sets the default buildpack, which handles the pushed changes on the `heroku` branch.
+   This includes running `npm install` in addition to what's declared in the `Procfile`, namely `npm start` including all its [hooks][npm-scripts].
+
+   One such important hook installs Sass via `gem install sass`, as declared in the   `package.json` file.
+   For Sass integration we need our Heroku environment to have a Ruby runtime as well.
+   Add the Ruby buildpack.
+   ```
+   heroku buildpacks:add https://github.com/heroku/heroku-buildpack-ruby
+   ```
+   For the Ruby buildpack too work, it has to detect that this is a valid Ruby project,
+   in addition to being a Node.js project.
+   That is why the `Gemfile` and `Gemfile.lock` files are included in the project.
 
 1. Just push your commits to the `heroku` git remote branch
    ```
@@ -246,7 +255,10 @@ _Tell your client that their webapp is a "connected" one, always **automatically
 
 ### v0.6: Styling with [Sass][sass]
 [Less][less] vs. [Sass][sass] ...
-Being no frontend guy, here I am finding myself just [googling around](http://www.zingdesign.com/less-vs-sass-its-time-to-switch-to-sass/), following the gut feeling, and [going with the flow](http://blog.getbootstrap.com/2015/08/19/bootstrap-4-alpha/).
+Well, being no frontend guy, here I am finding myself just [googling around](http://www.zingdesign.com/less-vs-sass-its-time-to-switch-to-sass/), following the gut feeling, and [going with the flow](http://blog.getbootstrap.com/2015/08/19/bootstrap-4-alpha/) ...
+
+- [Transpiling Sass to CSS](https://github.com/eirikt/default-webapp-heroku/commit/81533b22a1956a1daab3a628aa8282b64e1c3f93)
+- ...
 
 _Tell your client that their webapp's theme is highly customizable and switching its "look-and-feel" is a swift exercise!_
 
