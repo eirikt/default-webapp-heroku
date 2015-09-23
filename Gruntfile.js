@@ -8,7 +8,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-mkdir');
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-shell');
@@ -51,18 +50,20 @@ module.exports = function(grunt) {
 
         clean: {
             build: {
-                src: ['build']
+                src: [
+                    'build/client/scripts/vendor',
+                    'build/client/scripts',
+                    'build/client/styles',
+                    'build/client',
+                    'build'
+                ]
             },
             public: {
-                src: ['public']
-            }
-        },
-
-        mkdir: {
-            build: {
-                options: {
-                    create: ['build/client']
-                },
+                src: [
+                    'public/scripts',
+                    'public/styles',
+                    'public'
+                ]
             }
         },
 
@@ -189,8 +190,8 @@ module.exports = function(grunt) {
     //grunt.registerTask('watch:client'); // supported directly by plugin
     grunt.registerTask('watch:server', ['nodemon:server']);
 
-    grunt.registerTask('build:dev', ['mkdir', 'copy:build', 'compile:html:dev', 'compile:css:dev']);
-    grunt.registerTask('build:prod', ['js:lint', 'mkdir', 'copy:build', 'compile:html:prod', 'compile:css:prod', 'uglify', 'copy:public']);
+    grunt.registerTask('build:dev', ['copy:build', 'compile:html:dev', 'compile:css:dev']);
+    grunt.registerTask('build:prod', ['js:lint', 'copy:build', 'compile:html:prod', 'compile:css:prod', 'uglify', 'copy:public']);
     grunt.registerTask('build:travis', ['build:prod']);
 
     grunt.registerTask('default', ['shell:help']);
