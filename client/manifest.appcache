@@ -1,13 +1,13 @@
 CACHE MANIFEST
-# v0.6.8
+# v0.6.18
 
 CACHE:
 //cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css
 images/led-green.png
 images/led-red.png
 scripts/vendor/socket.io.min.js
-scripts/app-appcache.js
-scripts/app-socketio.js
+scripts/app-appcache.min.js
+scripts/app-socketio.min.js
 styles/app.css
 favicon.ico
 

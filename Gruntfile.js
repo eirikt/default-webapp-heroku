@@ -94,7 +94,7 @@ module.exports = function(grunt) {
                 }, {
                     expand: true,
                     cwd: 'build/client',
-                    src: ['favicon.ico', 'images/*', 'scripts/*', 'styles/*'],
+                    src: ['favicon.ico', 'images/*', 'styles/*'],
                     dest: 'public'
                 }]
             }
@@ -134,6 +134,9 @@ module.exports = function(grunt) {
         },
 
         sass: {
+            options:{
+                sourcemap: 'none'
+            },
             build: {
                 files: {
                     'build/client/styles/app.css': 'client/styles/app.scss'
@@ -152,7 +155,9 @@ module.exports = function(grunt) {
         uglify: {
             prod: {
                 files: {
-                    'public/scripts/vendor/socket.io.min.js': ['build/client/scripts/vendor/socket.io.js']
+                    'public/scripts/app-appcache.min.js': 'build/client/scripts/app-appcache.js',
+                    'public/scripts/app-socketio.min.js': 'build/client/scripts/app-socketio.js',
+                    'public/scripts/vendor/socket.io.min.js': 'build/client/scripts/vendor/socket.io.js'
                 }
             }
         },
