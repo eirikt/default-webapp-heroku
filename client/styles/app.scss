@@ -13,33 +13,21 @@ $disconnected-text: 'disconnected';
 $fade-duration: 1s;
 
 body {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-justify-content: space-between;
-    -ms-justify-content: space-between;
-    justify-content: space-between;
-    min-height: 100vh;
-    height: 100vh; // https://alastairc.ac/2014/08/flexbox-ie11-bugs
-    max-height: 100vh;
     color: $primary-color;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; // https://alastairc.ac/2014/08/flexbox-ie11-bugs
+    justify-content: space-between;
+    max-height: 100vh;
+    min-height: 100vh;
 }
 
 header > {
     section {
-        display: -webkit-flex;
-        display: flex;
-        -webkit-justify-content: space-between;
-        -ms-justify-content: space-between;
-        justify-content: space-between;
-        -webkit-align-items: flex-start;
-        -ms-align-items: flex-start;
         align-items: flex-start;
-        -webkit-flex-wrap: wrap-reverse;
-        -ms-flex-wrap: wrap-reverse;
+        display: flex;
         flex-wrap: wrap-reverse;
+        justify-content: space-between;
         margin-left: $primary-horizontal-margin;
         margin-right: $primary-horizontal-margin;
         margin-top: $primary-vertical-margin;
@@ -48,19 +36,14 @@ header > {
 
 footer > {
     section {
-        display: -webkit-flex;
+        color: $grey;
         display: flex;
-        -webkit-justify-content: space-between;
-        -ms-justify-content: space-between;
-        justify-content: space-between;
-        -webkit-flex-wrap: wrap;
-        -ms-flex-wrap: wrap;
         flex-wrap: wrap;
+        font-style: italic;
+        justify-content: space-between;
         margin-bottom: $primary-vertical-margin;
         margin-left: $primary-horizontal-margin;
         margin-right: $primary-horizontal-margin;
-        font-style: italic;
-        color: $grey;
     }
 }
 
@@ -74,32 +57,27 @@ footer > {
 }
 
 .page-content {
-    display: -webkit-flex;
     display: flex;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-justify-content: space-around;
-    -ms-justify-content: space-around;
-    justify-content: space-around;
     flex: 1;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .watermark {
-    text-align: center;
     font-size: 4rem;
     opacity: .1;
+    text-align: center;
     z-index: 99;
 }
 
 .development {
-    font-weight: bold;
     color: $orange;
+    font-weight: bold;
 }
 
 .led-container {
-    display: flex;
     align-items: flex-end;
+    display: flex;
 }
 
 .led {
@@ -161,13 +139,13 @@ footer > {
 }
 
 .fadein-connected-led-description::after {
-    content: $connected-text;
     @include fading-animation(fadein);
+    content: $connected-text;
 }
 
 .fadeout-connected-led-description::after {
-    content: $connected-text;
     @include fading-animation(fadeout);
+    content: $connected-text;
 }
 
 %disconnected-led {
@@ -188,11 +166,11 @@ footer > {
 }
 
 .fadein-disconnected-led-description::after {
-    content: $disconnected-text;
     @include fading-animation(fadein);
+    content: $disconnected-text;
 }
 
 .fadeout-disconnected-led-description::after {
-    content: $disconnected-text;
     @include fading-animation(fadeout);
+    content: $disconnected-text;
 }

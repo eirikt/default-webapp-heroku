@@ -9,6 +9,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-nodemon');
+    grunt.loadNpmTasks('grunt-postcss');
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-scss-lint');
     grunt.loadNpmTasks('grunt-shell');
@@ -149,6 +150,21 @@ module.exports = function(grunt) {
             }
         },
 
+        postcss: {
+            options: {
+                syntax: require('postcss-scss'),
+                parser: require('postcss-safe-parser'),
+                processors: [
+                    require('autoprefixer')({
+                        browsers: ['last 2 version']
+                    })
+                ]
+            },
+            build: {
+                src: 'build/client/styles/app.css'
+            }
+        },
+
         jshint: {
             options: {
                 jshintrc: true,
@@ -191,7 +207,7 @@ module.exports = function(grunt) {
     grunt.registerTask('compile:html:prod', ['processhtml:prod', 'htmlmin:prod']);
 
     grunt.registerTask('css:lint', ['scsslint']);
-    grunt.registerTask('compile:css:dev', ['sass']);
+    grunt.registerTask('compile:css:dev', ['sass', 'postcss']);
     grunt.registerTask('compile:css:prod', ['compile:css:dev']);
 
     grunt.registerTask('js:lint', ['jshint']);
