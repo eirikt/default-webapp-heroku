@@ -10,6 +10,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-processhtml');
+    grunt.loadNpmTasks('grunt-scss-lint');
     grunt.loadNpmTasks('grunt-shell');
 
     grunt.initConfig({
@@ -32,6 +33,7 @@ module.exports = function(grunt) {
                     'ECHO.',
                     'ECHO    grunt clean             Removes all built stuff',
                     'ECHO    grunt js:lint           Runs JSHint',
+                    'ECHO    grunt css:lint          Runs SCSS Lint',
                     'ECHO.',
                     'ECHO    grunt build:dev         Builds the web application',
                     'ECHO    grunt build:prod        Builds the web application for production environment',
@@ -129,6 +131,13 @@ module.exports = function(grunt) {
             }
         },
 
+        scsslint: {
+            options: {
+                config: '.scss-lint.yml'
+            },
+            build: ['client/styles/app.scss']
+        },
+
         sass: {
             options: {
                 sourcemap: 'none'
@@ -191,7 +200,7 @@ module.exports = function(grunt) {
     grunt.registerTask('watch:server', ['nodemon:server']);
 
     grunt.registerTask('build:dev', ['copy:build', 'compile:html:dev', 'compile:css:dev']);
-    grunt.registerTask('build:prod', ['js:lint', 'copy:build', 'compile:html:prod', 'compile:css:prod', 'uglify', 'copy:public']);
+    grunt.registerTask('build:prod', ['css:lint', 'js:lint', 'copy:build', 'compile:html:prod', 'compile:css:prod', 'uglify', 'copy:public']);
     grunt.registerTask('build:travis', ['build:prod']);
 
     grunt.registerTask('default', ['shell:help']);
