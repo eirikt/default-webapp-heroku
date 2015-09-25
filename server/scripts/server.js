@@ -3,8 +3,8 @@ var env = process.env.NODE_ENV || 'development',
     port = Number(process.env.PORT || 8000),
 
     applicationRootAbsolutePath = __dirname,
-    productionWebRootRelativePath = '../../public',
-    developmentWebRootRelativePath = '../../build/client',
+    developmentStaticResourcesRelativePath = '../../build/client', // Executable and readable
+    productionStaticResourcesRelativePath = '../../public', // Executable and unreadable
 
     path = require('path'),
     express = require('express'),
@@ -14,7 +14,10 @@ var env = process.env.NODE_ENV || 'development',
     httpServer,
     appServer,
     serverPush,
-    userCounter = 0; // User connection counter
+    userCounter = 0, // User connection counter
+    staticResourcesAbsolutePath = (env === 'development') ?
+        path.join(applicationRootAbsolutePath, developmentStaticResourcesRelativePath) :
+        path.join(applicationRootAbsolutePath, productionStaticResourcesRelativePath);
 
 
 // Application server (Express middleware configuration)
@@ -36,12 +39,7 @@ appServer.use(function(request, response, next) {
     return next();
 });
 
-// Setting the root folder and serving static content
-if (env === 'development') {
-    appServer.use(express.static(path.join(applicationRootAbsolutePath, developmentWebRootRelativePath)));
-} else {
-    appServer.use(express.static(path.join(applicationRootAbsolutePath, productionWebRootRelativePath)));
-}
+appServer.use(express.static(staticResourcesAbsolutePath));
 // /Application server (Express middleware configuration)
 
 
@@ -53,12 +51,12 @@ httpServer = http.createServer(appServer);
 // HTTP server push (by Socket.IO)
 serverPush = socketio.listen(httpServer);
 
-serverPush.on('connection', function (socket) {
+serverPush.on('connection', function(socket) {
     'use strict';
     userCounter += 1;
     serverPush.emit('number-of-connections', userCounter);
     console.log('Socket.IO: User connected (now ' + userCounter + ' connected)');
-    socket.on('disconnect', function () {
+    socket.on('disconnect', function() {
         userCounter -= 1;
         console.log('Socket.IO: User disconnected (now ' + userCounter + ' connected)');
         serverPush.emit('number-of-connections', userCounter);
@@ -66,7 +64,7 @@ serverPush.on('connection', function (socket) {
 });
 
 // Just a convenient start message ...
-setTimeout(function () {
+setTimeout(function() {
     'use strict';
     console.log('Socket.IO server listening on port %d', port);
 }, 200);

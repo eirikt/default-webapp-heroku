@@ -84,7 +84,7 @@ module.exports = function(grunt) {
                     dest: 'build/client/scripts/vendor'
                 }]
             },
-            'public': {
+            public: {
                 files: [{
                     expand: true,
                     cwd: 'client',
@@ -212,12 +212,12 @@ module.exports = function(grunt) {
 
     grunt.registerTask('js:lint', ['jshint']);
 
-    //grunt.registerTask('watch:client'); // supported directly by plugin
-    grunt.registerTask('watch:server', ['nodemon:server']);
-
     grunt.registerTask('build:dev', ['copy:build', 'compile:html:dev', 'compile:css:dev']);
     grunt.registerTask('build:prod', ['css:lint', 'js:lint', 'copy:build', 'compile:html:prod', 'compile:css:prod', 'uglify', 'copy:public']);
     grunt.registerTask('build:travis', ['build:prod']);
+
+    //grunt.registerTask('watch:client'); // supported directly by plugin
+    grunt.registerTask('watch:server', ['nodemon:server']);
 
     grunt.registerTask('default', ['shell:help']);
 };
