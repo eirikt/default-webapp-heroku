@@ -1,5 +1,10 @@
 $font-stack: sans-serif;
-$grey: #808080;
+$green: #0f0;
+$darkgreen: #0d0;
+$grey: #c0c0c0;
+$darkgrey: #808080;
+$red: #f00;
+$darkred: #d00;
 $orange: #eb5e04;
 $primary-color: #555;
 $small-font-size: 12px;
@@ -34,7 +39,7 @@ header > {
 
 footer > {
     section {
-        color: $grey;
+        color: $darkgrey;
         display: flex;
         flex-wrap: wrap;
         font-style: italic;
@@ -116,16 +121,16 @@ footer > {
 }
 
 %led {
+    border-radius: 50%;
+    height: $led-size;
     margin-right: .1rem;
     width: $led-size;
-    height: $led-size;
-    border-radius: 50%;
 }
 
 %connected-led {
     @extend %led;
-    background-color: #0f0;
-    box-shadow: #aaa 0 0 4px 1px ,inset #0d0 0 -1px 8px;
+    background-color: $green;
+    box-shadow: $grey 0 0 4px 1px, inset $darkgreen 0 -1px 8px;
 }
 
 .fadein-connected-led {
@@ -138,20 +143,10 @@ footer > {
     @include fading-animation(fadeout);
 }
 
-.fadein-connected-led-description::after {
-    @include fading-animation(fadein);
-    content: $connected-text;
-}
-
-.fadeout-connected-led-description::after {
-    @include fading-animation(fadeout);
-    content: $connected-text;
-}
-
 %disconnected-led {
     @extend %led;
-    background-color: #f00;
-    box-shadow: #bbb 0 0 4px 1px ,inset #d00 0 -2px 8px;
+    background-color: $red;
+    box-shadow: $grey 0 0 4px 1px, inset $darkred 0 -1px 8px;
 }
 
 .fadein-disconnected-led {
@@ -162,6 +157,16 @@ footer > {
 .fadeout-disconnected-led {
     @extend %disconnected-led;
     @include fading-animation(fadeout);
+}
+
+.fadein-connected-led-description::after {
+    @include fading-animation(fadein);
+    content: $connected-text;
+}
+
+.fadeout-connected-led-description::after {
+    @include fading-animation(fadeout);
+    content: $connected-text;
 }
 
 .fadein-disconnected-led-description::after {
