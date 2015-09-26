@@ -5,9 +5,7 @@ $primary-color: #555;
 $small-font-size: 12px;
 $primary-vertical-margin: 1rem;
 $primary-horizontal-margin: $primary-vertical-margin / 2;
-$green-led: '/images/led-green.png';
-$red-led: '/images/led-red.png';
-$led-size: $small-font-size + 2;
+$led-size: $small-font-size - 2;
 $connected-text: 'connected';
 $disconnected-text: 'disconnected';
 $fade-duration: 1s;
@@ -76,12 +74,8 @@ footer > {
 }
 
 .led-container {
-    align-items: flex-end;
+    align-items: center;
     display: flex;
-}
-
-.led {
-    width: $led-size;
 }
 
 .led-description {
@@ -121,11 +115,17 @@ footer > {
     @include fading-animation(fadeout);
 }
 
-%connected-led {
-    background-image: url($green-led);
-    background-size: $led-size $led-size;
-    height: $led-size;
+%led {
+    margin-right: .1rem;
     width: $led-size;
+    height: $led-size;
+    border-radius: 50%;
+}
+
+%connected-led {
+    @extend %led;
+    background-color: #0f0;
+    box-shadow: #aaa 0 0 4px 1px ,inset #0d0 0 -1px 8px;
 }
 
 .fadein-connected-led {
@@ -149,10 +149,9 @@ footer > {
 }
 
 %disconnected-led {
-    background-image: url($red-led);
-    background-size: $led-size $led-size;
-    height: $led-size;
-    width: $led-size;
+    @extend %led;
+    background-color: #f00;
+    box-shadow: #bbb 0 0 4px 1px ,inset #d00 0 -2px 8px;
 }
 
 .fadein-disconnected-led {
