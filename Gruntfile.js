@@ -8,6 +8,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-cssnano');
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-postcss');
     grunt.loadNpmTasks('grunt-processhtml');
@@ -93,7 +94,7 @@ module.exports = function(grunt) {
                 }, {
                     expand: true,
                     cwd: 'build/client',
-                    src: ['favicon.ico', 'images/*', 'styles/*'],
+                    src: ['favicon.ico', 'images/*'],
                     dest: 'public'
                 }]
             }
@@ -165,6 +166,14 @@ module.exports = function(grunt) {
             }
         },
 
+        cssnano: {
+            prod: {
+                files: {
+                    'public/styles/app.min.css': 'build/client/styles/app.css'
+                }
+            }
+        },
+
         jshint: {
             options: {
                 jshintrc: true,
@@ -208,7 +217,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('css:lint', ['scsslint']);
     grunt.registerTask('compile:css:dev', ['sass', 'postcss']);
-    grunt.registerTask('compile:css:prod', ['compile:css:dev']);
+    grunt.registerTask('compile:css:prod', ['compile:css:dev', 'cssnano']);
 
     grunt.registerTask('js:lint', ['jshint']);
 
