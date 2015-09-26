@@ -1,7 +1,8 @@
 sudo: false
 language: node_js
+node_js: "node"
 before_install:
     - gem install sass
-    - gem install sass_lint
+    - gem install scss_lint
 install: npm install
 script: grunt build:travis
