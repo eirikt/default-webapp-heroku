@@ -29,10 +29,22 @@
                 <%= name %>
                 /build -->
             </section>
-            <section class="connected number-of-connections" hidden></section>
-            <section class="led-container">
-                <span class="led" hidden></span>
-                <span class="led-description" hidden></span>
+
+            <section class="flex-container">
+                <section class="flex-element">
+                    <section class="network-status-container"></section>
+                    <section class="connection-status-container">
+                        <span class="connected connection-count"></span>
+                    </section>
+                </section>
+                <section class="flex-element">
+                    <section class="network-status-container">
+                        <span class="network-status"></span>
+                    </section>
+                    <section class="connection-status-container">
+                        <span class="connection-status"></span>
+                    </section>
+                </section>
             </section>
         </section>
         <hr/>
@@ -73,6 +85,7 @@
     <script src="scripts/vendor/socket.io.js"></script>
     <script src="scripts/app-socketio.js"></script>
     <!-- /HTTP server push (with Socket.IO) -->
+    <script src="scripts/app-network.js"></script>
     <!-- /build -->
 
     <!-- build:remove:prod -->

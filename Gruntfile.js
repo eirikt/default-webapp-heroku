@@ -188,6 +188,7 @@ module.exports = function(grunt) {
                     'public/scripts/app.min.js': [
                         'build/client/scripts/vendor/socket.io.js',
                         'build/client/scripts/app-appcache.js',
+                        'build/client/scripts/app-network.js',
                         'build/client/scripts/app-socketio.js'
                     ]
                 }
@@ -200,7 +201,12 @@ module.exports = function(grunt) {
                     atBegin: true,
                     livereload: true
                 },
-                files: ['Gruntfile.js', 'client/index.html', 'client/styles/app.scss'],
+                files: [
+                    'Gruntfile.js',
+                    'client/index.html',
+                    'client/**/*.js',
+                    'client/**/*.scss'
+                ],
                 tasks: ['build:dev']
             }
         },

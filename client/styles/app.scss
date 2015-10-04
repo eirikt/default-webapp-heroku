@@ -1,75 +1,153 @@
-$font-stack: sans-serif;
+@charset 'UTF-8';
+
+@keyframes animated-fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes animated-fadeout {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@mixin fadein($fading-duration) {
+    animation: animated-fadein $fading-duration;
+}
+
+@mixin fadeout($fading-duration) {
+    animation: animated-fadeout $fading-duration;
+}
+
 $green: #0f0;
 $darkgreen: #0d0;
-$grey: #c0c0c0;
-$darkgrey: #808080;
 $red: #f00;
 $darkred: #d00;
+$grey: #c0c0c0;
+$darkgrey: #808080;
+
+@mixin led($led-size, $background-color, $shine-color) {
+    width: $led-size;
+    height: $led-size;
+    border-radius: 50%;
+    background-color: $background-color;
+    box-shadow: $grey 0 0 4px 1px, inset $shine-color 0 -1px 8px;
+    transform: translateY(3px);
+}
+
+@mixin pseudo-led-description($description) {
+    position: absolute;
+    padding-left: 0.8rem;
+    transform: translateY(-3.5px);
+    font-size: $small-font-size;
+    content: $description;
+}
+
+@mixin led-green($led-size) {
+    @include led($led-size, $darkgreen, $green);
+}
+
+@mixin led-red($led-size) {
+    @include led($led-size, $darkred, $red);
+}
+
+.flex-container {
+    // Flexbox container
+    display: flex;
+}
+
+.flex-element {
+    // Flexbox element
+}
+
 $orange: #eb5e04;
 $primary-color: #555;
+
+$font-stack: sans-serif;
 $small-font-size: 12px;
 $primary-vertical-margin: 1rem;
 $primary-horizontal-margin: $primary-vertical-margin / 2;
-$led-size: $small-font-size - 2;
+$led-size: $small-font-size - 4;
 $connected-text: 'connected';
 $disconnected-text: 'disconnected';
-$fade-duration: 1s;
+$fading-duration: 1s;
+
+.fadein {
+    @include fadein($fading-duration);
+}
+
+.fadeout {
+    @include fadeout($fading-duration);
+}
 
 body {
-    color: $primary-color;
     display: flex;
     flex-direction: column;
-    height: 100vh; // https://alastairc.ac/2014/08/flexbox-ie11-bugs
     justify-content: space-between;
-    max-height: 100vh;
+
+    height: 100vh; // https://alastairc.ac/2014/08/flexbox-ie11-bugs
     min-height: 100vh;
+    max-height: 100vh;
+    color: $primary-color;
 }
 
 header > {
     section {
-        align-items: flex-start;
         display: flex;
         flex-wrap: wrap-reverse;
         justify-content: space-between;
-        margin-left: $primary-horizontal-margin;
-        margin-right: $primary-horizontal-margin;
+
         margin-top: $primary-vertical-margin;
+        margin-right: 5.5rem;
+        margin-left: $primary-horizontal-margin;
     }
 }
 
 footer > {
     section {
-        color: $darkgrey;
         display: flex;
-        flex-wrap: wrap;
-        font-style: italic;
         justify-content: space-between;
+
+        margin-right: $primary-horizontal-margin;
         margin-bottom: $primary-vertical-margin;
         margin-left: $primary-horizontal-margin;
-        margin-right: $primary-horizontal-margin;
+        color: $darkgrey;
+        font-style: italic;
     }
 }
 
 .title {
     font-size: xx-large;
+    white-space: nowrap;
 }
 
-.number-of-connections {
+.network-status-container {
+    display: flex;
+    height: 1.5rem;
+}
+
+.connection-status-container {
+    display: flex;
+}
+
+.connection-count {
+    margin-right: 1.5rem;
     font-size: $small-font-size;
-    margin-right: 2rem;
 }
 
 .page-content {
-    display: flex;
+    // Flexbox element
     flex: 1;
+
+    // Flexbox container
+    display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
 .watermark {
     font-size: 4rem;
-    opacity: .1;
     text-align: center;
+    opacity: 0.1;
     z-index: 99;
 }
 
@@ -78,103 +156,74 @@ footer > {
     font-weight: bold;
 }
 
-.led-container {
-    align-items: center;
-    display: flex;
-}
+@mixin eased-network-status-online($fading-direction) {
+    @include led-green($led-size);
+    animation: $fading-direction $fading-duration;
 
-.led-description {
-    font-size: $small-font-size;
-    margin-left: .2rem;
-}
-
-@keyframes fadein {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
+    &::after {
+        @include pseudo-led-description('online');
+        animation: $fading-direction $fading-duration;
     }
 }
 
-@keyframes fadeout {
-    from {
-        opacity: 1;
+@mixin eased-network-status-offline($fading-direction) {
+    @include led-red($led-size);
+    animation: $fading-direction $fading-duration;
+
+    &::after {
+        @include pseudo-led-description('offline');
+        animation: $fading-direction $fading-duration;
     }
+}
 
-    to {
-        opacity: 0;
+@mixin eased-connection-status-connected($fading-direction) {
+    @include led-green($led-size);
+    animation: $fading-direction $fading-duration;
+
+    &::after {
+        @include pseudo-led-description('connected');
+        animation: $fading-direction $fading-duration;
     }
 }
 
-@mixin fading-animation($name) {
-    animation: $name $fade-duration;
+@mixin eased-connection-status-disconnected($fading-direction) {
+    @include led-red($led-size);
+    animation: $fading-direction $fading-duration;
+
+    &::after {
+        @include pseudo-led-description('disconnected');
+        animation: $fading-direction $fading-duration;
+    }
 }
 
-.fadein {
-    @include fading-animation(fadein);
+.fadein-network-status-online {
+    @include eased-network-status-online(animated-fadein);
 }
 
-.fadeout {
-    @include fading-animation(fadeout);
+.fadeout-network-status-online {
+    @include eased-network-status-online(animated-fadeout);
 }
 
-%led {
-    border-radius: 50%;
-    height: $led-size;
-    margin-right: .1rem;
-    width: $led-size;
+.fadein-network-status-offline {
+    @include eased-network-status-offline(animated-fadein);
 }
 
-%connected-led {
-    @extend %led;
-    background-color: $green;
-    box-shadow: $grey 0 0 4px 1px, inset $darkgreen 0 -1px 8px;
+.fadeout-network-status-offline {
+    @include eased-network-status-offline(animated-fadeout);
 }
 
-.fadein-connected-led {
-    @extend %connected-led;
-    @include fading-animation(fadein);
+.fadein-connection-status-connected {
+    @include eased-connection-status-connected(animated-fadein);
 }
 
-.fadeout-connected-led {
-    @extend %connected-led;
-    @include fading-animation(fadeout);
+.fadeout-connection-status-connected {
+    @include eased-connection-status-connected(animated-fadeout);
 }
 
-%disconnected-led {
-    @extend %led;
-    background-color: $red;
-    box-shadow: $grey 0 0 4px 1px, inset $darkred 0 -1px 8px;
+.fadein-connection-status-disconnected {
+    @include eased-connection-status-disconnected(animated-fadein);
 }
 
-.fadein-disconnected-led {
-    @extend %disconnected-led;
-    @include fading-animation(fadein);
-}
-
-.fadeout-disconnected-led {
-    @extend %disconnected-led;
-    @include fading-animation(fadeout);
-}
-
-.fadein-connected-led-description::after {
-    @include fading-animation(fadein);
-    content: $connected-text;
-}
-
-.fadeout-connected-led-description::after {
-    @include fading-animation(fadeout);
-    content: $connected-text;
-}
-
-.fadein-disconnected-led-description::after {
-    @include fading-animation(fadein);
-    content: $disconnected-text;
-}
-
-.fadeout-disconnected-led-description::after {
-    @include fading-animation(fadeout);
-    content: $disconnected-text;
+.fadeout-connection-status-disconnected {
+    @include eased-connection-status-disconnected(animated-fadeout);
 }

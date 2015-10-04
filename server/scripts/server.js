@@ -14,7 +14,7 @@ var env = process.env.NODE_ENV || 'development',
     httpServer,
     appServer,
     serverPush,
-    userCounter = 0, // User connection counter
+    connectionCount = 0,
     staticResourcesAbsolutePath = (env === 'development') ?
         path.join(applicationRootAbsolutePath, developmentStaticResourcesRelativePath) :
         path.join(applicationRootAbsolutePath, productionStaticResourcesRelativePath);
@@ -53,13 +53,13 @@ serverPush = socketio.listen(httpServer);
 
 serverPush.on('connection', function(socket) {
     'use strict';
-    userCounter += 1;
-    serverPush.emit('number-of-connections', userCounter);
-    console.log('Socket.IO: User connected (now ' + userCounter + ' connected)');
+    connectionCount += 1;
+    serverPush.emit('connection-count', connectionCount);
+    console.log('Socket.IO: User connected (now ' + connectionCount + ' active connections)');
     socket.on('disconnect', function() {
-        userCounter -= 1;
-        console.log('Socket.IO: User disconnected (now ' + userCounter + ' connected)');
-        serverPush.emit('number-of-connections', userCounter);
+        connectionCount -= 1;
+        console.log('Socket.IO: User disconnected (now ' + connectionCount + ' active connections)');
+        serverPush.emit('connection-count', connectionCount);
     });
 });
 
