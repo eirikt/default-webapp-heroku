@@ -11,15 +11,15 @@ socket.on("connect_failed", function() {
         el.classList.remove("fadein-connection-status-connected");
         el.classList.remove("fadeout-connection-status-connected");
         el.classList.add("fadein-connection-status-disconnected");
-    })
+    });
 
     Array.prototype.forEach.call(document.getElementsByClassName("connected"), function(el) {
         el.classList.remove("fadein");
         el.classList.remove("fadeout");
         el.classList.add("fadeout");
-    })
+    });
 
-    window.connected = false;
+    connected = false;
     console.log("Socket.IO :: Connecting to " + window.socket.io.uri + " failed!");
 });
 
@@ -31,15 +31,15 @@ socket.on("connect_error", function() {
         el.classList.remove("fadein-connection-status-connected");
         el.classList.remove("fadeout-connection-status-connected");
         el.classList.add("fadein-connection-status-disconnected");
-    })
+    });
 
     Array.prototype.forEach.call(document.getElementsByClassName("connected"), function(el) {
         el.classList.remove("fadein");
         el.classList.remove("fadeout");
         el.classList.add("fadeout");
-    })
+    });
 
-    window.connected = false;
+    connected = false;
     console.log("Socket.IO :: Connecting to " + window.socket.io.uri + " failed!");
 });
 
@@ -56,7 +56,7 @@ socket.on("connect", function() {
             setTimeout(function() {
                 el.classList.remove("fadeout-connection-status-disconnected");
                 el.classList.add("fadein-connection-status-connected");
-            }, 1000)
+            }, 1000);
         } else {
             el.classList.add("fadein-connection-status-connected");
         }
@@ -67,10 +67,10 @@ socket.on("connect", function() {
         el.classList.add("fadein");
         setTimeout(function() {
             el.removeAttribute("hidden");
-        }, 1000)
-    })
+        }, 1000);
+    });
 
-    window.connected = true;
+    connected = true;
     console.log("Socket.IO :: Connected to " + window.socket.io.uri);
 });
 
@@ -87,7 +87,7 @@ socket.on("disconnect", function() {
             setTimeout(function() {
                 el.classList.remove("fadeout-connection-status-connected");
                 el.classList.add("fadein-connection-status-disconnected");
-            }, 1000)
+            }, 1000);
         } else {
             el.classList.add("fadein-connection-status-disconnected");
         }
@@ -99,10 +99,10 @@ socket.on("disconnect", function() {
         setTimeout(function() {
             el.setAttribute("hidden", "true");
             el.classList.remove("fadeout");
-        }, 1000)
-    })
+        }, 1000);
+    });
 
-    window.connected = false;
+    connected = false;
     console.log("Socket.IO :: Disconnected from " + window.socket.io.uri);
 });
 

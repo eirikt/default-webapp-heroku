@@ -13,24 +13,13 @@
 }
 
 $orange: #eb5e04;
-$primary-color: #555;
 
-$font-stack: sans-serif;
 $small-font-size: 12px;
+
 $primary-vertical-margin: 1rem;
 $primary-horizontal-margin: $primary-vertical-margin / 2;
 $led-size: $small-font-size - 4;
-$connected-text: 'connected';
-$disconnected-text: 'disconnected';
 $fading-duration: 1s;
-
-.fadein {
-    @include fadein($fading-duration);
-}
-
-.fadeout {
-    @include fadeout($fading-duration);
-}
 
 body {
     display: flex;
@@ -40,7 +29,6 @@ body {
     height: 100vh; // https://alastairc.ac/2014/08/flexbox-ie11-bugs
     min-height: 100vh;
     max-height: 100vh;
-    color: $primary-color;
 }
 
 header > {

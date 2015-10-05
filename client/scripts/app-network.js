@@ -19,7 +19,8 @@ var updateNetworkStatus = function(event) {
                     el.classList.remove("fadeout-network-status-offline");
                 }
                 el.classList.add("fadein-network-status-online");
-            }, 1000)
+            }, 1000);
+
         } else {
             if(event != null) {
                 el.classList.add("fadeout-network-status-online");
@@ -29,10 +30,10 @@ var updateNetworkStatus = function(event) {
                     el.classList.remove("fadeout-network-status-online");
                 }
                 el.classList.add("fadein-network-status-offline");
-            }, 1000)
+            }, 1000);
         }
     });
-}
+};
 
 updateNetworkStatus();
 
