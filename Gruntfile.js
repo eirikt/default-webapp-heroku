@@ -158,6 +158,10 @@ module.exports = function(grunt) {
                 processors: [
                     require('autoprefixer')({
                         browsers: ['last 2 version']
+                    }),
+                    require('postcss-colorblind')({
+                        // See: https://github.com/btholt/postcss-colorblind
+                        method: 'Achromatomaly'
                     })
                 ]
             },

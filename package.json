@@ -1,7 +1,7 @@
 {
     "name": "default-webapp-heroku",
     "description": "Default Webapp",
-    "version": "0.6.32",
+    "version": "0.6.33",
     "license": "MIT",
     "author": "Eirik Torske <eirik.torske@gmail.com>",
     "repository": {
@@ -28,6 +28,7 @@
         "grunt-scss-lint": "0.3.x",
         "grunt-postcss": "0.6.x",
         "autoprefixer": "6.0.x",
+        "postcss-colorblind": "0.3.x",
         "postcss-safe-parser": "1.0.x",
         "postcss-scss": "0.1.x",
         "grunt-cssnano": "2.0.x"
