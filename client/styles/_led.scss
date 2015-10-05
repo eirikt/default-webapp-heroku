@@ -1,0 +1,33 @@
+@charset 'UTF-8';
+
+$green: #0f0;
+$darkgreen: #0d0;
+$red: #f00;
+$darkred: #d00;
+$grey: #c0c0c0;
+$darkgrey: #808080;
+
+@mixin led($led-size, $background-color, $shine-color) {
+    width: $led-size;
+    height: $led-size;
+    border-radius: 50%;
+    background-color: $background-color;
+    box-shadow: $grey 0 0 4px 1px, inset $shine-color 0 -1px 8px;
+    transform: translateY(3px);
+}
+
+@mixin pseudo-led-description($description) {
+    position: absolute;
+    padding-left: 0.8rem;
+    transform: translateY(-3.5px);
+    font-size: $small-font-size;
+    content: $description;
+}
+
+@mixin led-green($led-size) {
+    @include led($led-size, $darkgreen, $green);
+}
+
+@mixin led-red($led-size) {
+    @include led($led-size, $darkred, $red);
+}

@@ -137,7 +137,7 @@ module.exports = function(grunt) {
             options: {
                 config: '.scss-lint.yml'
             },
-            build: ['client/styles/app.scss']
+            build: 'client/styles/*.scss'
         },
 
         sass: {
