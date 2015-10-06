@@ -15,7 +15,7 @@ The web application is based on **_Node.js_** using [Express][express].
 [![Codacy Badge](https://api.codacy.com/project/badge/8454bc7b66e74cc4be1fa2d8b2a54394)](https://www.codacy.com/app/eiriktorske/default-webapp-heroku)
 
 A live version is hosted on [Heroku][heroku], as [https://defaultwebapp.herokuapp.com](https://defaultwebapp.herokuapp.com).
-(It is a Heroku single-dyno setup - the reply may take quite a few seconds if the server has to spin up for you ...)
+(It is a Heroku single-dyno setup - meaning that the response may take quite a few seconds if the server has to spin up for you ...)
 
 ## Prepare
 1. Install [Node.js][node] (The Node package manager, **_npm_**, is included)
