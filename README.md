@@ -2,8 +2,8 @@
 My default and opinionated/favourite setup (at the latest commit date, anyway) for web application development.
 The main objectives being:
 - Ease of development
-- Very compact code base
 - [Continuous delivery][continuous-delivery]
+- Compact code base
 
 The web application is based on **_Node.js_** using [Express][express].
 
@@ -15,6 +15,7 @@ The web application is based on **_Node.js_** using [Express][express].
 [![Codacy Badge](https://api.codacy.com/project/badge/8454bc7b66e74cc4be1fa2d8b2a54394)](https://www.codacy.com/app/eiriktorske/default-webapp-heroku)
 
 A live version is hosted on [Heroku][heroku], as [https://defaultwebapp.herokuapp.com](https://defaultwebapp.herokuapp.com).
+(It is a Heroku single-dyno setup - the reply may take quite a few seconds if the server has to spin up for you ...)
 
 ## Prepare
 1. Install [Node.js][node] (The Node package manager, **_npm_**, is included)
@@ -118,15 +119,16 @@ I use [Atom][atom], the hackable text editor.
    This sets the default buildpack, which handles the pushed changes on the `heroku` branch.
    This includes running `npm install` in addition to what's declared in the `Procfile`, namely `npm start` including all its [hooks][npm-scripts].
 
-   One such important hook installs Sass via `gem install sass`, as declared in the   `package.json` file.
-   For Sass integration we need our Heroku environment to have a Ruby runtime as well.
+   <!---One such important hook installs Sass via `gem install sass`, as [declared](https://github.com/eirikt/default-webapp-heroku/commit/95f7573a72f423cff6970f916f4ca93e49b0ab7a) in the `package.json` file.-->
+   For Sass integration our Heroku environment also needs a Ruby runtime.
    Add the Ruby buildpack.
    ```
    heroku buildpacks:add https://github.com/heroku/heroku-buildpack-ruby
    ```
-   For the Ruby buildpack too work, it has to detect that this is a valid Ruby project,
+   <!---For the Ruby buildpack too work, it has to detect that this is a valid Ruby project,
    in addition to being a Node.js project.
-   That is why the `Gemfile` and `Gemfile.lock` files are included in the project.
+   That is why the `Gemfile` and `Gemfile.lock` files are included in the project.-->
+   <!---One such important hook installs Sass via `gem install sass`, as [declared](https://github.com/eirikt/default-webapp-heroku/commit/95f7573a72f423cff6970f916f4ca93e49b0ab7a) in the `package.json` file.-->
 
 1. Just push your commits to the `heroku` git remote branch
    ```
@@ -194,7 +196,7 @@ Rather inspired by [HTML5 Boilerplate][html5boilerplate-explained], and such.
   It precisely targets only the styles that need normalizing.
 
 _Tell your client that their webapp has said 'hello'.
-Also, mention that it looks good and all devices (buzzwords: "mobile-first" and "responsive") and that it will stay that way._
+Also, mention that it looks good and all devices (**buzzwords**: "mobile-first" and "responsive design") and that it will stay that way._
 
 ...
 
@@ -203,7 +205,6 @@ Setting up a smooth development environment where the goal is fast and frequent 
 The principle of short feedback loops when developing are discussed e.g. [here](https://wilmsmann.fullmontty.com/2014/01/05/future-of-coding/), and in Brett Victor's excellent [talk](https://vimeo.com/36579366),
 in which he talks about the necessity of _having an immediate connection with what you create_.
 
-- [EditorConfig](https://github.com/eirikt/default-webapp-heroku/commit/af9af9df9b720994f21352225a65c6fb24c59c78), IDE-agnostic editor configurations.
 - [Grunt as Build tool](https://github.com/eirikt/default-webapp-heroku/commit/8dbcf0164b4da8f69ac60c6b11dd4f311335132c).
   Even though the usage of tools like [Grunt][grunt] and [Gulp][gulp] lately have been [questioned](http://blog.keithcirkel.co.uk/how-to-use-npm-as-a-build-tool/) as the primary build tool, I find Grunt still very useful.
   In my opinion it scales better than e.g. `npm` when the build configuration gets large and complex.
@@ -220,6 +221,7 @@ in which he talks about the necessity of _having an immediate connection with wh
 - Client-side resource files moved into `client` source folder.
   Server-side resource files moved into `server` source folder.
   It gives a cleaner project layout.
+- [EditorConfig](https://github.com/eirikt/default-webapp-heroku/commit/af9af9df9b720994f21352225a65c6fb24c59c78), IDE-agnostic editor configurations.
 
 _Tell your client that their webapp is developing at full speed, with no waste - The code base is ~~idiomatic~~ quite ordinary stuff, and can be transferred to other teams with great ease - Also, one can monitor all progress, live._
 
@@ -236,7 +238,7 @@ This is already taken care of by [this](https://github.com/eirikt/default-webapp
 - The Appcache is only active when using the `prod` build tasks.
 When developing, the Appcache is, and always should be - [deactivated](https://github.com/eirikt/default-webapp-heroku/commit/ab0731848132751966161f32922b78cdb59760b8)!
 
-_Tell your client that their webapp works even without an Internet connection! (buzzwords: "offline first", "occasionally connected")_
+_Tell your client that their webapp works even without an Internet connection! (**buzzwords**: "offline first", "occasionally connected")_
 
 ...
 
@@ -257,33 +259,49 @@ _Tell your client that their webapp is a "connected" one, always **automatically
 [Less][less] vs. [Sass][sass] ...
 Well, being no frontend guy, here I am finding myself just [googling around](http://www.zingdesign.com/less-vs-sass-its-time-to-switch-to-sass/), following the gut feeling, and [going with the flow](http://blog.getbootstrap.com/2015/08/19/bootstrap-4-alpha/) ...
 
-- [Transpiling Sass to CSS](https://github.com/eirikt/default-webapp-heroku/commit/81533b22a1956a1daab3a628aa8282b64e1c3f93)
-- ...
+Sass has a lot of nice features:
+- [Sass variables](https://github.com/eirikt/default-webapp-heroku/commit/eb5705e0f1e4df57df060dcddedbf294846f8b14)
+- [Sass nesting](https://github.com/eirikt/default-webapp-heroku/commit/d2a3cfa96554059f5968774897101d3b2dd4fb2a)
+- [Sass inheritance](https://github.com/eirikt/default-webapp-heroku/commit/5ac8e0975ee2ab6bad3faf33c3760cfd00ac6e66)
+- [Sass mixins](https://github.com/eirikt/default-webapp-heroku/commit/91cf73eeb3c1a062a1190fa476fe388458a9290c)
+- [Sass imports](https://github.com/eirikt/default-webapp-heroku/commit/7f575f7d642f27d77a005259a36f68f3296d392f)
 
-_Tell your client that their webapp's theme is highly customizable and switching its "look-and-feel" is a swift exercise!_
+Also added are:
+- [Sass linting](https://github.com/eirikt/default-webapp-heroku/commit/e373a8492d301c8e1f128454f713d7f1a8824a49) with [SCSS-Lint][sass-lint]
+- [Transpiling Sass to CSS](https://github.com/eirikt/default-webapp-heroku/commit/81533b22a1956a1daab3a628aa8282b64e1c3f93)
+- Using [PostCSS][postcss], for things like e.g.  [autoprefixing](https://github.com/eirikt/default-webapp-heroku/commit/f9119af2c3f8085948449d8488c3413529ca955e) (using [this][postcss-autoprefixer] tool), and [color blindness](https://github.com/eirikt/default-webapp-heroku/commit/0244b6c19c9141bfb706c82f4a9801f2e999c918) (using [this][postcss-colorblind] tool)
+- [Minifying CSS](https://github.com/eirikt/default-webapp-heroku/commit/b288d53c93a65f3f51adb00dce7b750e9ba4e48f) with [cssnano][cssnano]
+- [Using CSS instead of images](https://github.com/eirikt/default-webapp-heroku/commit/486134dd3978533354c51d07eda03bfb5d32cfdb) for the LEDs :-)
+
+_Tell your client that their webapp's theme is highly customizable and switching its "look-and-feel" is a swift and concise exercise!_
 
 
 
 [appcache]: https://developer.mozilla.org/en-US/docs/Web/HTML/Using_the_application_cache
 [atom]: https://atom.io
-[continuous-delivery]: https://en.wikipedia.org/wiki/Continuous_delivery/
+[continuous-delivery]: https://en.wikipedia.org/wiki/Continuous_delivery
+[cssnano]: https://github.com/ben-eb/cssnano
 [express]: http://expressjs.com
 [github]: https://github.com
 [grunt]: http://gruntjs.com
 [gulp]: http://gulpjs.com
 [html5boilerplate]: https://html5boilerplate.com
-[html5boilerplate-explained]: http://ningbit.github.io/blog/2013/09/30/html5-boilerplate-explained-in-simple-terms/
+[html5boilerplate-explained]: http://ningbit.github.io/blog/2013/09/30/html5-boilerplate-explained-in-simple-terms
 [less]: http://lesscss.org
 [npm-scripts]: https://docs.npmjs.com/misc/scripts
 [node]: https://iojs.org
+[postcss]: https://github.com/postcss/postcss
+[postcss-autoprefixer]: https://github.com/postcss/autoprefixer
+[postcss-colorblind]: https://github.com/btholt/postcss-colorblind
 [sass]: http://sass-lang.com
+[sass-lint]: https://github.com/brigade/scss-lint
 [serverpush]: https://en.wikipedia.org/wiki/Push_technology
 [socketio]: http://socket.io
 [websocket]: https://en.wikipedia.org/wiki/WebSocket
 
 [heroku]: https://www.heroku.com
-[heroku-account]: https://signup.heroku.com/dc/
-[heroku-buildpacks]: https://devcenter.heroku.com/articles/buildpacks/
+[heroku-account]: https://signup.heroku.com/dc
+[heroku-buildpacks]: https://devcenter.heroku.com/articles/buildpacks
 [heroku-setup]: https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up
 [heroku-intro]: https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction
-[heroku-custom-domains]: https://devcenter.heroku.com/articles/custom-domains/
+[heroku-custom-domains]: https://devcenter.heroku.com/articles/custom-domains
