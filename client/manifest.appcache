@@ -1,8 +1,11 @@
 CACHE MANIFEST
-# v0.7.0
+# v0.7.1
 
 CACHE:
 //cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css
+//cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js
+//cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js
+//cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.25/browser.min.js
 scripts/app.min.js
 styles/app.min.css
 favicon.ico
