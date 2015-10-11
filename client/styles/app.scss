@@ -3,29 +3,27 @@
 @import 'led';
 @import 'fading-effects';
 
-.flex-container {
-    // Flexbox container
-    display: flex;
-}
-
-.flex-element {
-    // Flexbox element
-}
-
 $orange: #eb5e04;
 
 $small-font-size: 12px;
 
 $primary-vertical-margin: 1rem;
 $primary-horizontal-margin: $primary-vertical-margin / 2;
+
 $led-size: $small-font-size - 4;
 $fading-duration: 1s;
 
-body {
+%flex-row-container {
+    display: flex;
+}
+
+%flex-column-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
 
+%full-height {
     height: 100vh; // https://alastairc.ac/2014/08/flexbox-ie11-bugs
     min-height: 100vh;
     max-height: 100vh;
@@ -41,6 +39,11 @@ header > {
         margin-right: 5.5rem;
         margin-left: $primary-horizontal-margin;
     }
+}
+
+.page {
+    @extend %full-height;
+    @extend %flex-column-container;
 }
 
 footer > {
@@ -61,6 +64,10 @@ footer > {
     white-space: nowrap;
 }
 
+.status-container {
+    @extend %flex-row-container;
+}
+
 .network-status-container {
     display: flex;
     height: 1.5rem;
@@ -73,16 +80,6 @@ footer > {
 .connection-count {
     margin-right: 1.5rem;
     font-size: $small-font-size;
-}
-
-.page-content {
-    // Flexbox element
-    flex: 1;
-
-    // Flexbox container
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
 }
 
 .watermark {

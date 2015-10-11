@@ -35,8 +35,6 @@ var updateNetworkStatus = function(event) {
     });
 };
 
-updateNetworkStatus();
-
 window.addEventListener("load", function() {
     window.addEventListener("online", updateNetworkStatus);
     window.addEventListener("offline", updateNetworkStatus);

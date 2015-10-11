@@ -275,6 +275,13 @@ Also added are:
 
 _Tell your client that their webapp's theme is highly customizable and switching its "look-and-feel" is a swift and concise exercise!_
 
+...
+
+### v0.7: Client-side content rendering with [React][react]
+In progress ...
+
+- [...]()
+
 
 
 [appcache]: https://developer.mozilla.org/en-US/docs/Web/HTML/Using_the_application_cache
@@ -293,6 +300,7 @@ _Tell your client that their webapp's theme is highly customizable and switching
 [postcss]: https://github.com/postcss/postcss
 [postcss-autoprefixer]: https://github.com/postcss/autoprefixer
 [postcss-colorblind]: https://github.com/btholt/postcss-colorblind
+[react]: https://facebook.github.io/react
 [sass]: http://sass-lang.com
 [sass-lint]: https://github.com/brigade/scss-lint
 [serverpush]: https://en.wikipedia.org/wiki/Push_technology

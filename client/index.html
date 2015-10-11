@@ -22,60 +22,95 @@
     <hr/>
     <![endif]-->
 
-    <header>
-        <section>
-            <section class="title">
-                <!-- build:template
-                <%= name %>
-                /build -->
-            </section>
+    <div id="content"></div>
 
-            <section class="flex-container">
-                <section class="flex-element">
-                    <section class="network-status-container"></section>
-                    <section class="connection-status-container">
-                        <span class="connected connection-count"></span>
-                    </section>
-                </section>
-                <section class="flex-element">
-                    <section class="network-status-container">
-                        <span class="network-status"></span>
-                    </section>
-                    <section class="connection-status-container">
-                        <span class="connection-status"></span>
-                    </section>
-                </section>
-            </section>
-        </section>
-        <hr/>
-    </header>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script type="text/babel">
+        var Header = React.createClass({
+                render: function () {
+                    return (
+                        <header>
+                            <section>
+                                <section className="title">
+                                    <!-- build:template
+                                    <%= name %>
+                                    /build -->
+                                </section>
 
-    <section class="page-content">
-        <section class="main-content">
-            <section class="watermark">some content ...</section>
-        </section>
-    </section>
+                                <section className="status-container">
+                                    <section>
+                                        <section className="network-status-container"></section>
+                                        <section className="connection-status-container">
+                                            <span className="connected connection-count"></span>
+                                        </section>
+                                    </section>
+                                    <section>
+                                        <section className="network-status-container">
+                                            <span className="network-status"></span>
+                                        </section>
+                                        <section className="connection-status-container">
+                                            <span className="connection-status"></span>
+                                        </section>
+                                    </section>
+                                </section>
+                            </section>
+                            <hr/>
+                        </header>
+                    );
+                }
+            }),
 
-    <footer>
-        <hr/>
-        <section>
-            <!-- build:template
-            <span><%= name %> v<%= version %></span>
-            <span>built <%= timestamp %></span>
-            /build -->
-            <!--<span class="development"></span>-->
-            <!-- build:remove:prod -->
-            <!-- Add "Development mode" info in footer -->
-            <span class="development">Development configuration</span>
-            <!-- /build -->
-        </section>
-    </footer>
+            MainContentPlaceholder = React.createClass({
+                render: function () {
+                    return (
+                        <section className="watermark">some content ...</section>
+                    );
+                }
+            }),
+
+            Footer = React.createClass({
+                render: function () {
+                    return (
+                        <footer>
+                            <hr/>
+                            <section>
+                               <!-- build:template
+                               <span><%= name %> v<%= version %></span>
+                               <span>built <%= timestamp %></span>
+                               /build -->
+                               <span className="development"></span>
+                            </section>
+                        </footer>
+                    );
+                }
+            }),
+
+            Content = React.createClass({
+                render: function () {
+                    return (
+                        <article className="page">
+                            <Header />
+                            <MainContentPlaceholder />
+                            <Footer />
+                        </article>
+                    );
+                }
+            });
+
+        ReactDOM.render(
+            <Content />,
+            document.getElementById("content")
+        );
+    </script>
 
     <!-- build:template
     <script>
         var upgradeMessage = 'A newer version of <%= name %> is available! Load it?';
     </script>
     /build -->
+
     <!-- build:remove:dev -->
     <script src="scripts/app.min.js"></script>
     <!-- /build -->
@@ -87,6 +122,24 @@
     <!-- /HTTP server push (with Socket.IO) -->
     <script src="scripts/app-network.js"></script>
     <!-- /build -->
+
+    <script>
+        // Do not try to manipulate elements before React has rendered them
+        document.onreadystatechange =
+            function() {
+                switch(document.readyState) {
+                    case "complete":
+                        console.log("Document :: Event:readyState=complete (The document and all sub-resources have finished loading) ...");
+                        updateNetworkStatus();
+                        <!-- build:remove:prod -->
+                        Array.prototype.forEach.call(document.getElementsByClassName("development"), function(el) {
+                            el.innerHTML = "Development configuration";
+                        });
+                        <!-- /build -->
+                    break;
+                }
+        };
+    </script>
 
     <!-- build:remove:prod -->
     <!-- Automatic reload of page, default URL for 'grunt-contrib-watch' reload server -->

@@ -7,12 +7,12 @@ $darkred: #d00;
 $grey: #c0c0c0;
 $darkgrey: #808080;
 
-@mixin led($led-size, $background-color, $shine-color) {
+@mixin led($led-size, $background-color, $tinted-shine-color) {
     width: $led-size;
     height: $led-size;
     border-radius: 50%;
     background-color: $background-color;
-    box-shadow: $grey 0 0 4px 1px, inset $shine-color 0 -1px 8px;
+    box-shadow: $grey 0 0 4px 1px, inset $tinted-shine-color 0 -1px 8px;
     transform: translateY(3px);
 }
 
