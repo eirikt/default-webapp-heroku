@@ -196,7 +196,8 @@ Rather inspired by [HTML5 Boilerplate][html5boilerplate-explained], and such.
   It precisely targets only the styles that need normalizing.
 
 _Tell your client that their webapp has said 'hello'.
-Also, mention that it looks good and all devices (**buzzwords**: "mobile-first" and "responsive design") and that it will stay that way._
+Also, mention that it looks good and all devices
+(**buzzwords**: "mobile-first" and "responsive design") and that it will stay that way._
 
 ...
 
@@ -238,7 +239,8 @@ This is already taken care of by [this](https://github.com/eirikt/default-webapp
 - The Appcache is only active when using the `prod` build tasks.
 When developing, the Appcache is, and always should be - [deactivated](https://github.com/eirikt/default-webapp-heroku/commit/ab0731848132751966161f32922b78cdb59760b8)!
 
-_Tell your client that their webapp works even without an Internet connection! (**buzzwords**: "offline first", "occasionally connected")_
+_Tell your client that their webapp works even without an Internet connection!
+(**buzzwords**: "offline first", "occasionally connected")_
 
 ...
 
@@ -251,7 +253,8 @@ Also, it is [argued](http://www.infoq.com/news/2012/02/websockets-rest) that thi
 
 My take on it is to use server push strictly as a supplement to HTTP, not replacing HTTP when it comes to service calls.
 
-_Tell your client that their webapp is a "connected" one, always **automatically** reflecting the current state, for all users! (When online, that is.)_
+_Tell your client that their webapp is a "connected" one, always **automatically** reflecting the current state, for all users - like Google Docs! (When online, that is.)
+(**buzzwords**: "realtime apps")_
 
 ...
 
@@ -278,7 +281,8 @@ _Tell your client that their webapp's theme is highly customizable and switching
 ...
 
 ### v0.7: Client-side content rendering with [React][react]
-In progress ...
+[React][react] has the world record of going from an obscure, experimental (WTF) framework - to become the de-facto standard.
+This little application of React capabilities utilizes most of the features demonstrated in the [default tutorial](https://facebook.github.io/react/docs/tutorial.html).
 
 - [...]()
 
