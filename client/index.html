@@ -24,38 +24,114 @@
 
     <div id="content"></div>
 
+    <script>
+        <!-- Some build time properties -->
+        <!-- build:template
+        var appTitle = "<%= name %>",
+            appVersion = "<%= version %>",
+            appBuildTimestamp = "<%= timestamp %>";
+        /build -->
+
+        var appBuildConfiguration;
+        <!-- build:remove:prod -->
+        appBuildConfiguration = "development";
+        <!-- /build -->
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.25/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.25/browser.js"></script>
 
     <script type="text/babel">
-        var Header = React.createClass({
-                render: function () {
+        var Title = React.createClass({
+                render: function() {
+                    return (
+                        <section className="title">{this.props.appTitle}</section>
+                    );
+                }
+            }),
+
+            NetworkStatus = React.createClass({
+                updateNetworkStatus: function(event) {
+                    var online = navigator.onLine,
+                        condition = online ? "online" : "offline";
+
+                    console.log("React :: NetworkStatus component: Event:" + (!event ? "unknown" : event.type) + ", Status:" + condition);
+
+                    var el = this.refs.networkStatus;
+                    el.classList.remove("fadein-network-status-offline");
+                    el.classList.remove("fadeout-network-status-offline");
+                    el.classList.remove("fadein-network-status-online");
+                    el.classList.remove("fadeout-network-status-online");
+
+                    if(online) {
+                        if(event != null) {
+                            el.classList.add("fadeout-network-status-offline");
+                        }
+                        setTimeout(function() {
+                            if(event != null) {
+                                el.classList.remove("fadeout-network-status-offline");
+                            }
+                            el.classList.add("fadein-network-status-online");
+                        }, 1000);
+
+                    } else {
+                        if(event != null) {
+                            el.classList.add("fadeout-network-status-online");
+                        }
+                        setTimeout(function() {
+                            if(event != null) {
+                                el.classList.remove("fadeout-network-status-online");
+                            }
+                            el.classList.add("fadein-network-status-offline");
+                        }, 1000);
+                    }
+                },
+                componentDidMount: function() {
+                    console.log("React :: NetworkStatus component: mounted ...");
+                    window.addEventListener("load", function() {
+                        window.addEventListener("online", this.updateNetworkStatus);
+                        window.addEventListener("offline", this.updateNetworkStatus);
+                    });
+                    this.updateNetworkStatus();
+                },
+                render: function() {
+                    return (
+                        <span ref="networkStatus"></span>
+                    );
+                }
+            }),
+
+            StatusContainer = React.createClass({
+                render: function() {
+                    return (
+                        <section className="status-container">
+                            <section>
+                                <section className="network-status-container"></section>
+                                <section className="connection-status-container">
+                                    <span className="connected connection-count"></span>
+                                    </section>
+                                </section>
+                                <section>
+                                    <section className="network-status-container">
+                                        <NetworkStatus />
+                                    </section>
+                                <section className="connection-status-container">
+                                    <span className="connection-status"></span>
+                                </section>
+                            </section>
+                        </section>
+                    );
+                }
+            }),
+
+            Header = React.createClass({
+                render: function() {
                     return (
                         <header>
                             <section>
-                                <section className="title">
-                                    <!-- build:template
-                                    <%= name %>
-                                    /build -->
-                                </section>
-
-                                <section className="status-container">
-                                    <section>
-                                        <section className="network-status-container"></section>
-                                        <section className="connection-status-container">
-                                            <span className="connected connection-count"></span>
-                                        </section>
-                                    </section>
-                                    <section>
-                                        <section className="network-status-container">
-                                            <span className="network-status"></span>
-                                        </section>
-                                        <section className="connection-status-container">
-                                            <span className="connection-status"></span>
-                                        </section>
-                                    </section>
-                                </section>
+                                <Title appTitle={this.props.appTitle} />
+                                <StatusContainer />
                             </section>
                             <hr/>
                         </header>
@@ -64,44 +140,64 @@
             }),
 
             MainContentPlaceholder = React.createClass({
-                render: function () {
+                render: function() {
                     return (
                         <section className="watermark">some content ...</section>
                     );
                 }
             }),
 
-            Footer = React.createClass({
-                render: function () {
+            ApplicationLabel = React.createClass({
+                render: function() {
                     return (
-                        <footer>
-                            <hr/>
-                            <section>
-                               <!-- build:template
-                               <span><%= name %> v<%= version %></span>
-                               <span>built <%= timestamp %></span>
-                               /build -->
-                               <span className="development"></span>
-                            </section>
-                        </footer>
+                        <span>{this.props.appTitle}&nbsp;v{this.props.appVersion}</span>
                     );
                 }
             }),
 
-            Content = React.createClass({
-                render: function () {
+            ApplicationBuiltLabel = React.createClass({
+                render: function() {
                     return (
-                        <article className="page">
-                            <Header />
-                            <MainContentPlaceholder />
-                            <Footer />
-                        </article>
+                        <span>built&nbsp;{this.props.appBuildTimestamp}</span>
+                    );
+                }
+            }),
+
+            DevelopmentLabel = React.createClass({
+                render: function() {
+                    if (this.props.appBuildConfiguration === "development") {
+                        return (
+                            <span className="development">Development configuration</span>
+                        );
+                    } else {
+                        return (
+                            <span></span>
+                        );
+                    }
+                }
+            }),
+
+            Footer = React.createClass({
+                render: function() {
+                    return (
+                        <footer>
+                            <hr/>
+                            <section>
+                                <ApplicationLabel appTitle={this.props.appTitle} appVersion={this.props.appVersion} />
+                                <ApplicationBuiltLabel appBuildTimestamp={this.props.appBuildTimestamp} />
+                                <DevelopmentLabel appBuildConfiguration={this.props.appBuildConfiguration} />
+                            </section>
+                        </footer>
                     );
                 }
             });
 
         ReactDOM.render(
-            <Content />,
+            <article className="page">
+                <Header appTitle={appTitle} />
+                <MainContentPlaceholder />
+                <Footer appTitle={appTitle} appVersion={appVersion} appBuildTimestamp={appBuildTimestamp} appBuildConfiguration={appBuildConfiguration} />
+            </article>,
             document.getElementById("content")
         );
     </script>
@@ -121,26 +217,7 @@
     <script src="scripts/vendor/socket.io.js"></script>
     <script src="scripts/app-socketio.js"></script>
     <!-- /HTTP server push (with Socket.IO) -->
-    <script src="scripts/app-network.js"></script>
     <!-- /build -->
-
-    <script>
-        // Do not try to manipulate elements before React has rendered them
-        document.onreadystatechange =
-            function() {
-                switch(document.readyState) {
-                    case "complete":
-                        console.log("Document :: Event:readyState=complete (The document and all sub-resources have finished loading) ...");
-                        updateNetworkStatus();
-                        <!-- build:remove:prod -->
-                        Array.prototype.forEach.call(document.getElementsByClassName("development"), function(el) {
-                            el.innerHTML = "Development configuration";
-                        });
-                        <!-- /build -->
-                    break;
-                }
-        };
-    </script>
 
     <!-- build:remove:prod -->
     <!-- Automatic reload of page, default URL for 'grunt-contrib-watch' reload server -->

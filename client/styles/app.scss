@@ -42,8 +42,8 @@ header > {
 }
 
 .page {
-    @extend %full-height;
     @extend %flex-column-container;
+    @extend %full-height;
 }
 
 footer > {
