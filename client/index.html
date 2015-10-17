@@ -17,8 +17,10 @@
 </head>
 <body>
     <!--[if lt IE 10]>
-    <p class="browsehappy">You are using an <strong>outdated</strong> browser.
-    Please <a href="http://browsehappy.com">upgrade your browser</a> to improve your experience.</p>
+    <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser.
+        Please <a href="http://browsehappy.com">upgrade your browser</a> to improve your experience.
+    </p>
     <hr/>
     <![endif]-->
 
@@ -36,10 +38,11 @@
         <!-- build:template
         var appTitle = "<%= name %>",
             appVersion = "<%= version %>",
-            appBuildTimestamp = "<%= timestamp %>";
+            appBuildTimestamp = "<%= timestamp %>",
+            upgradeMessage = "A newer version of <%= name %> is available! Load it?",
+            appBuildConfiguration = "production";
         /build -->
 
-        var appBuildConfiguration;
         <!-- build:remove:prod -->
         appBuildConfiguration = "development";
         <!-- /build -->
@@ -50,7 +53,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.25/browser.js"></script>
 
     <script type="text/babel">
-        var Title = React.createClass({
+        var AppCacheUpdateReady = React.createClass({
+                componentDidMount: function() {
+                    console.log("React :: AppCacheUpdateReady component: mounted ... (enabled=" + this.props.enabled + ", upgradeMessage=" + this.props.upgradeMessage + ")");
+                    var appCache = window.applicationCache,
+                        upgradeMessage = this.props.upgradeMessage;
+                    if (appCache) {
+                        window.addEventListener("load", function() {
+                            appCache.addEventListener("updateready", function() {
+                                if (appCache.status === appCache.UPDATEREADY) {
+                                    if (window.confirm(upgradeMessage)) {
+                                        window.location.reload();
+                                    }
+                                }
+                            }, false);
+                        }, false);
+                    }
+                },
+                render: function() {
+                    console.log("React :: AppCacheUpdateReady component: rendering ...");
+                    return false;
+                }
+            }),
+
+            Title = React.createClass({
                 render: function() {
                     return (
                         <section className="title">{this.props.appTitle}</section>
@@ -198,6 +224,7 @@
 
         ReactDOM.render(
             <article className="page">
+                <AppCacheUpdateReady enabled={appBuildConfiguration === "production"} upgradeMessage={upgradeMessage} />
                 <Header appTitle={appTitle} />
                 <MainContentPlaceholder />
                 <Footer appTitle={appTitle} appVersion={appVersion} appBuildTimestamp={appBuildTimestamp} appBuildConfiguration={appBuildConfiguration} />
@@ -205,12 +232,6 @@
             document.getElementById("content")
         );
     </script>
-
-    <!-- build:template
-    <script>
-        var upgradeMessage = 'A newer version of <%= name %> is available! Load it?';
-    </script>
-    /build -->
 
     <!-- build:remove:dev -->
     <script src="scripts/app.min.js"></script>

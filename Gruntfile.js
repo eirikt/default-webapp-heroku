@@ -191,7 +191,6 @@ module.exports = function(grunt) {
                 files: {
                     'public/scripts/app.min.js': [
                         'build/client/scripts/vendor/socket.io.js',
-                        'build/client/scripts/app-appcache.js',
                         'build/client/scripts/app-network.js',
                         'build/client/scripts/app-socketio.js'
                     ]
