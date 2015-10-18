@@ -94,6 +94,14 @@ footer > {
     font-weight: bold;
 }
 
+.fadein {
+    @include fadein($fading-duration);
+}
+
+.fadeout {
+    @include fadeout($fading-duration);
+}
+
 @mixin eased-network-status-online($fading-direction) {
     @include led-green($led-size);
     animation: $fading-direction $fading-duration;

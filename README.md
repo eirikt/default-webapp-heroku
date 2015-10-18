@@ -286,6 +286,10 @@ This little application of React capabilities utilizes most of the features demo
 
 - [...]()
 
+...
+
+### <span style="color:lightgrey">v0.8 Testing ...</span>
+
 
 
 [appcache]: https://developer.mozilla.org/en-US/docs/Web/HTML/Using_the_application_cache

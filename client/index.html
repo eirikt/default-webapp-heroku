@@ -36,11 +36,11 @@
     <script>
         <!-- Some build time properties -->
         <!-- build:template
-        var appTitle = "<%= name %>",
-            appVersion = "<%= version %>",
-            appBuildTimestamp = "<%= timestamp %>",
-            upgradeMessage = "A newer version of <%= name %> is available! Load it?",
-            appBuildConfiguration = "production";
+        var appTitle = "<%= name %>";
+        var appVersion = "<%= version %>";
+        var appBuildTimestamp = "<%= timestamp %>";
+        var upgradeMessage = "A newer version of <%= name %> is available! Load it?";
+        var appBuildConfiguration = "production";
         /build -->
 
         <!-- build:remove:prod -->
@@ -54,6 +54,10 @@
 
     <script type="text/babel">
         var AppCacheUpdateReady = React.createClass({
+                render: function() {
+                    console.log("React :: AppCacheUpdateReady component: rendering ...");
+                    return false;
+                },
                 componentDidMount: function() {
                     console.log("React :: AppCacheUpdateReady component: mounted ... (enabled=" + this.props.enabled + ", upgradeMessage=" + this.props.upgradeMessage + ")");
                     var appCache = window.applicationCache,
@@ -69,10 +73,6 @@
                             }, false);
                         }, false);
                     }
-                },
-                render: function() {
-                    console.log("React :: AppCacheUpdateReady component: rendering ...");
-                    return false;
                 }
             }),
 
@@ -97,42 +97,151 @@
                     el.classList.remove("fadein-network-status-online");
                     el.classList.remove("fadeout-network-status-online");
 
-                    if(online) {
-                        if(event != null) {
+                    if (online) {
+                        if (event != null) {
                             el.classList.add("fadeout-network-status-offline");
                         }
                         setTimeout(function() {
-                            if(event != null) {
+                            if (event != null) {
                                 el.classList.remove("fadeout-network-status-offline");
                             }
                             el.classList.add("fadein-network-status-online");
                         }, 1000);
 
                     } else {
-                        if(event != null) {
+                        if (event != null) {
                             el.classList.add("fadeout-network-status-online");
                         }
                         setTimeout(function() {
-                            if(event != null) {
+                            if (event != null) {
                                 el.classList.remove("fadeout-network-status-online");
                             }
                             el.classList.add("fadein-network-status-offline");
                         }, 1000);
                     }
                 },
-                componentDidMount: function() {
-                    console.log("React :: NetworkStatus component: mounted ...");
-                    window.addEventListener("load", function() {
-                        window.addEventListener("online", this.updateNetworkStatus);
-                        window.addEventListener("offline", this.updateNetworkStatus);
-                    });
-                    this.updateNetworkStatus();
-                },
                 render: function() {
+                    console.log("React :: NetworkStatus component: rendering ...");
                     return (
                         <span ref="networkStatus"></span>
                     );
+                },
+                componentDidMount: function() {
+                    console.log("React :: NetworkStatus component: mounted ...");
+                    window.addEventListener("online", this.updateNetworkStatus, false);
+                    window.addEventListener("offline", this.updateNetworkStatus, false);
+                    this.updateNetworkStatus();
+                },
+                componentWillUnmount: function() {
+                    console.log("React :: NetworkStatus component: unmounted ...");
+                    window.removeEventListener("online", function() {
+                        console.log("React :: ConnectionStatus component: \"online\" event listener removed ...");
+                    }, false);
+                    window.removeEventListener("offline", function() {
+                        console.log("React :: ConnectionStatus component: \"offline\" event listener removed ...");
+                    }, false);
                 }
+            }),
+
+            ConnectionStatus = React.createClass({
+                removeAllFadingClasses: function(el) {
+                    el.classList.remove("fadein-connection-status-disconnected");
+                    el.classList.remove("fadeout-connection-status-disconnected");
+                    el.classList.remove("fadein-connection-status-connected");
+                    el.classList.remove("fadeout-connection-status-connected");
+                },
+                fadeinConnection: function() {
+                    var el = this.refs.connectionStatus;
+                    this.removeAllFadingClasses(el);
+                    if (window.connected === false) {
+                        el.classList.add("fadeout-connection-status-disconnected");
+                        setTimeout(function() {
+                            el.classList.remove("fadeout-connection-status-disconnected");
+                            el.classList.add("fadein-connection-status-connected");
+                        }, 1000);
+                    } else {
+                        el.classList.add("fadein-connection-status-connected");
+                    }
+                    Array.prototype.forEach.call(document.getElementsByClassName("connected"), function(el) {
+                        el.classList.remove("fadeout");
+                        el.classList.add("fadein");
+                        setTimeout(function() {
+                            el.removeAttribute("hidden");
+                        }, 1000);
+                    });
+                },
+                fadeoutConnection: function() {
+                    var el = this.refs.connectionStatus;
+                    this.removeAllFadingClasses(el);
+                    if (window.connected === true) {
+                        el.classList.add("fadeout-connection-status-connected");
+                        setTimeout(function() {
+                            el.classList.remove("fadeout-connection-status-connected");
+                            el.classList.add("fadein-connection-status-disconnected");
+                        }, 1000);
+                    } else {
+                        el.classList.add("fadein-connection-status-disconnected");
+                    }
+                    Array.prototype.forEach.call(document.getElementsByClassName("connected"), function(el) {
+                        el.classList.remove("fadein");
+                        el.classList.add("fadeout");
+                        setTimeout(function() {
+                            el.setAttribute("hidden", "true");
+                            el.classList.remove("fadeout");
+                        }, 1000);
+                    });
+                },
+                render: function() {
+                    console.log("React :: ConnectionStatus component: rendering ...");
+                    return (
+                        <span ref="connectionStatus"></span>
+                    );
+                },
+                componentDidMount: function() {
+                    console.log("React :: ConnectionStatus component: mounted ...");
+                    window.addEventListener("connected", this.fadeinConnection, false);
+                    window.addEventListener("disconnected", this.fadeoutConnection, false);
+                    window.addEventListener("connection-failed", this.fadeoutConnection, false);
+                    window.addEventListener("connection-error", this.fadeoutConnection, false);
+                },
+                componentWillUnmount: function() {
+                    console.log("React :: ConnectionStatus component: unmounted ...");
+                    window.removeEventListener("connected", function() {
+                        console.log("React :: ConnectionStatus component: \"connected\" event listener removed ...");
+                    }, false);
+                    window.removeEventListener("disconnected", function() {
+                        console.log("React :: ConnectionStatus component: \"disconnected\" event listener removed ...");
+                    }, false);
+                    window.removeEventListener("connection-failed", function() {
+                        console.log("React :: ConnectionStatus component: \"connection-failed\" event listener removed ...");
+                    }, false);
+                    window.removeEventListener("connection-error", function() {
+                        console.log("React :: ConnectionStatus component: \"connection-error\" event listener removed ...");
+                    }, false);
+                },
+            }),
+
+            ConnectionCount = React.createClass({
+                render: function() {
+                    console.log("React :: ConnectionCount component: rendering ...");
+                    return (
+                        <span ref="connectionCount" className="connected connection-count"></span>
+                    );
+                },
+                componentDidMount: function() {
+                    console.log("React :: ConnectionCount component: mounted ...");
+                    var el = this.refs.connectionCount;
+                    window.addEventListener("connection-count", function(event) {
+                        console.log("React :: ConnectionCount component: CONNECTIONCOUNT received ... (" + JSON.stringify(event.detail) + ")");
+                        el.classList.add("fadein");
+                        if (window.connectionCount === 1) {
+                            el.innerText = "You're the only user connected ...";
+                        } else {
+                            el.innerText = window.connectionCount + " active connections";
+                        }
+                        el.classList.remove("fadeout");
+                    }, false);
+                },
             }),
 
             StatusContainer = React.createClass({
@@ -141,17 +250,11 @@
                         <section className="status-container">
                             <section>
                                 <section className="network-status-container"></section>
-                                <section className="connection-status-container">
-                                    <span className="connected connection-count"></span>
-                                    </section>
-                                </section>
-                                <section>
-                                    <section className="network-status-container">
-                                        <NetworkStatus />
-                                    </section>
-                                <section className="connection-status-container">
-                                    <span className="connection-status"></span>
-                                </section>
+                                <section className="connection-status-container"><ConnectionCount /></section>
+                            </section>
+                            <section>
+                                <section className="network-status-container"><NetworkStatus /></section>
+                                <section className="connection-status-container"><ConnectionStatus /></section>
                             </section>
                         </section>
                     );
@@ -241,7 +344,6 @@
     <!-- HTTP server push (with Socket.IO) -->
     <script src="scripts/vendor/socket.io.js"></script>
     <script src="scripts/app-socketio.js"></script>
-    <!-- /HTTP server push (with Socket.IO) -->
     <!-- /build -->
 
     <!-- build:remove:prod -->
