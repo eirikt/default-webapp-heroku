@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
     'use strict';
 
+    grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
@@ -76,7 +77,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'client',
-                    src: ['favicon.ico', 'images/*', 'scripts/*'],
+                    src: ['favicon.ico', 'images/*', 'scripts/app-socketio.js'],
                     dest: 'build/client'
                 }, {
                     expand: true,
@@ -186,13 +187,25 @@ module.exports = function(grunt) {
             all: ['Gruntfile.js', 'server/scripts/*.js']
         },
 
+        browserify: {
+            build: {
+                options: {
+                    transform: ['babelify']
+                },
+                files: {
+                    'build/client/scripts/app.js': ['client/scripts/app.jsx']
+                }
+            }
+        },
+
         uglify: {
             prod: {
                 files: {
                     'public/scripts/app.min.js': [
                         'build/client/scripts/vendor/socket.io.js',
                         'build/client/scripts/app-network.js',
-                        'build/client/scripts/app-socketio.js'
+                        'build/client/scripts/app-socketio.js',
+                        'build/client/scripts/app.js'
                     ]
                 }
             }
@@ -208,6 +221,7 @@ module.exports = function(grunt) {
                     'Gruntfile.js',
                     'client/index.html',
                     'client/**/*.js',
+                    'client/**/*.jsx',
                     'client/**/*.scss'
                 ],
                 tasks: ['build:dev']
@@ -229,9 +243,10 @@ module.exports = function(grunt) {
     grunt.registerTask('compile:css:prod', ['compile:css:dev', 'cssnano']);
 
     grunt.registerTask('js:lint', ['jshint']);
+    grunt.registerTask('compile:js', ['browserify']);
 
-    grunt.registerTask('build:dev', ['copy:build', 'compile:html:dev', 'compile:css:dev']);
-    grunt.registerTask('build:prod', ['css:lint', 'js:lint', 'copy:build', 'compile:html:prod', 'compile:css:prod', 'uglify', 'copy:public']);
+    grunt.registerTask('build:dev', ['copy:build', 'compile:html:dev', 'compile:css:dev', 'compile:js']);
+    grunt.registerTask('build:prod', ['css:lint', 'js:lint', 'copy:build', 'compile:html:prod', 'compile:css:prod', 'compile:js', 'uglify', 'copy:public']);
     grunt.registerTask('build:travis', ['build:prod']);
 
     //grunt.registerTask('watch:client'); // supported directly by plugin
