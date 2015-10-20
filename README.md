@@ -81,7 +81,7 @@ I use [Atom][atom], the hackable text editor.
 
    If on Windows, first set the production environment variable.
    ```
-   $env:NODE_ENV=production
+   $env:NODE_ENV='production'
    ```
    or in `cmd`.
    ```
@@ -288,7 +288,7 @@ This little application of React capabilities utilizes most of the features demo
 
 ...
 
-### <span style="color:lightgrey">v0.8 Testing ...</span>
+### v0.8: Testing ...
 
 
 

@@ -11,7 +11,7 @@ $primary-vertical-margin: 1rem;
 $primary-horizontal-margin: $primary-vertical-margin / 2;
 
 $led-size: $small-font-size - 4;
-$fading-duration: 1s;
+$fading-duration: 1000ms;
 
 %flex-row-container {
     display: flex;
@@ -107,7 +107,7 @@ footer > {
     animation: $fading-direction $fading-duration;
 
     &::after {
-        @include pseudo-led-description('online');
+        @include led-description('online');
         animation: $fading-direction $fading-duration;
     }
 }
@@ -117,7 +117,7 @@ footer > {
     animation: $fading-direction $fading-duration;
 
     &::after {
-        @include pseudo-led-description('offline');
+        @include led-description('offline');
         animation: $fading-direction $fading-duration;
     }
 }
@@ -127,7 +127,7 @@ footer > {
     animation: $fading-direction $fading-duration;
 
     &::after {
-        @include pseudo-led-description('connected');
+        @include led-description('connected');
         animation: $fading-direction $fading-duration;
     }
 }
@@ -137,7 +137,7 @@ footer > {
     animation: $fading-direction $fading-duration;
 
     &::after {
-        @include pseudo-led-description('disconnected');
+        @include led-description('disconnected');
         animation: $fading-direction $fading-duration;
     }
 }

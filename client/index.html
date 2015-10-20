@@ -36,23 +36,17 @@
     <script>
         <!-- Some build time properties -->
         <!-- build:template
-        var appTitle = "<%= name %>";
-        var appVersion = "<%= version %>";
-        var appBuildTimestamp = "<%= timestamp %>";
-        var upgradeMessage = "A newer version of <%= name %> is available! Load it?";
-        var appBuildConfiguration = "production";
+        var appTitle = "<%= name %>",
+            appVersion = "<%= version %>",
+            appBuildTimestamp = "<%= timestamp %>",
+            upgradeMessage = "A newer version of <%= name %> is available! Load it?",
+            appBuildConfiguration = "production";
         /build -->
 
         <!-- build:remove:prod -->
         appBuildConfiguration = "development";
         <!-- /build -->
     </script>
-
-    <!-- build:remove:prod -->
-    <!-- HTTP server push (with Socket.IO) -->
-    <script src="scripts/vendor/socket.io.js"></script>
-    <script src="scripts/app-socketio.js"></script>
-    <!-- /build -->
 
     <!-- build:[src]:prod scripts/app.min.js -->
     <script src="scripts/app.js"></script>

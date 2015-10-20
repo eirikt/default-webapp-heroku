@@ -35,8 +35,8 @@ module.exports = function(grunt) {
                     'ECHO Essential Grunt tasks are:',
                     'ECHO.',
                     'ECHO    grunt clean             Removes all built stuff',
-                    'ECHO    grunt js:lint           Runs JSHint',
-                    'ECHO    grunt css:lint          Runs SCSS Lint',
+                    'ECHO    grunt lint:js           Runs JSHint',
+                    'ECHO    grunt lint:css          Runs SCSS Lint',
                     'ECHO.',
                     'ECHO    grunt build:dev         Builds the web application',
                     'ECHO    grunt build:prod        Builds the web application for production environment',
@@ -77,13 +77,8 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'client',
-                    src: ['favicon.ico', 'images/*', 'scripts/app-socketio.js'],
+                    src: ['favicon.ico', 'images/*'],
                     dest: 'build/client'
-                }, {
-                    expand: true,
-                    cwd: 'node_modules/socket.io/node_modules/socket.io-client',
-                    src: ['socket.io.js'],
-                    dest: 'build/client/scripts/vendor'
                 }]
             },
             public: {
@@ -98,6 +93,91 @@ module.exports = function(grunt) {
                     src: ['favicon.ico', 'images/*'],
                     dest: 'public'
                 }]
+            }
+        },
+
+        scsslint: {
+            options: {
+                config: '.scss-lint.yml'
+            },
+            build: 'client/styles/**/*.scss'
+        },
+
+        sass: {
+            options: {
+                sourcemap: 'none'
+            },
+            build: {
+                files: {
+                    'build/client/styles/app.css': 'client/styles/app.scss'
+                }
+            }
+        },
+
+        postcss: {
+            options: {
+                syntax: require('postcss-scss'),
+                parser: require('postcss-safe-parser'),
+                processors: [
+                    require('autoprefixer')({
+                        browsers: ['last 2 version']
+                    }) // Deactivated, trouble when deploying on Node.js 4.1.2 ...
+                    //require('postcss-colorblind')({
+                    //    // See: https://github.com/btholt/postcss-colorblind
+                    //    method: 'Achromatomaly'
+                    //})
+                ]
+            },
+            build: {
+                src: 'build/client/styles/app.css'
+            }
+        },
+
+        cssnano: {
+            prod: {
+                files: {
+                    'public/styles/app.min.css': 'build/client/styles/app.css'
+                }
+            }
+        },
+
+        jshint: {
+            options: {
+                jshintrc: true,
+                reporter: 'checkstyle'
+            },
+            all: [
+                'Gruntfile.js',
+                'client/scripts/**/*.js',
+                'server/scripts/**/*.js'
+            ]
+        },
+
+        browserify: {
+            build: {
+                options: {
+                    transform: ['babelify']
+                    //['babelify', {
+                    //    loose: 'all'
+                    //}]
+                },
+                files: {
+                    'build/client/scripts/app.js': [
+                        'client/scripts/app-socketio.js',
+                        'client/scripts/app.jsx'
+                    ]
+                }
+            }
+        },
+
+        uglify: {
+            prod: {
+                files: {
+                    'public/scripts/app.min.js': [
+                        'build/client/scripts/vendor/socket.io.js',
+                        'build/client/scripts/app.js'
+                    ]
+                }
             }
         },
 
@@ -134,83 +214,6 @@ module.exports = function(grunt) {
             }
         },
 
-        scsslint: {
-            options: {
-                config: '.scss-lint.yml'
-            },
-            build: 'client/styles/*.scss'
-        },
-
-        sass: {
-            options: {
-                sourcemap: 'none'
-            },
-            build: {
-                files: {
-                    'build/client/styles/app.css': 'client/styles/app.scss'
-                }
-            }
-        },
-
-        postcss: {
-            options: {
-                syntax: require('postcss-scss'),
-                parser: require('postcss-safe-parser'),
-                processors: [
-                    require('autoprefixer')({
-                        browsers: ['last 2 version']
-                    })//, Deactivated, trouble when deploying on Node.js 4.1.2 ...
-                    //require('postcss-colorblind')({
-                    //    // See: https://github.com/btholt/postcss-colorblind
-                    //    method: 'Achromatomaly'
-                    //})
-                ]
-            },
-            build: {
-                src: 'build/client/styles/app.css'
-            }
-        },
-
-        cssnano: {
-            prod: {
-                files: {
-                    'public/styles/app.min.css': 'build/client/styles/app.css'
-                }
-            }
-        },
-
-        jshint: {
-            options: {
-                jshintrc: true,
-                reporter: 'checkstyle'
-            },
-            all: ['Gruntfile.js', 'server/scripts/*.js']
-        },
-
-        browserify: {
-            build: {
-                options: {
-                    transform: ['babelify']
-                },
-                files: {
-                    'build/client/scripts/app.js': ['client/scripts/app.jsx']
-                }
-            }
-        },
-
-        uglify: {
-            prod: {
-                files: {
-                    'public/scripts/app.min.js': [
-                        'build/client/scripts/vendor/socket.io.js',
-                        'build/client/scripts/app-network.js',
-                        'build/client/scripts/app-socketio.js',
-                        'build/client/scripts/app.js'
-                    ]
-                }
-            }
-        },
-
         watch: {
             client: {
                 options: {
@@ -235,18 +238,18 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('compile:html:dev', ['processhtml:dev']);
-    grunt.registerTask('compile:html:prod', ['processhtml:prod', 'htmlmin:prod']);
-
-    grunt.registerTask('css:lint', ['scsslint']);
+    grunt.registerTask('lint:css', ['scsslint']);
     grunt.registerTask('compile:css:dev', ['sass', 'postcss']);
     grunt.registerTask('compile:css:prod', ['compile:css:dev', 'cssnano']);
 
-    grunt.registerTask('js:lint', ['jshint']);
+    grunt.registerTask('lint:js', ['jshint']);
     grunt.registerTask('compile:js', ['browserify']);
 
-    grunt.registerTask('build:dev', ['copy:build', 'compile:html:dev', 'compile:css:dev', 'compile:js']);
-    grunt.registerTask('build:prod', ['css:lint', 'js:lint', 'copy:build', 'compile:html:prod', 'compile:css:prod', 'compile:js', 'uglify', 'copy:public']);
+    grunt.registerTask('compile:html:dev', ['processhtml:dev']);
+    grunt.registerTask('compile:html:prod', ['processhtml:prod', 'htmlmin:prod']);
+
+    grunt.registerTask('build:dev', ['copy:build', 'compile:css:dev', 'compile:js', 'compile:html:dev']);
+    grunt.registerTask('build:prod', ['lint:css', 'lint:js', 'copy:build', 'compile:css:prod', 'compile:js', 'lint:js', 'uglify', 'compile:html:prod', 'copy:public']);
     grunt.registerTask('build:travis', ['build:prod']);
 
     //grunt.registerTask('watch:client'); // supported directly by plugin

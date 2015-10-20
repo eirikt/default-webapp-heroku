@@ -123,7 +123,7 @@ var React = require('react'),
             } else {
                 el.classList.add('fadein-connection-status-connected');
             }
-            Array.prototype.forEach.call(document.getElementsByClassName('connected'), function(el) {
+            Array.prototype.forEach.call(document.getElementsByClassName('connected-only'), function(el) {
                 el.classList.remove('fadeout');
                 el.classList.add('fadein');
                 setTimeout(function() {
@@ -143,7 +143,7 @@ var React = require('react'),
             } else {
                 el.classList.add('fadein-connection-status-disconnected');
             }
-            Array.prototype.forEach.call(document.getElementsByClassName('connected'), function(el) {
+            Array.prototype.forEach.call(document.getElementsByClassName('connected-only'), function(el) {
                 el.classList.remove('fadein');
                 el.classList.add('fadeout');
                 setTimeout(function() {
@@ -186,7 +186,7 @@ var React = require('react'),
         render: function() {
             console.log('React :: ConnectionCount component: rendering ...');
             return (
-                <span className='connected connection-count' ref='connectionCount'></span>
+                <span className='connected-only connection-count' ref='connectionCount'></span>
             );
         },
         componentDidMount: function() {
@@ -194,13 +194,18 @@ var React = require('react'),
             var el = this.refs.connectionCount;
             window.addEventListener('connection-count', function(event) {
                 console.log('React :: ConnectionCount component: CONNECTIONCOUNT received ... (' + JSON.stringify(event.detail) + ')');
-                el.classList.add('fadein');
-                if (window.connectionCount === 1) {
-                    el.innerText = 'You\'re the only user connected ...';
-                } else {
-                    el.innerText = window.connectionCount + ' active connections';
-                }
-                el.classList.remove('fadeout');
+                var connectionCount = event.detail['connection-count'];
+                el.classList.remove('fadein');
+                el.classList.add('fadeout');
+                setTimeout(function() {
+                    if (connectionCount === 1) {
+                        el.innerText = 'You\'re the only user connected ...';
+                    } else {
+                        el.innerText = connectionCount + ' active connections';
+                    }
+                    el.classList.remove('fadeout');
+                    el.classList.add('fadein');
+                }, 1000);
             }, false);
         }
     }),

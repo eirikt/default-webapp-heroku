@@ -18,7 +18,7 @@ $darkgrey: #808080;
     transform: translateY(3px);
 }
 
-@mixin pseudo-led-description($description) {
+@mixin led-description($description) {
     position: absolute;
     padding-left: 0.8rem;
     transform: translateY(-3.5px);
