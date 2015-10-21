@@ -164,6 +164,7 @@ module.exports = function(grunt) {
                 files: {
                     'build/client/scripts/app.js': [
                         'client/scripts/app-socketio.js',
+                        'client/scripts/title.jsx',
                         'client/scripts/app.jsx'
                     ]
                 }

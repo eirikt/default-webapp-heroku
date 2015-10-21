@@ -1,5 +1,6 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
+    Title = require('./title.jsx'),
 
 // UI Component structure:
 // -------------------------------
@@ -34,14 +35,6 @@ var React = require('react'),
                     }
                 }, false);
             }
-        }
-    }),
-
-    Title = React.createClass({
-        render: function() {
-            return (
-                <section className='title'>{this.props.appTitle}</section>
-            );
         }
     }),
 
@@ -238,7 +231,7 @@ var React = require('react'),
             return (
                 <header>
                     <section>
-                        <Title appTitle={this.props.appTitle}/>
+                        <Title title={this.props.appTitle}/>
                         <StatusContainer/>
                     </section>
                     <hr/>
