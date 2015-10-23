@@ -160,6 +160,9 @@ module.exports = function(grunt) {
                         [
                             'babelify', {
                                 whitelist: [
+                                    'es6.blockScoping',
+                                    'es6.classes',
+                                    'es6.constants',
                                     'es6.modules',
                                     'react'
                                 ]
