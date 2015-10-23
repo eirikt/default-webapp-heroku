@@ -156,10 +156,16 @@ module.exports = function(grunt) {
         browserify: {
             build: {
                 options: {
-                    transform: ['babelify']
-                    //['babelify', {
-                    //    loose: 'all'
-                    //}]
+                    transform: [
+                        [
+                            'babelify', {
+                                whitelist: [
+                                    'es6.modules',
+                                    'react'
+                                ]
+                            }
+                        ]
+                    ]
                 },
                 files: {
                     'build/client/scripts/app.js': [

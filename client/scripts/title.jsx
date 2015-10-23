@@ -1,11 +1,11 @@
-var React = require('react'),
+import React from 'react';
 
     /*
      * Title component, expecting:
      *   'title' property
      *   'title' section style class
      */
-    Title = React.createClass({
+var Title = React.createClass({
         render: function() {
             return (
                 <section className='title'>{this.props.title}</section>
@@ -13,4 +13,4 @@ var React = require('react'),
         }
     });
 
-module.exports = Title;
+export default Title;
