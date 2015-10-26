@@ -19,6 +19,15 @@
     window.CustomEvent = CustomEvent;
 })();
 
+//
+// CommonJS-compliant layer of indirection between (general) Socket.IO HTTP server push events and (custom) application client events
+// Possible client events emitted are:
+//   'connected'
+//   'disconnected'
+//   'connection-failed'
+//   'connection-error'
+//   'connection-count({connection-count})
+//
 var connected = null,
     socket = require('../../node_modules/socket.io/node_modules/socket.io-client/socket.io')(),
     //socket = require('socket.io-client')(), // Also works, but require an additional 'package.json' dependency ...
