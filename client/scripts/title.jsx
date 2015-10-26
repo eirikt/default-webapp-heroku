@@ -5,8 +5,8 @@ import React from 'react';
  *   'title' property
  *   'title' style class (for section element)
  */
-var Title = (props) => (
-    <section className='title'>{props.title}</section>
- );
+var Title = ({title}) => (
+    <section className='title'>{title}</section>
+);
 
 export default Title;

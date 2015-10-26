@@ -164,6 +164,7 @@ module.exports = function(grunt) {
                                     'es6.blockScoping',
                                     'es6.classes',
                                     'es6.constants',
+                                    'es6.destructuring',
                                     'es6.modules',
                                     'react'
                                 ]
