@@ -10,6 +10,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-cssnano');
+    grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-postcss');
     grunt.loadNpmTasks('grunt-processhtml');
@@ -35,7 +36,7 @@ module.exports = function(grunt) {
                     'ECHO Essential Grunt tasks are:',
                     'ECHO.',
                     'ECHO    grunt clean             Removes all built stuff',
-                    'ECHO    grunt lint:js           Runs JSHint',
+                    'ECHO    grunt lint:js           Runs JSHint and ESLint',
                     'ECHO    grunt lint:css          Runs SCSS Lint',
                     'ECHO.',
                     'ECHO    grunt build:dev         Builds the web application',
@@ -153,6 +154,34 @@ module.exports = function(grunt) {
             ]
         },
 
+        eslint: {
+            client: {
+                options: {
+                    configFile: '.eslintrc-client.json'
+                },
+                src: [
+                    'Gruntfile.js',
+                    'client/scripts/**/*.jsx',
+                    'client/scripts/**/*.js'
+                ]
+            },
+            server: {
+                options: {
+                    configFile: '.eslintrc-server.json'
+                },
+                src: [
+                    'server/scripts/**/*.js'
+                ]
+            }//,
+            // Not feasable (mostly due to browserify) ... put the effort on testing/specifications
+            //'client-build': {
+            //    options: {
+            //        configFile: '.eslintrc-client-transpiled.json'
+            //    },
+            //    src: ['build/client/scripts/app.js']
+            //},
+        },
+
         browserify: {
             build: {
                 options: {
@@ -254,7 +283,7 @@ module.exports = function(grunt) {
     grunt.registerTask('compile:css:dev', ['sass', 'postcss']);
     grunt.registerTask('compile:css:prod', ['compile:css:dev', 'cssnano']);
 
-    grunt.registerTask('lint:js', ['jshint']);
+    grunt.registerTask('lint:js', ['jshint', 'eslint']);
     grunt.registerTask('compile:js', ['browserify']);
 
     grunt.registerTask('compile:html:dev', ['processhtml:dev']);
