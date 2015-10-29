@@ -1,6 +1,17 @@
-var React = require('react'),
-    ReactDOM = require('react-dom'),
-    Title = require('./title.jsx'),
+/* global require, window, navigator, document, console, setTimeout */
+
+/* eslint-disable no-console */
+/* eslint-disable no-mixed-requires */
+/* eslint-disable no-alert */
+
+/* eslint complexity: [1, 1] */
+/* eslint newline-after-var: 1 */
+
+const React = require('react');
+const ReactDOM = require('react-dom');
+const Title = require('./title.jsx');
+
+const fadingDuration = 1000;
 
 // UI Component structure:
 // -------------------------------
@@ -17,278 +28,280 @@ var React = require('react'),
 //         DevelopmentLabel
 // -------------------------------
 
-    AppCacheUpdateReady = React.createClass({
-        render: function() {
-            console.log('React :: AppCacheUpdateReady component: rendering ...');
-            return false;
-        },
-        componentDidMount: function() {
-            console.log('React :: AppCacheUpdateReady component: mounted ... (enabled=' + this.props.enabled + ', upgradeMessage=' + this.props.upgradeMessage + ')');
-            var appCache = window.applicationCache,
-                upgradeMessage = this.props.upgradeMessage;
-            if (appCache) {
-                appCache.addEventListener('updateready', function() {
-                    if (appCache.status === appCache.UPDATEREADY) {
-                        if (window.confirm(upgradeMessage)) {
-                            window.location.reload();
-                        }
+const AppCacheUpdateReady = React.createClass({
+    render: function() {
+        console.log('React :: AppCacheUpdateReady component: rendering ...');
+        return false;
+    },
+    componentDidMount: function() {
+        const appCache = window.applicationCache;
+        const upgradeMessage = this.props.upgradeMessage;
+
+        console.log('React :: AppCacheUpdateReady component: mounted ... (enabled=' + this.props.enabled + ', upgradeMessage=' + this.props.upgradeMessage + ')');
+
+        if (appCache) {
+            appCache.addEventListener('updateready', () => {
+                if (appCache.status === appCache.UPDATEREADY) {
+                    if (window.confirm(upgradeMessage)) {
+                        window.location.reload();
                     }
-                }, false);
-            }
-        }
-    }),
-
-    NetworkStatus = React.createClass({
-        updateNetworkStatus: function(event) {
-            var online = navigator.onLine,
-                condition = online ? 'online' : 'offline';
-
-            console.log('React :: NetworkStatus component: Event:' + (!event ? 'unknown' : event.type) + ', Status:' + condition);
-
-            var el = this.refs.networkStatus;
-            el.classList.remove('fadein-network-status-offline');
-            el.classList.remove('fadeout-network-status-offline');
-            el.classList.remove('fadein-network-status-online');
-            el.classList.remove('fadeout-network-status-online');
-
-            if (online) {
-                if (event != null) {
-                    el.classList.add('fadeout-network-status-offline');
                 }
-                setTimeout(function() {
-                    if (event != null) {
-                        el.classList.remove('fadeout-network-status-offline');
-                    }
-                    el.classList.add('fadein-network-status-online');
-                }, 1000);
-
-            } else {
-                if (event != null) {
-                    el.classList.add('fadeout-network-status-online');
-                }
-                setTimeout(function() {
-                    if (event != null) {
-                        el.classList.remove('fadeout-network-status-online');
-                    }
-                    el.classList.add('fadein-network-status-offline');
-                }, 1000);
-            }
-        },
-        render: function() {
-            console.log('React :: NetworkStatus component: rendering ...');
-            return (
-                <span ref='networkStatus'></span>
-            );
-        },
-        componentDidMount: function() {
-            console.log('React :: NetworkStatus component: mounted ...');
-            window.addEventListener('online', this.updateNetworkStatus, false);
-            window.addEventListener('offline', this.updateNetworkStatus, false);
-            this.updateNetworkStatus();
-        },
-        componentWillUnmount: function() {
-            console.log('React :: NetworkStatus component: unmounted ...');
-            window.removeEventListener('online', function() {
-                console.log('React :: ConnectionStatus component: \'online\' event listener removed ...');
-            }, false);
-            window.removeEventListener('offline', function() {
-                console.log('React :: ConnectionStatus component: \'offline\' event listener removed ...');
             }, false);
         }
-    }),
+    }
+});
 
-    ConnectionStatus = React.createClass({
-        removeAllFadingClasses: function(el) {
-            el.classList.remove('fadein-connection-status-disconnected');
-            el.classList.remove('fadeout-connection-status-disconnected');
-            el.classList.remove('fadein-connection-status-connected');
-            el.classList.remove('fadeout-connection-status-connected');
-        },
-        fadeinConnection: function() {
-            var el = this.refs.connectionStatus;
-            this.removeAllFadingClasses(el);
-            if (window.connected === false) {
-                el.classList.add('fadeout-connection-status-disconnected');
-                setTimeout(function() {
-                    el.classList.remove('fadeout-connection-status-disconnected');
-                    el.classList.add('fadein-connection-status-connected');
-                }, 1000);
-            } else {
+const NetworkStatus = React.createClass({
+    updateNetworkStatus: function(event) {
+        const online = navigator.onLine;
+        const condition = online ? 'online' : 'offline';
+        const el = this.refs.networkStatus;
+
+        console.log('React :: NetworkStatus component: Event:' + (event ? event.type : 'unknown') + ', Status:' + condition);
+
+        el.classList.remove('fadein-network-status-offline');
+        el.classList.remove('fadeout-network-status-offline');
+        el.classList.remove('fadein-network-status-online');
+        el.classList.remove('fadeout-network-status-online');
+
+        if (online) {
+            if (event) {
+                el.classList.add('fadeout-network-status-offline');
+            }
+            setTimeout(() => {
+                if (event) {
+                    el.classList.remove('fadeout-network-status-offline');
+                }
+                el.classList.add('fadein-network-status-online');
+            }, fadingDuration);
+
+        } else {
+            if (event) {
+                el.classList.add('fadeout-network-status-online');
+            }
+            setTimeout(() => {
+                if (event) {
+                    el.classList.remove('fadeout-network-status-online');
+                }
+                el.classList.add('fadein-network-status-offline');
+            }, fadingDuration);
+        }
+    },
+    render: function() {
+        console.log('React :: NetworkStatus component: rendering ...');
+        return (
+            <span ref='networkStatus'></span>
+        );
+    },
+    componentDidMount: function() {
+        console.log('React :: NetworkStatus component: mounted ...');
+        window.addEventListener('online', this.updateNetworkStatus, false);
+        window.addEventListener('offline', this.updateNetworkStatus, false);
+        this.updateNetworkStatus();
+    },
+    componentWillUnmount: function() {
+        console.log('React :: NetworkStatus component: unmounted ...');
+        window.removeEventListener('online', () => {
+            console.log('React :: ConnectionStatus component: \'online\' event listener removed ...');
+        }, false);
+        window.removeEventListener('offline', () => {
+            console.log('React :: ConnectionStatus component: \'offline\' event listener removed ...');
+        }, false);
+    }
+});
+
+const ConnectionStatus = React.createClass({
+    removeAllFadingClasses: function(el) {
+        el.classList.remove('fadein-connection-status-disconnected');
+        el.classList.remove('fadeout-connection-status-disconnected');
+        el.classList.remove('fadein-connection-status-connected');
+        el.classList.remove('fadeout-connection-status-connected');
+    },
+    fadeinConnection: function() {
+        const el = this.refs.connectionStatus;
+        this.removeAllFadingClasses(el);
+        if (window.connected === false) {
+            el.classList.add('fadeout-connection-status-disconnected');
+            setTimeout(() => {
+                el.classList.remove('fadeout-connection-status-disconnected');
                 el.classList.add('fadein-connection-status-connected');
-            }
-            Array.prototype.forEach.call(document.getElementsByClassName('connected-only'), function(el) {
+            }, fadingDuration);
+        } else {
+            el.classList.add('fadein-connection-status-connected');
+        }
+        Array.prototype.forEach.call(document.getElementsByClassName('connected-only'), (connectedOnlyElements) => {
+            connectedOnlyElements.classList.remove('fadeout');
+            connectedOnlyElements.classList.add('fadein');
+            setTimeout(() => {
+                connectedOnlyElements.removeAttribute('hidden');
+            }, fadingDuration);
+        });
+    },
+    fadeoutConnection: function() {
+        const el = this.refs.connectionStatus;
+        this.removeAllFadingClasses(el);
+        if (window.connected === true) {
+            el.classList.add('fadeout-connection-status-connected');
+            setTimeout(() => {
+                el.classList.remove('fadeout-connection-status-connected');
+                el.classList.add('fadein-connection-status-disconnected');
+            }, fadingDuration);
+        } else {
+            el.classList.add('fadein-connection-status-disconnected');
+        }
+        Array.prototype.forEach.call(document.getElementsByClassName('connected-only'), (connectedOnlyElements) => {
+            connectedOnlyElements.classList.remove('fadein');
+            connectedOnlyElements.classList.add('fadeout');
+            setTimeout(() => {
+                connectedOnlyElements.setAttribute('hidden', 'true');
+                connectedOnlyElements.classList.remove('fadeout');
+            }, fadingDuration);
+        });
+    },
+    render: function() {
+        console.log('React :: ConnectionStatus component: rendering ...');
+        return (
+            <span ref='connectionStatus'></span>
+        );
+    },
+    componentDidMount: function() {
+        console.log('React :: ConnectionStatus component: mounted ...');
+        window.addEventListener('connected', this.fadeinConnection, false);
+        window.addEventListener('disconnected', this.fadeoutConnection, false);
+        window.addEventListener('connection-failed', this.fadeoutConnection, false);
+        window.addEventListener('connection-error', this.fadeoutConnection, false);
+    },
+    componentWillUnmount: function() {
+        console.log('React :: ConnectionStatus component: unmounted ...');
+        window.removeEventListener('connected', () => {
+            console.log('React :: ConnectionStatus component: \'connected\' event listener removed ...');
+        }, false);
+        window.removeEventListener('disconnected', () => {
+            console.log('React :: ConnectionStatus component: \'disconnected\' event listener removed ...');
+        }, false);
+        window.removeEventListener('connection-failed', () => {
+            console.log('React :: ConnectionStatus component: \'connection-failed\' event listener removed ...');
+        }, false);
+        window.removeEventListener('connection-error', () => {
+            console.log('React :: ConnectionStatus component: \'connection-error\' event listener removed ...');
+        }, false);
+    }
+});
+
+const ConnectionCount = React.createClass({
+    render: function() {
+        console.log('React :: ConnectionCount component: rendering ...');
+        return (
+            <span className='connected-only connection-count' ref='connectionCount'></span>
+        );
+    },
+    componentDidMount: function() {
+        console.log('React :: ConnectionCount component: mounted ...');
+        const el = this.refs.connectionCount;
+        window.addEventListener('connection-count', (event) => {
+            const connectionCount = event.detail['connection-count'];
+            console.log('React :: ConnectionCount component: CONNECTIONCOUNT received ... (' + JSON.stringify(event.detail) + ')');
+            el.classList.remove('fadein');
+            el.classList.add('fadeout');
+            setTimeout(() => {
+                if (connectionCount === 1) {
+                    el.innerText = 'You\'re the only user connected ...';
+                } else {
+                    el.innerText = connectionCount + ' active connections';
+                }
                 el.classList.remove('fadeout');
                 el.classList.add('fadein');
-                setTimeout(function() {
-                    el.removeAttribute('hidden');
-                }, 1000);
-            });
-        },
-        fadeoutConnection: function() {
-            var el = this.refs.connectionStatus;
-            this.removeAllFadingClasses(el);
-            if (window.connected === true) {
-                el.classList.add('fadeout-connection-status-connected');
-                setTimeout(function() {
-                    el.classList.remove('fadeout-connection-status-connected');
-                    el.classList.add('fadein-connection-status-disconnected');
-                }, 1000);
-            } else {
-                el.classList.add('fadein-connection-status-disconnected');
-            }
-            Array.prototype.forEach.call(document.getElementsByClassName('connected-only'), function(el) {
-                el.classList.remove('fadein');
-                el.classList.add('fadeout');
-                setTimeout(function() {
-                    el.setAttribute('hidden', 'true');
-                    el.classList.remove('fadeout');
-                }, 1000);
-            });
-        },
-        render: function() {
-            console.log('React :: ConnectionStatus component: rendering ...');
-            return (
-                <span ref='connectionStatus'></span>
-            );
-        },
-        componentDidMount: function() {
-            console.log('React :: ConnectionStatus component: mounted ...');
-            window.addEventListener('connected', this.fadeinConnection, false);
-            window.addEventListener('disconnected', this.fadeoutConnection, false);
-            window.addEventListener('connection-failed', this.fadeoutConnection, false);
-            window.addEventListener('connection-error', this.fadeoutConnection, false);
-        },
-        componentWillUnmount: function() {
-            console.log('React :: ConnectionStatus component: unmounted ...');
-            window.removeEventListener('connected', function() {
-                console.log('React :: ConnectionStatus component: \'connected\' event listener removed ...');
-            }, false);
-            window.removeEventListener('disconnected', function() {
-                console.log('React :: ConnectionStatus component: \'disconnected\' event listener removed ...');
-            }, false);
-            window.removeEventListener('connection-failed', function() {
-                console.log('React :: ConnectionStatus component: \'connection-failed\' event listener removed ...');
-            }, false);
-            window.removeEventListener('connection-error', function() {
-                console.log('React :: ConnectionStatus component: \'connection-error\' event listener removed ...');
-            }, false);
-        }
-    }),
+            }, fadingDuration);
+        }, false);
+    }
+});
 
-    ConnectionCount = React.createClass({
-        render: function() {
-            console.log('React :: ConnectionCount component: rendering ...');
-            return (
-                <span className='connected-only connection-count' ref='connectionCount'></span>
-            );
-        },
-        componentDidMount: function() {
-            console.log('React :: ConnectionCount component: mounted ...');
-            var el = this.refs.connectionCount;
-            window.addEventListener('connection-count', function(event) {
-                console.log('React :: ConnectionCount component: CONNECTIONCOUNT received ... (' + JSON.stringify(event.detail) + ')');
-                var connectionCount = event.detail['connection-count'];
-                el.classList.remove('fadein');
-                el.classList.add('fadeout');
-                setTimeout(function() {
-                    if (connectionCount === 1) {
-                        el.innerText = 'You\'re the only user connected ...';
-                    } else {
-                        el.innerText = connectionCount + ' active connections';
-                    }
-                    el.classList.remove('fadeout');
-                    el.classList.add('fadein');
-                }, 1000);
-            }, false);
-        }
-    }),
-
-    StatusContainer = React.createClass({
-        render: function() {
-            return (
-                <section className='status-container'>
-                    <section>
-                        <section className='network-status-container'></section>
-                        <section className='connection-status-container'>
-                            <ConnectionCount/>
-                        </section>
-                    </section>
-                    <section>
-                        <section className='network-status-container'>
-                            <NetworkStatus/>
-                        </section>
-                        <section className='connection-status-container'>
-                            <ConnectionStatus/>
-                        </section>
+const StatusContainer = React.createClass({
+    render: function() {
+        return (
+            <section className='status-container'>
+                <section>
+                    <section className='network-status-container'></section>
+                    <section className='connection-status-container'>
+                        <ConnectionCount/>
                     </section>
                 </section>
-            );
-        }
-    }),
-
-    Header = React.createClass({
-        render: function() {
-            return (
-                <header>
-                    <section>
-                        <Title title={this.props.appTitle}/>
-                        <StatusContainer/>
+                <section>
+                    <section className='network-status-container'>
+                        <NetworkStatus/>
                     </section>
-                    <hr/>
-                </header>
-            );
-        }
-    }),
-
-    MainContentPlaceholder = React.createClass({
-        render: function() {
-            return (
-                <section className='watermark'>some content ...</section>
-            );
-        }
-    }),
-
-    ApplicationLabel = React.createClass({
-        render: function() {
-            return (
-                <span>{this.props.appTitle}&nbsp;v{this.props.appVersion}</span>
-            );
-        }
-    }),
-
-    ApplicationBuiltLabel = React.createClass({
-        render: function() {
-            return (
-                <span>built&nbsp;{this.props.appBuildTimestamp}</span>
-            );
-        }
-    }),
-
-    DevelopmentLabel = React.createClass({
-        render: function() {
-            if (this.props.appBuildConfiguration === 'development') {
-                return (
-                    <span className='development'>Development configuration</span>
-                );
-            }
-            return false;
-        }
-    }),
-
-    Footer = React.createClass({
-        render: function() {
-            return (
-                <footer>
-                    <hr/>
-                    <section>
-                        <ApplicationLabel appTitle={this.props.appTitle} appVersion={this.props.appVersion}/>
-                        <ApplicationBuiltLabel appBuildTimestamp={this.props.appBuildTimestamp}/>
-                        <DevelopmentLabel appBuildConfiguration={this.props.appBuildConfiguration}/>
+                    <section className='connection-status-container'>
+                        <ConnectionStatus/>
                     </section>
-                </footer>
+                </section>
+            </section>
+        );
+    }
+});
+
+const Header = React.createClass({
+    render: function() {
+        return (
+            <header>
+                <section>
+                    <Title title={this.props.appTitle}/>
+                    <StatusContainer/>
+                </section>
+                <hr/>
+            </header>
+        );
+    }
+});
+
+const MainContentPlaceholder = React.createClass({
+    render: function() {
+        return (
+            <section className='watermark'>some content ...</section>
+        );
+    }
+});
+
+const ApplicationLabel = React.createClass({
+    render: function() {
+        return (
+            <span>{this.props.appTitle}&nbsp;v{this.props.appVersion}</span>
+        );
+    }
+});
+
+const ApplicationBuiltLabel = React.createClass({
+    render: function() {
+        return (
+            <span>built&nbsp;{this.props.appBuildTimestamp}</span>
+        );
+    }
+});
+
+const DevelopmentLabel = React.createClass({
+    render: function() {
+        if (this.props.appBuildConfiguration === 'development') {
+            return (
+                <span className='development'>Development configuration</span>
             );
         }
-    });
+        return false;
+    }
+});
+
+const Footer = React.createClass({
+    render: function() {
+        return (
+            <footer>
+                <hr/>
+                <section>
+                    <ApplicationLabel appTitle={this.props.appTitle} appVersion={this.props.appVersion}/>
+                    <ApplicationBuiltLabel appBuildTimestamp={this.props.appBuildTimestamp}/>
+                    <DevelopmentLabel appBuildConfiguration={this.props.appBuildConfiguration}/>
+                </section>
+            </footer>
+        );
+    }
+});
 
 ReactDOM.render(
     <article className='page'>
