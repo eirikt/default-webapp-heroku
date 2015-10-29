@@ -1,6 +1,9 @@
-module.exports = function(grunt) {
-    'use strict';
+/* global module, require */
 
+/* eslint-disable global-require */
+/* eslint-disable spaced-comment */
+
+module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -115,6 +118,7 @@ module.exports = function(grunt) {
             }
         },
 
+        /* eslint-disable no-inline-comments */
         postcss: {
             options: {
                 syntax: require('postcss-scss'),
