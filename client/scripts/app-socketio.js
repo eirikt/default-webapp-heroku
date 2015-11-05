@@ -37,7 +37,7 @@
 //   'connection-error'
 //   'connection-count({connection-count})
 //
-const socket = require('../../node_modules/socket.io/node_modules/socket.io-client/socket.io')();
+const socket = require('../../node_modules/socket.io-client/socket.io')();
 //const socket = require('socket.io-client')(); // Also works, but require an additional 'package.json' dependency ...
 
 const trigger = (eventName) => {
