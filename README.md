@@ -44,7 +44,7 @@ CD default-webapp-heroku
    (This task has a somewhat Windows-specific implementation ...)
 
 ## Develop
-1. Open a couple of terminals
+1. Open some terminal windows
 
 1. Start the server-side code monitoring (blocking command)
    ```
@@ -52,14 +52,25 @@ CD default-webapp-heroku
    ```
 
 1. Start the client-side code monitoring (blocking command)
+
+   Step 1: Analysis (local static code analysis)
    ```
-   grunt watch:client
+   grunt watch:client1
+   ```
+
+1. Start the client-side code monitoring (blocking command)
+
+   Step 2: Build (triggered by completed analysis tasks)
+   ```
+   grunt watch:client2
    ```
 
 1. Navigate to [http://localhost:8000]()
 
 Depending on your editors auto-save configuration (and capabilities), you should now just be able to code away with instant feedback.
 I use [Atom][atom], the hackable text editor.
+
+These three steps could be easily scripted, but I leave that as an exercise to the reader ;-)
 
 ## Deploy locally
 1. If watchers are running, kill them!

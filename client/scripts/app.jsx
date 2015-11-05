@@ -288,6 +288,20 @@ const DevelopmentLabel = React.createClass({
     }
 });
 
+const ESLintStatus = ({ errors, warnings }) => (
+    <section>
+        <span className='error-badge'>
+            <span>JS errors</span>
+            <span className='pill'>{ errors }</span>
+        </span>
+        <span>&nbsp;</span>
+        <span className='warning-badge'>
+            <span>JS warnings</span>
+            <span className='pill'>{ warnings }</span>
+        </span>
+    </section>
+);
+
 const Footer = React.createClass({
     render: function() {
         return (
@@ -297,6 +311,9 @@ const Footer = React.createClass({
                     <ApplicationLabel appTitle={this.props.appTitle} appVersion={this.props.appVersion}/>
                     <ApplicationBuiltLabel appBuildTimestamp={this.props.appBuildTimestamp}/>
                     <DevelopmentLabel appBuildConfiguration={this.props.appBuildConfiguration}/>
+                </section>
+                <section>
+                    <ESLintStatus errors={this.props.eslintErrors} warnings={this.props.eslintWarnings}/>
                 </section>
             </footer>
         );
@@ -308,7 +325,7 @@ ReactDOM.render(
         <AppCacheUpdateReady enabled={window.appBuildConfiguration === 'production'} upgradeMessage={window.upgradeMessage}/>
         <Header appTitle={window.appTitle}/>
         <MainContentPlaceholder/>
-        <Footer appBuildConfiguration={window.appBuildConfiguration} appBuildTimestamp={window.appBuildTimestamp} appTitle={window.appTitle} appVersion={window.appVersion}/>
+        <Footer appBuildConfiguration={window.appBuildConfiguration} appBuildTimestamp={window.appBuildTimestamp} appTitle={window.appTitle} appVersion={window.appVersion} eslintErrors={window.eslintErrors} eslintWarnings={window.eslintWarnings}/>
     </article>,
     document.getElementById('content')
 );

@@ -169,6 +169,18 @@ module.exports = function(grunt) {
                     'client/scripts/**/*.js'
                 ]
             },
+            'client-dump': {
+                options: {
+                    configFile: '.eslintrc-client.json',
+                    format: require('eslint-json'),
+                    outputFile: './build/analysis/eslint-client-dump.json'
+                },
+                src: [
+                    'Gruntfile.js',
+                    'client/scripts/**/*.jsx',
+                    'client/scripts/**/*.js'
+                ]
+            },
             server: {
                 options: {
                     configFile: '.eslintrc-server.json'
@@ -176,7 +188,7 @@ module.exports = function(grunt) {
                 src: [
                     'server/scripts/**/*.js'
                 ]
-            }//,
+            } //,
             // Not feasable (mostly due to browserify) ... put the effort on testing/specifications
             //'client-build': {
             //    options: {
@@ -232,7 +244,30 @@ module.exports = function(grunt) {
                     id: '<%= pkg.name %>',
                     name: '<%= pkg.description %>',
                     version: '<%= pkg.version %>',
-                    timestamp: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+                    timestamp: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+                    eslintErrors: (function() {
+                        var jsonfile = require('jsonfile'),
+                            eslintResultsExist = grunt.file.exists('./build/analysis/eslint-results.json'),
+                            eslintResults;
+                        if (eslintResultsExist) {
+                            eslintResults = jsonfile.readFileSync('./build/analysis/eslint-results.json');
+                            return eslintResults[0].data.errors;
+                        } else {
+                            return '(unknown)';
+                        }
+                    }()),
+                    eslintWarnings: (function() {
+                        var jsonfile = require('jsonfile'),
+                            eslintResultsExist = grunt.file.exists('./build/analysis/eslint-results.json'),
+                            eslintResults;
+                        if (eslintResultsExist) {
+                            eslintResults = jsonfile.readFileSync('./build/analysis/eslint-results.json');
+                            return eslintResults[0].data.warnings;
+                        } else {
+                            return '(unknown)';
+                        }
+                    }())
+
                 }
             },
             dev: {
@@ -260,10 +295,10 @@ module.exports = function(grunt) {
         },
 
         watch: {
-            client: {
+            'client-step1-analysis': {
                 options: {
                     atBegin: true,
-                    livereload: true
+                    livereload: false
                 },
                 files: [
                     'Gruntfile.js',
@@ -271,6 +306,16 @@ module.exports = function(grunt) {
                     'client/**/*.js',
                     'client/**/*.jsx',
                     'client/**/*.scss'
+                ],
+                tasks: ['build:analysis']
+            },
+            'client-step2-build': {
+                options: {
+                    atBegin: true,
+                    livereload: true
+                },
+                files: [
+                    'build/analysis/eslint-results.json'
                 ],
                 tasks: ['build:dev']
             }
@@ -283,21 +328,68 @@ module.exports = function(grunt) {
         }
     });
 
+
+    // Grunt task for (temporarily) disable/enable forced continuation of execution
+    grunt.registerTask('force', function(set) {
+        if (set === 'on') {
+            grunt.option('force', true);
+        } else {
+            grunt.option('force', false);
+        }
+    });
+
+    // Grunt task for ...
+    grunt.registerTask('eslint:export', 'Extracting interesting data out of ESLint dump.', function() {
+        var jsonfile = require('jsonfile'),
+            project = grunt.file.readJSON('package.json'),
+            eslintDump = grunt.file.readJSON('./build/analysis/eslint-client-dump.json'),
+            eslintResultFile = './build/analysis/eslint-results.json',
+            eslintResultFileContent,
+            currentEslintResult = {
+                project: project.name,
+                type: 'ESLint (static analysis: application client source code)',
+                timestamp: new Date().toJSON(),
+                data: {
+                    errors: 0,
+                    warnings: 0
+                }
+            };
+        if (grunt.file.exists(eslintResultFile)) {
+            grunt.log.writeln('eslintResultFile EXISTS!');
+            eslintResultFileContent = jsonfile.readFileSync(eslintResultFile);
+
+        } else {
+            grunt.log.writeln('eslintResultFile DOES NOT EXIST!');
+            eslintResultFileContent = [];
+        }
+        grunt.log.writeln('eslintResultFileContent.length: ' + eslintResultFileContent.length);
+        eslintDump.results.forEach(function(fileResult/*, index, array*/) {
+            currentEslintResult.data.errors += fileResult.errorCount;
+            currentEslintResult.data.warnings += fileResult.warningCount;
+        });
+        eslintResultFileContent.unshift(currentEslintResult);
+        jsonfile.writeFileSync(eslintResultFile, eslintResultFileContent, { spaces: 4 });
+        grunt.log.write('ESLint errors and warnings extracted... ').ok();
+    });
+
+
     grunt.registerTask('lint:css', ['scsslint']);
     grunt.registerTask('compile:css:dev', ['sass', 'postcss']);
     grunt.registerTask('compile:css:prod', ['compile:css:dev', 'cssnano']);
 
-    grunt.registerTask('lint:js', ['jshint', 'eslint']);
+    grunt.registerTask('lint:js', ['jshint', 'eslint:client', 'eslint:server']);
     grunt.registerTask('compile:js', ['browserify']);
 
     grunt.registerTask('compile:html:dev', ['processhtml:dev']);
     grunt.registerTask('compile:html:prod', ['processhtml:prod', 'htmlmin:prod']);
 
+    grunt.registerTask('build:analysis', ['force:on', 'eslint:client-dump', 'force:off', 'eslint:export']);
     grunt.registerTask('build:dev', ['copy:build', 'compile:css:dev', 'compile:js', 'compile:html:dev']);
-    grunt.registerTask('build:prod', ['lint:css', 'lint:js', 'copy:build', 'compile:css:prod', 'compile:js', 'lint:js', 'uglify', 'compile:html:prod', 'copy:public']);
+    grunt.registerTask('build:prod', ['lint:css', /*'lint:js', */'copy:build', 'compile:css:prod', 'compile:js', 'uglify', 'compile:html:prod', 'copy:public']);
     grunt.registerTask('build:travis', ['build:prod']);
 
-    //grunt.registerTask('watch:client'); // supported directly by plugin
+    grunt.registerTask('watch:client1', ['watch:client-step1-analysis']);
+    grunt.registerTask('watch:client2', ['watch:client-step2-build']);
     grunt.registerTask('watch:server', ['nodemon:server']);
 
     grunt.registerTask('default', ['shell:help']);

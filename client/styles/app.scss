@@ -3,7 +3,9 @@
 @import 'led';
 @import 'fading-effects';
 
-$orange: #eb5e04;
+$black: #000;
+$white: #fff;
+$orange: #ffaa04;
 
 $small-font-size: 12px;
 
@@ -69,12 +71,12 @@ footer > {
 }
 
 .network-status-container {
-    display: flex;
+    @extend %flex-row-container;
     height: 1.5rem;
 }
 
 .connection-status-container {
-    display: flex;
+    @extend %flex-row-container;
 }
 
 .connection-count {
@@ -92,6 +94,34 @@ footer > {
 .development {
     color: $orange;
     font-weight: bold;
+}
+
+.pill {
+    margin-left: 0.2rem;
+    padding: 0.2rem;
+    border-radius: 50%;
+    background-color: $white;
+    color: $black;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+%badge {
+    padding: 0.55rem;
+    border-radius: 5px;
+    color: $white;
+    font-size: small;
+    font-style: normal;
+}
+
+.error-badge {
+    @extend %badge;
+    background-color: $red;
+}
+
+.warning-badge {
+    @extend %badge;
+    background-color: $orange;
 }
 
 .fadein {
