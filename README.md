@@ -8,11 +8,11 @@ The main objectives being:
 The web application is based on **_Node.js_** using [Express][express].
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-[![Build Status](https://travis-ci.org/eirikt/default-webapp-heroku.png?branch=master)](https://travis-ci.org/eirikt/default-webapp-heroku)
+[![Build Status](https://travis-ci.org/eirikt/default-webapp-heroku.png)](https://travis-ci.org/eirikt/default-webapp-heroku)
 &nbsp;&nbsp;
-[![Dependency Status](https://www.versioneye.com/user/projects/55f51d813ed894001e000376/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55f51d813ed894001e000376)
+[![Dependency Status](https://www.versioneye.com/user/projects/55f51d813ed894001e000376/badge.svg)](https://www.versioneye.com/user/projects/55f51d813ed894001e000376)
 &nbsp;&nbsp;
-[![Codacy Badge](https://api.codacy.com/project/badge/8454bc7b66e74cc4be1fa2d8b2a54394)](https://www.codacy.com/app/eiriktorske/default-webapp-heroku)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/8454bc7b66e74cc4be1fa2d8b2a54394)](https://www.codacy.com/app/eiriktorske/default-webapp-heroku)
 
 A live version is hosted on [Heroku][heroku], as [https://defaultwebapp.herokuapp.com](https://defaultwebapp.herokuapp.com).
 (It is a Heroku single-dyno setup - meaning that the response may take quite a few seconds if the server has to spin up for you ...)
@@ -248,7 +248,7 @@ The webapp is cached in its entirety on the client, making it independent on an 
 This avoids the risk of caching manifest files.
 This is already taken care of by [this](https://github.com/eirikt/default-webapp-heroku/commit/abcdfcab93961dceff8d29a1faae49a798313d42) commit (HTTP Header settings for no caching).
 - The Appcache is only active when using the `prod` build tasks.
-When developing, the Appcache is, and always should be - [deactivated](https://github.com/eirikt/default-webapp-heroku/commit/ab0731848132751966161f32922b78cdb59760b8)!
+When developing, the Appcache is, and always should be - [deactivated!](https://github.com/eirikt/default-webapp-heroku/commit/ab0731848132751966161f32922b78cdb59760b8)
 
 _Tell your client that their webapp works even without an Internet connection!
 (**buzzwords**: "offline first", "occasionally connected")_
@@ -265,7 +265,7 @@ Also, it is [argued](http://www.infoq.com/news/2012/02/websockets-rest) that thi
 My take on it is to use server push strictly as a supplement to HTTP, not replacing HTTP when it comes to service calls.
 
 _Tell your client that their webapp is a "connected" one, always **automatically** reflecting the current state, for all users - like Google Docs! (When online, that is.)
-(**buzzwords**: "realtime apps")_
+(**buzzwords**: "real-time apps")_
 
 ...
 
@@ -286,6 +286,7 @@ Also added are:
 - Using [PostCSS][postcss], for things like e.g.  [autoprefixing](https://github.com/eirikt/default-webapp-heroku/commit/f9119af2c3f8085948449d8488c3413529ca955e) (using [this][postcss-autoprefixer] tool), and [color blindness](https://github.com/eirikt/default-webapp-heroku/commit/0244b6c19c9141bfb706c82f4a9801f2e999c918) (using [this][postcss-colorblind] tool)
 - [Minifying CSS](https://github.com/eirikt/default-webapp-heroku/commit/b288d53c93a65f3f51adb00dce7b750e9ba4e48f) with [cssnano][cssnano]
 - [Using CSS instead of images](https://github.com/eirikt/default-webapp-heroku/commit/486134dd3978533354c51d07eda03bfb5d32cfdb) for the LEDs :-)
+- ["Fork me on GitHub" banner](https://github.com/eirikt/default-webapp-heroku/commit/5bb7997f4862f9324f0a3cd9051c9e952f159591) :-)
 
 _Tell your client that their webapp's theme is highly customizable and switching its "look-and-feel" is a swift and concise exercise!_
 
@@ -295,7 +296,14 @@ _Tell your client that their webapp's theme is highly customizable and switching
 [React][react] has the world record of going from an obscure, experimental (WTF) framework - to become the de-facto standard.
 This little application of React capabilities utilizes most of the features demonstrated in the [default tutorial](https://facebook.github.io/react/docs/tutorial.html).
 
-- [...]()
+- [React trick for no DOM rendering](https://github.com/eirikt/default-webapp-heroku/commit/fb6e4c94671c540984cc4ff61d35cffdc88b96b3)
+- [Transpiling JSX with Browserify and Babel](https://github.com/eirikt/default-webapp-heroku/commit/f40739f35bb3a80c606ec783124d48da9fa0805d)
+- [Inlined React component as CommonJS module](https://github.com/eirikt/default-webapp-heroku/commit/fd0ce297a0c8e4a49f6cba815f0bc248d0f3b9d0)
+- [ECMAScript 2015 with Babel (v5): Modules](https://github.com/eirikt/default-webapp-heroku/commit/1f41cc58299691fb78fd0ffc34961244b146c518)
+- [ECMAScript 2015 with Babel (v5): Classes](https://github.com/eirikt/default-webapp-heroku/commit/4ae177778985f72974b6249af09cedbf7c82f406)
+- [ECMAScript 2015 with Babel (v5): Arrow functions and React v0.14 stateless functional components](https://github.com/eirikt/default-webapp-heroku/commit/c8f091d459c21eeba5f067dd6cb5af1d6bf76ef8)
+- [ECMAScript 2015 with Babel (v5): Destructuring and an implicit return](https://github.com/eirikt/default-webapp-heroku/commit/67e4161eb104cda6be5598b57a0a2f99f944a9f0)
+- [ESLint status badges](https://github.com/eirikt/default-webapp-heroku/commit/a93c61b6632c251f69266b5ffb54ddfc3d8f9210)
 
 ...
 
