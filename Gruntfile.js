@@ -214,22 +214,14 @@ module.exports = function(grunt) {
                 options: {
                     transform: [
                         ['babelify', {
-                            whitelist: [
-                                'es6.arrowFunctions',
-                                'es6.blockScoping',
-                                'es6.classes',
-                                'es6.constants',
-                                'es6.destructuring',
-                                'es6.modules',
-                                'react'
-                            ]
+                            presets: ['es2015', 'react'],
+                            plugins: ['transform-es2015-modules-commonjs']
                         }]
                     ]
                 },
                 files: {
                     'build/client/scripts/app.js': [
                         'client/scripts/app-socketio.js',
-                        'client/scripts/title.jsx',
                         'client/scripts/app.jsx'
                     ]
                 }

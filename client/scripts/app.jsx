@@ -1,4 +1,4 @@
-/* global require, window, document, console, setTimeout */
+/* global window, document, console, setTimeout */
 
 /* eslint-disable no-console */
 /* eslint-disable no-mixed-requires */
@@ -7,16 +7,15 @@
 /* eslint complexity: [1, 1] */
 /* eslint newline-after-var: 1 */
 
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-const AppCacheUpdateReady = require('./appcache-updateready.jsx');
+import AppCacheUpdateReady from './appcache-updateready.jsx';
 
-const Title = require('./title.jsx');
-const NetworkStatus = require('./network-status.jsx');
+import Title from './title.jsx';
+import NetworkStatus from './network-status.jsx';
 
 const fadingDuration = 1000;
-
 
 // UI Component structure:
 // -------------------------------
