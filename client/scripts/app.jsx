@@ -1,4 +1,4 @@
-/* global require, window, navigator, document, console, setTimeout */
+/* global require, window, document, console, setTimeout */
 
 /* eslint-disable no-console */
 /* eslint-disable no-mixed-requires */
@@ -9,9 +9,14 @@
 
 const React = require('react');
 const ReactDOM = require('react-dom');
+
+const AppCacheUpdateReady = require('./appcache-updateready.jsx');
+
 const Title = require('./title.jsx');
+const NetworkStatus = require('./network-status.jsx');
 
 const fadingDuration = 1000;
+
 
 // UI Component structure:
 // -------------------------------
@@ -27,88 +32,6 @@ const fadingDuration = 1000;
 //         ApplicationBuiltLabel
 //         DevelopmentLabel
 // -------------------------------
-
-const AppCacheUpdateReady = React.createClass({
-    render: function() {
-        console.log('React :: AppCacheUpdateReady component: rendering ...');
-        return false;
-    },
-    componentDidMount: function() {
-        const appCache = window.applicationCache;
-        const upgradeMessage = this.props.upgradeMessage;
-
-        console.log('React :: AppCacheUpdateReady component: mounted ... (enabled=' + this.props.enabled + ', upgradeMessage=' + this.props.upgradeMessage + ')');
-
-        if (appCache) {
-            appCache.addEventListener('updateready', () => {
-                if (appCache.status === appCache.UPDATEREADY) {
-                    if (window.confirm(upgradeMessage)) {
-                        window.location.reload();
-                    }
-                }
-            }, false);
-        }
-    }
-});
-
-const NetworkStatus = React.createClass({
-    updateNetworkStatus: function(event) {
-        const online = navigator.onLine;
-        const condition = online ? 'online' : 'offline';
-        const el = this.refs.networkStatus;
-
-        console.log('React :: NetworkStatus component: Event:' + (event ? event.type : 'unknown') + ', Status:' + condition);
-
-        el.classList.remove('fadein-network-status-offline');
-        el.classList.remove('fadeout-network-status-offline');
-        el.classList.remove('fadein-network-status-online');
-        el.classList.remove('fadeout-network-status-online');
-
-        if (online) {
-            if (event) {
-                el.classList.add('fadeout-network-status-offline');
-            }
-            setTimeout(() => {
-                if (event) {
-                    el.classList.remove('fadeout-network-status-offline');
-                }
-                el.classList.add('fadein-network-status-online');
-            }, fadingDuration);
-
-        } else {
-            if (event) {
-                el.classList.add('fadeout-network-status-online');
-            }
-            setTimeout(() => {
-                if (event) {
-                    el.classList.remove('fadeout-network-status-online');
-                }
-                el.classList.add('fadein-network-status-offline');
-            }, fadingDuration);
-        }
-    },
-    render: function() {
-        console.log('React :: NetworkStatus component: rendering ...');
-        return (
-            <span ref='networkStatus'></span>
-        );
-    },
-    componentDidMount: function() {
-        console.log('React :: NetworkStatus component: mounted ...');
-        window.addEventListener('online', this.updateNetworkStatus, false);
-        window.addEventListener('offline', this.updateNetworkStatus, false);
-        this.updateNetworkStatus();
-    },
-    componentWillUnmount: function() {
-        console.log('React :: NetworkStatus component: unmounted ...');
-        window.removeEventListener('online', () => {
-            console.log('React :: ConnectionStatus component: \'online\' event listener removed ...');
-        }, false);
-        window.removeEventListener('offline', () => {
-            console.log('React :: ConnectionStatus component: \'offline\' event listener removed ...');
-        }, false);
-    }
-});
 
 const ConnectionStatus = React.createClass({
     removeAllFadingClasses: function(el) {
@@ -228,7 +151,7 @@ const StatusContainer = React.createClass({
                 </section>
                 <section>
                     <section className='network-status-container'>
-                        <NetworkStatus/>
+                        <NetworkStatus fadingDuration={fadingDuration}/>
                     </section>
                     <section className='connection-status-container'>
                         <ConnectionStatus/>
@@ -325,7 +248,9 @@ ReactDOM.render(
         <AppCacheUpdateReady enabled={window.appBuildConfiguration === 'production'} upgradeMessage={window.upgradeMessage}/>
         <Header appTitle={window.appTitle}/>
         <MainContentPlaceholder/>
-        <Footer appBuildConfiguration={window.appBuildConfiguration} appBuildTimestamp={window.appBuildTimestamp} appTitle={window.appTitle} appVersion={window.appVersion} eslintErrors={window.eslintErrors} eslintWarnings={window.eslintWarnings}/>
+        <Footer
+            appBuildConfiguration={window.appBuildConfiguration} appBuildTimestamp={window.appBuildTimestamp} appTitle={window.appTitle} appVersion={window.appVersion}
+            eslintErrors={window.eslintErrors} eslintWarnings={window.eslintWarnings}/>
     </article>,
     document.getElementById('content')
 );

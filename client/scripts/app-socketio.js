@@ -2,7 +2,7 @@
 
 /* eslint-disable no-console */
 
-/* eslint complexity: [1,1] */
+/* eslint complexity: [2, 2] */
 /* eslint newline-after-var: 1 */
 /* eslint no-inline-comments: 1 */
 /* eslint require-jsdoc: 1 */
@@ -49,7 +49,7 @@ const trigger = (eventName) => {
 
 const triggerCustomEvent = (eventName, details) => {
     const customEvent = new CustomEvent(eventName, {
-        'detail': details
+        detail: details
     });
     console.log('Socket.IO :: Dispatching \'' + eventName + '\'');
     window.dispatchEvent(customEvent);

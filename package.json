@@ -1,7 +1,7 @@
 {
     "name": "default-webapp-heroku",
     "description": "Default Webapp",
-    "version": "0.7.27",
+    "version": "0.7.28",
     "license": "MIT",
     "author": "Eirik Torske <eirik.torske@gmail.com>",
     "repository": {
@@ -17,7 +17,6 @@
         "babelify": "6.x",
         "eslint-json": "1.x",
         "eslint-plugin-react": "3.x",
-        "estraverse": "4.x",
         "grunt": "0.4.x",
         "grunt-browserify": "4.x",
         "grunt-cli": "0.1.x",
@@ -37,8 +36,8 @@
         "grunt-shell": "1.x",
         "jsonfile": "2.x",
 
-        "autoprefixer": "6.0.x",
-        "postcss-safe-parser": "1.0.x",
+        "autoprefixer": "6.x",
+        "postcss-safe-parser": "1.x",
         "postcss-scss": "0.1.x"
     },
     "scripts": {

@@ -58,22 +58,18 @@ module.exports = function(grunt) {
         },
 
         clean: {
-            build: {
-                src: [
-                    'build/client/scripts/vendor',
-                    'build/client/scripts',
-                    'build/client/styles',
-                    'build/client',
-                    'build'
-                ]
-            },
-            public: {
-                src: [
-                    'public/scripts',
-                    'public/styles',
-                    'public'
-                ]
-            }
+            build: [
+                'build/client/scripts/vendor',
+                'build/client/scripts',
+                'build/client/styles',
+                'build/client',
+                'build'
+            ],
+            public: [
+                'public/scripts',
+                'public/styles',
+                'public'
+            ]
         },
 
         copy: {
@@ -151,7 +147,7 @@ module.exports = function(grunt) {
                 jshintrc: true,
                 reporter: 'checkstyle'
             },
-            all: [
+            files: [
                 'Gruntfile.js',
                 'client/scripts/**/*.js',
                 'server/scripts/**/*.js'
@@ -159,7 +155,7 @@ module.exports = function(grunt) {
         },
 
         eslint: {
-            client: {
+            'client': {
                 options: {
                     configFile: '.eslintrc-client.json'
                 },
@@ -181,14 +177,6 @@ module.exports = function(grunt) {
                     'client/scripts/**/*.js'
                 ]
             },
-            server: {
-                options: {
-                    configFile: '.eslintrc-server.json'
-                },
-                src: [
-                    'server/scripts/**/*.js'
-                ]
-            } //,
             // Not feasable (mostly due to browserify) ... put the effort on testing/specifications
             //'client-build': {
             //    options: {
@@ -196,25 +184,46 @@ module.exports = function(grunt) {
             //    },
             //    src: ['build/client/scripts/app.js']
             //},
+            'server': {
+                options: {
+                    configFile: '.eslintrc-server.json'
+                },
+                src: [
+                    'server/scripts/**/*.js'
+                ]
+            },
+            'server-dump': {
+                options: {
+                    configFile: '.eslintrc-server.json',
+                    format: require('eslint-json'),
+                    outputFile: './build/analysis/eslint-server-dump.json'
+                },
+                src: ['server/scripts/**/*.js']
+            }//,
+            // Not feasable (mostly due to browserify) ... put the effort on testing/specifications
+            //'server-build': {
+            //    options: {
+            //        configFile: '.eslintrc-server-transpiled.json'
+            //    },
+            //    src: ['build/server/scripts/server.js']
+            //},
         },
 
         browserify: {
             build: {
                 options: {
                     transform: [
-                        [
-                            'babelify', {
-                                whitelist: [
-                                    'es6.arrowFunctions',
-                                    'es6.blockScoping',
-                                    'es6.classes',
-                                    'es6.constants',
-                                    'es6.destructuring',
-                                    'es6.modules',
-                                    'react'
-                                ]
-                            }
-                        ]
+                        ['babelify', {
+                            whitelist: [
+                                'es6.arrowFunctions',
+                                'es6.blockScoping',
+                                'es6.classes',
+                                'es6.constants',
+                                'es6.destructuring',
+                                'es6.modules',
+                                'react'
+                            ]
+                        }]
                     ]
                 },
                 files: {
@@ -228,6 +237,9 @@ module.exports = function(grunt) {
         },
 
         uglify: {
+            options: {
+                screwIE8: true
+            },
             prod: {
                 files: {
                     'public/scripts/app.min.js': [
@@ -238,6 +250,7 @@ module.exports = function(grunt) {
             }
         },
 
+        /* eslint-disable no-sync */
         processhtml: {
             options: {
                 data: {
@@ -246,26 +259,18 @@ module.exports = function(grunt) {
                     version: '<%= pkg.version %>',
                     timestamp: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
                     eslintErrors: (function() {
-                        var jsonfile = require('jsonfile'),
-                            eslintResultsExist = grunt.file.exists('./build/analysis/eslint-results.json'),
-                            eslintResults;
-                        if (eslintResultsExist) {
-                            eslintResults = jsonfile.readFileSync('./build/analysis/eslint-results.json');
-                            return eslintResults[0].data.errors;
-                        } else {
-                            return '(unknown)';
-                        }
+                        const jsonfile = require('jsonfile');
+                        const eslintResultsExist = grunt.file.exists('./build/analysis/eslint-results.json');
+                        const eslintResults = (eslintResultsExist) ? jsonfile.readFileSync('./build/analysis/eslint-results.json') : null;
+
+                        return (eslintResultsExist) ? eslintResults[0].data.errors : '(unknown)';
                     }()),
                     eslintWarnings: (function() {
-                        var jsonfile = require('jsonfile'),
-                            eslintResultsExist = grunt.file.exists('./build/analysis/eslint-results.json'),
-                            eslintResults;
-                        if (eslintResultsExist) {
-                            eslintResults = jsonfile.readFileSync('./build/analysis/eslint-results.json');
-                            return eslintResults[0].data.warnings;
-                        } else {
-                            return '(unknown)';
-                        }
+                        const jsonfile = require('jsonfile');
+                        const eslintResultsExist = grunt.file.exists('./build/analysis/eslint-results.json');
+                        const eslintResults = (eslintResultsExist) ? jsonfile.readFileSync('./build/analysis/eslint-results.json') : null;
+
+                        return (eslintResultsExist) ? eslintResults[0].data.warnings : '(unknown)';
                     }())
 
                 }
@@ -301,6 +306,12 @@ module.exports = function(grunt) {
                     livereload: false
                 },
                 files: [
+                    '!build',
+                    '!public',
+                    '.jshintra',
+                    '.eslintrs-client.json',
+                    '.eslintrs-server.json',
+                    '.scss-lint.yml',
                     'Gruntfile.js',
                     'client/index.html',
                     'client/**/*.js',
@@ -330,7 +341,8 @@ module.exports = function(grunt) {
 
 
     // Grunt task for (temporarily) disable/enable forced continuation of execution
-    grunt.registerTask('force', function(set) {
+    /* eslint complexity: [2, 2] */
+    grunt.registerTask('force', (set) => {
         if (set === 'on') {
             grunt.option('force', true);
         } else {
@@ -339,31 +351,38 @@ module.exports = function(grunt) {
     });
 
     // Grunt task for ...
-    grunt.registerTask('eslint:export', 'Extracting interesting data out of ESLint dump.', function() {
-        var jsonfile = require('jsonfile'),
-            project = grunt.file.readJSON('package.json'),
-            eslintDump = grunt.file.readJSON('./build/analysis/eslint-client-dump.json'),
-            eslintResultFile = './build/analysis/eslint-results.json',
-            eslintResultFileContent,
-            currentEslintResult = {
-                project: project.name,
-                type: 'ESLint (static analysis: application client source code)',
-                timestamp: new Date().toJSON(),
-                data: {
-                    errors: 0,
-                    warnings: 0
-                }
-            };
-        if (grunt.file.exists(eslintResultFile)) {
-            grunt.log.writeln('eslintResultFile EXISTS!');
-            eslintResultFileContent = jsonfile.readFileSync(eslintResultFile);
+    /* eslint-disable no-sync */
+    /* eslint complexity: [2, 3] */
+    grunt.registerTask('eslint:export', 'Extracting interesting data out of ESLint dumps', () => {
+        //'use strict';
+        const jsonfile = require('jsonfile');
+        const project = grunt.file.readJSON('package.json');
+        const eslintClientDump = grunt.file.readJSON('./build/analysis/eslint-client-dump.json');
+        const eslintServerDump = grunt.file.readJSON('./build/analysis/eslint-server-dump.json');
+        const eslintResultFile = './build/analysis/eslint-results.json';
+        const eslintResultFileContent = (grunt.file.exists(eslintResultFile)) ? jsonfile.readFileSync(eslintResultFile) : [];
+        const currentEslintResult = {
+            project: project.name,
+            type: 'ESLint (static analysis: application source code)',
+            timestamp: new Date().toJSON(),
+            data: {
+                errors: 0,
+                warnings: 0
+            }
+        };
 
+        if (grunt.file.exists(eslintResultFile)) {
+            grunt.log.debug('eslintResultFile EXISTS!');
         } else {
-            grunt.log.writeln('eslintResultFile DOES NOT EXIST!');
-            eslintResultFileContent = [];
+            grunt.log.debug('eslintResultFile DOES NOT EXIST!');
         }
-        grunt.log.writeln('eslintResultFileContent.length: ' + eslintResultFileContent.length);
-        eslintDump.results.forEach(function(fileResult/*, index, array*/) {
+        grunt.log.debug('eslintResultFileContent.length: ' + eslintResultFileContent.length);
+
+        eslintClientDump.results.forEach((fileResult/*, index, array*/) => {
+            currentEslintResult.data.errors += fileResult.errorCount;
+            currentEslintResult.data.warnings += fileResult.warningCount;
+        });
+        eslintServerDump.results.forEach((fileResult/*, index, array*/) => {
             currentEslintResult.data.errors += fileResult.errorCount;
             currentEslintResult.data.warnings += fileResult.warningCount;
         });
@@ -383,7 +402,7 @@ module.exports = function(grunt) {
     grunt.registerTask('compile:html:dev', ['processhtml:dev']);
     grunt.registerTask('compile:html:prod', ['processhtml:prod', 'htmlmin:prod']);
 
-    grunt.registerTask('build:analysis', ['force:on', 'eslint:client-dump', 'force:off', 'eslint:export']);
+    grunt.registerTask('build:analysis', ['force:on', 'eslint:client-dump', 'eslint:server-dump', 'force:off', 'eslint:export']);
     grunt.registerTask('build:dev', ['copy:build', 'compile:css:dev', 'compile:js', 'compile:html:dev']);
     grunt.registerTask('build:prod', ['lint:css', /*'lint:js', */'copy:build', 'compile:css:prod', 'compile:js', 'uglify', 'compile:html:prod', 'copy:public']);
     grunt.registerTask('build:travis', ['build:prod']);
