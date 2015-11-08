@@ -5,7 +5,8 @@
 
 $black: #000;
 $white: #fff;
-$orange: #ffaa04;
+$softred: rgba(#eb2424, 0.8);
+$orange: rgba(#e6a411, 0.87);
 
 $small-font-size: 12px;
 
@@ -97,26 +98,34 @@ footer > {
 }
 
 .pill {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
     margin-left: 0.2rem;
-    padding: 0.2rem;
+    padding: 0.15rem;
     border-radius: 50%;
     background-color: $white;
     color: $black;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: normal;
+    font-weight: bolder;
+    text-align: center;
 }
 
 %badge {
-    padding: 0.55rem;
+    display: inline-block;
+    width: 120px;
+    height: 20px;
+    padding: 0.2rem;
     border-radius: 5px;
     color: $white;
     font-size: small;
     font-style: normal;
+    text-align: center;
 }
 
 .error-badge {
     @extend %badge;
-    background-color: $red;
+    background-color: $softred;
 }
 
 .warning-badge {

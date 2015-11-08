@@ -135,6 +135,12 @@ const ConnectionCount = React.createClass({
                 el.classList.add('fadein');
             }, fadingDuration);
         }, false);
+    },
+    componentWillUnmount: function() {
+        console.log('React :: ConnectionCount component: unmounted ...');
+        window.removeEventListener('connection-count', () => {
+            console.log('React :: ConnectionCount component: \'connection-count\' event listener removed ...');
+        }, false);
     }
 });
 
@@ -224,6 +230,15 @@ const ESLintStatus = ({ errors, warnings }) => (
     </section>
 );
 
+const ScssLintStatus = ({ warnings }) => (
+    <section>
+        <span className='warning-badge'>
+            <span>CSS warnings</span>
+            <span className='pill'>{ warnings }</span>
+        </span>
+    </section>
+);
+
 const Footer = React.createClass({
     render: function() {
         return (
@@ -236,6 +251,18 @@ const Footer = React.createClass({
                 </section>
                 <section>
                     <ESLintStatus errors={this.props.eslintErrors} warnings={this.props.eslintWarnings}/>
+                    <ScssLintStatus warnings={this.props.scsslintWarnings}/>
+                </section>
+                <section>
+                    <a href='https://www.codacy.com/app/eiriktorske/default-webapp-heroku'>
+                        <img src='https://api.codacy.com/project/badge/grade/8454bc7b66e74cc4be1fa2d8b2a54394'/>
+                    </a>
+                    <a href='https://travis-ci.org/eirikt/default-webapp-heroku'>
+                        <img src='https://travis-ci.org/eirikt/default-webapp-heroku.png'/>
+                    </a>
+                    <a href='https://www.versioneye.com/user/projects/55f51d813ed894001e000376'>
+                        <img src='https://www.versioneye.com/user/projects/55f51d813ed894001e000376/badge.svg'/>
+                    </a>
                 </section>
             </footer>
         );
@@ -249,7 +276,7 @@ ReactDOM.render(
         <MainContentPlaceholder/>
         <Footer
             appBuildConfiguration={window.appBuildConfiguration} appBuildTimestamp={window.appBuildTimestamp} appTitle={window.appTitle} appVersion={window.appVersion}
-            eslintErrors={window.eslintErrors} eslintWarnings={window.eslintWarnings}/>
+            eslintErrors={window.eslintErrors} eslintWarnings={window.eslintWarnings} scsslintWarnings={window.scsslintWarnings}/>
     </article>,
     document.getElementById('content')
 );

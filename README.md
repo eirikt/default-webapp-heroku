@@ -51,16 +51,16 @@ CD default-webapp-heroku
    grunt watch:server
    ```
 
-1. Start the client-side code monitoring (blocking command)
+1. Start client-side code monitoring (blocking command)
 
-   Step 1: Analysis (local static code analysis)
+   Step 1: Build (triggered by completed analysis tasks below)
    ```
    grunt watch:client1
    ```
 
-1. Start the client-side code monitoring (blocking command)
+1. Start client-side code monitoring (blocking command)
 
-   Step 2: Build (triggered by completed analysis tasks)
+   Step 2: Analysis (local static code analysis, monitors most source files)
    ```
    grunt watch:client2
    ```
