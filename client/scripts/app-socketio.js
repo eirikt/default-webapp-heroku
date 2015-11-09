@@ -1,16 +1,17 @@
 /* global require, window, document, console, CustomEvent */
 
+/* eslint-disable newline-after-var */
 /* eslint-disable no-console */
 
 /* eslint complexity: [2, 2] */
-/* eslint newline-after-var: 1 */
 /* eslint no-inline-comments: 1 */
 /* eslint require-jsdoc: 1 */
 /* eslint spaced-comment: 1 */
 
+
 // Custom event polyfill for IE9-IE11, inspired by: https://gist.github.com/james2doyle/7945320
-(function() {
-    const CustomEvent = (/* event, params */) => {
+(function () {
+    const CustomEvent = function(/* event, params */) {
         const customEvent = document.createEvent('CustomEvent');
         const event = arguments[0];
         let params = {
@@ -18,15 +19,18 @@
             cancelable: false,
             detail: null
         };
+
         if (arguments.length > 1) {
             params = arguments[1];
         }
         customEvent.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
         return customEvent;
     };
+
     CustomEvent.prototype = window.CustomEvent.prototype;
     window.CustomEvent = CustomEvent;
 }());
+
 
 //
 // CommonJS-compliant layer of indirection between (general) Socket.IO HTTP server push events and (custom) application client events
@@ -48,9 +52,7 @@ const trigger = (eventName) => {
 };
 
 const triggerCustomEvent = (eventName, details) => {
-    const customEvent = new CustomEvent(eventName, {
-        detail: details
-    });
+    const customEvent = new CustomEvent(eventName, { detail: details });
     console.log('Socket.IO :: Dispatching \'' + eventName + '\'');
     window.dispatchEvent(customEvent);
 };
@@ -87,5 +89,5 @@ socket.on('disconnect', () => {
 
 socket.on('connection-count', (connectionCount) => {
     console.log('Socket.IO :: Number of active connections: ' + connectionCount);
-    triggerCustomEvent('connection-count', { 'connection-count': connectionCount });
+    triggerCustomEvent('connection-count', { connectionCount: connectionCount });
 });

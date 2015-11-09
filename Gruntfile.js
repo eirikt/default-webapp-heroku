@@ -301,17 +301,6 @@ module.exports = function(grunt) {
         },
 
         watch: {
-            'client-step2-build': {
-                options: {
-                    atBegin: false,
-                    livereload: true
-                },
-                files: [
-                    'build/analysis/eslint.json',
-                    'build/analysis/scsslint.json'
-                ],
-                tasks: ['build:dev']
-            },
             'client-step1-analysis': {
                 options: {
                     atBegin: true,
@@ -331,6 +320,17 @@ module.exports = function(grunt) {
                     'client/**/*.scss'
                 ],
                 tasks: ['build:analysis']
+            },
+            'client-step2-build': {
+                options: {
+                    atBegin: false,
+                    livereload: true
+                },
+                files: [
+                    'build/analysis/eslint.json',
+                    'build/analysis/scsslint.json'
+                ],
+                tasks: ['build:dev']
             }
         },
 
@@ -353,6 +353,8 @@ module.exports = function(grunt) {
     });
 
 
+    // Grunt task for ...
+    /* eslint complexity: [2, 3] */
     grunt.registerTask('scsslint:export', 'Extracting interesting data out of sccs-lint dumps', () => {
         const project = grunt.file.readJSON('package.json');
         const scsslintDump = grunt.file.read('./build/analysis/scsslint-dump.xml');
@@ -378,6 +380,8 @@ module.exports = function(grunt) {
     });
 
 
+    // Grunt task for ...
+    /* eslint complexity: [2, 3] */
     grunt.registerTask('eslint:export', 'Extracting interesting data out of ESLint dumps', () => {
         const jsonfile = require('jsonfile');
         const project = grunt.file.readJSON('package.json');

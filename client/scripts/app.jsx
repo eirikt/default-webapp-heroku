@@ -42,14 +42,14 @@ const ConnectionStatus = React.createClass({
     fadeinConnection: function() {
         const el = this.refs.connectionStatus;
         this.removeAllFadingClasses(el);
-        if (window.connected === false) {
+        if (window.connected) {
+            el.classList.add('fadein-connection-status-connected');
+        } else {
             el.classList.add('fadeout-connection-status-disconnected');
             setTimeout(() => {
                 el.classList.remove('fadeout-connection-status-disconnected');
                 el.classList.add('fadein-connection-status-connected');
             }, fadingDuration);
-        } else {
-            el.classList.add('fadein-connection-status-connected');
         }
         Array.prototype.forEach.call(document.getElementsByClassName('connected-only'), (connectedOnlyElements) => {
             connectedOnlyElements.classList.remove('fadeout');
@@ -62,7 +62,7 @@ const ConnectionStatus = React.createClass({
     fadeoutConnection: function() {
         const el = this.refs.connectionStatus;
         this.removeAllFadingClasses(el);
-        if (window.connected === true) {
+        if (window.connected) {
             el.classList.add('fadeout-connection-status-connected');
             setTimeout(() => {
                 el.classList.remove('fadeout-connection-status-connected');
@@ -120,16 +120,17 @@ const ConnectionCount = React.createClass({
     componentDidMount: function() {
         console.log('React :: ConnectionCount component: mounted ...');
         const el = this.refs.connectionCount;
+
         window.addEventListener('connection-count', (event) => {
-            const connectionCount = event.detail['connection-count'];
+            const connectionCount = event.detail.connectionCount;
             console.log('React :: ConnectionCount component: CONNECTIONCOUNT received ... (' + JSON.stringify(event.detail) + ')');
             el.classList.remove('fadein');
             el.classList.add('fadeout');
             setTimeout(() => {
                 if (connectionCount === 1) {
-                    el.innerText = 'You\'re the only user connected ...';
+                    el.textContent = 'You\'re the only user connected ...';
                 } else {
-                    el.innerText = connectionCount + ' active connections';
+                    el.textContent = connectionCount + ' active connections';
                 }
                 el.classList.remove('fadeout');
                 el.classList.add('fadein');
