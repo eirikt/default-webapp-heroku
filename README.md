@@ -41,7 +41,6 @@ CD default-webapp-heroku
    ```
    grunt
    ```
-   (This task has a somewhat Windows-specific implementation ...)
 
 ## Develop
 1. Open some terminal windows
@@ -304,6 +303,7 @@ This little application of React capabilities utilizes most of the features demo
 - [ECMAScript 2015 with Babel (v5): Arrow functions and React v0.14 stateless functional components](https://github.com/eirikt/default-webapp-heroku/commit/c8f091d459c21eeba5f067dd6cb5af1d6bf76ef8)
 - [ECMAScript 2015 with Babel (v5): Destructuring and an implicit return](https://github.com/eirikt/default-webapp-heroku/commit/67e4161eb104cda6be5598b57a0a2f99f944a9f0)
 - [ESLint status badges](https://github.com/eirikt/default-webapp-heroku/commit/a93c61b6632c251f69266b5ffb54ddfc3d8f9210)
+- [Babel v6 upgrade](https://github.com/eirikt/default-webapp-heroku/commit/c554d66bed54e66fbdbfe38603ef017d7ad39bb1)
 
 ...
 

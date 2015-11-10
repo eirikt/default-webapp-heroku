@@ -18,45 +18,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-postcss');
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-scss-lint');
-    grunt.loadNpmTasks('grunt-shell');
 
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
-
-        shell: {
-            help: {
-                options: {
-                    stdout: true,
-                    stderr: true,
-                    failOnError: true
-                },
-                command: [
-                    'ECHO.',
-                    'ECHO #######################################',
-                    'ECHO ##   <%= pkg.name %> v<%= pkg.version %>',
-                    'ECHO #######################################',
-                    'ECHO.',
-                    'ECHO Essential Grunt tasks are:',
-                    'ECHO.',
-                    'ECHO    grunt clean             Removes all built stuff',
-                    'ECHO    grunt lint:js           Runs JSHint and ESLint',
-                    'ECHO    grunt lint:css          Runs SCSS Lint',
-                    'ECHO.',
-                    'ECHO    grunt build:dev         Builds the web application',
-                    'ECHO    grunt build:prod        Builds the web application for production environment',
-                    'ECHO.',
-                    'ECHO    grunt watch:client1     Monitors analysis result files, runs \'build:dev\' on every change, refreshes page      (blocking command)',
-                    'ECHO    grunt watch:client2     Monitors most client source code, runs all analysis tasks on every change             (blocking command)',
-                    'ECHO    grunt watch:server      Monitors all server source code, restart server on every change                       (blocking command)',
-                    'ECHO.',
-                    'ECHO.',
-                    'ECHO Other commands are:',
-                    'ECHO.',
-                    'ECHO    node server/scripts/server.js      Start web application locally (using latest built configuration)',
-                    'ECHO    heroku local -p 8000               Start web application locally with production configuration'
-                ].join('&&')
-            }
-        },
+        project: grunt.file.readJSON('package.json'),
 
         clean: {
             build: [
@@ -249,9 +213,9 @@ module.exports = function(grunt) {
         processhtml: {
             options: {
                 data: {
-                    id: '<%= pkg.name %>',
-                    name: '<%= pkg.description %>',
-                    version: '<%= pkg.version %>',
+                    id: '<%= project.name %>',
+                    name: '<%= project.description %>',
+                    version: '<%= project.version %>',
                     timestamp: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
                     eslintErrors: (function() {
                         const jsonfile = require('jsonfile');
@@ -300,6 +264,7 @@ module.exports = function(grunt) {
             }
         },
 
+
         watch: {
             'client-step1-analysis': {
                 options: {
@@ -342,6 +307,35 @@ module.exports = function(grunt) {
     });
 
 
+    grunt.registerTask('help', () => {
+        const project = grunt.file.readJSON('package.json');
+        grunt.log.writeln();
+        grunt.log.writeln('#######################################');
+        grunt.log.writeln('##   ' + project.name + ' v' + project.version);
+        grunt.log.writeln('#######################################');
+        grunt.log.writeln();
+        grunt.log.writeln('Essential Grunt tasks are:');
+        grunt.log.writeln();
+        grunt.log.writeln('   grunt clean              Removes all built stuff');
+        grunt.log.writeln('   grunt lint:js            Runs JSHint and ESLint');
+        grunt.log.writeln('   grunt lint:css           Runs SCSS Lint');
+        grunt.log.writeln();
+        grunt.log.writeln('   grunt build:prod         Builds the web application for production environment');
+        grunt.log.writeln('   grunt build:dev          Builds the web application');
+        grunt.log.writeln();
+        grunt.log.writeln('   grunt watch:client1      Monitors most client source code, runs all analysis tasks on every change             (blocking command)');
+        grunt.log.writeln('   grunt watch:client2      Monitors analysis result files, runs \'build:dev\' on every change, refreshes page      (blocking command)');
+        grunt.log.writeln();
+        grunt.log.writeln('   grunt watch:server       Monitors all server source code, restart server on every change                       (blocking command)');
+        grunt.log.writeln();
+        grunt.log.writeln();
+        grunt.log.writeln('Other commands are:');
+        grunt.log.writeln();
+        grunt.log.writeln('   node server/scripts/server.js      Start web application locally (using latest built configuration)');
+        grunt.log.writeln('   heroku local -p 8000               Start web application locally with production configuration');
+    });
+
+
     // Grunt task for (temporarily) disable/enable forced continuation of execution
     /* eslint complexity: [2, 2] */
     grunt.registerTask('force', (set) => {
@@ -353,9 +347,8 @@ module.exports = function(grunt) {
     });
 
 
-    // Grunt task for ...
     /* eslint complexity: [2, 3] */
-    grunt.registerTask('scsslint:export', 'Extracting interesting data out of sccs-lint dumps', () => {
+    grunt.registerTask('scsslint:export', 'Extracting essential data out of sccs-lint dumps', () => {
         const project = grunt.file.readJSON('package.json');
         const scsslintDump = grunt.file.read('./build/analysis/scsslint-dump.xml');
         const scsslintResultFile = './build/analysis/scsslint.json';
@@ -380,9 +373,8 @@ module.exports = function(grunt) {
     });
 
 
-    // Grunt task for ...
     /* eslint complexity: [2, 3] */
-    grunt.registerTask('eslint:export', 'Extracting interesting data out of ESLint dumps', () => {
+    grunt.registerTask('eslint:export', 'Extracting essential data out of ESLint dumps', () => {
         const jsonfile = require('jsonfile');
         const project = grunt.file.readJSON('package.json');
         const eslintClientDump = grunt.file.readJSON('./build/analysis/eslint-client-dump.json');
@@ -428,9 +420,9 @@ module.exports = function(grunt) {
     grunt.registerTask('build:prod', ['copy:build', 'compile:css:prod', 'compile:js', 'uglify', 'compile:html:prod', 'copy:public']);
     grunt.registerTask('build:travis', ['build:prod']);
 
-    grunt.registerTask('watch:client1', ['watch:client-step2-build']);
-    grunt.registerTask('watch:client2', ['watch:client-step1-analysis']);
+    grunt.registerTask('watch:client1', ['watch:client-step1-analysis']);
+    grunt.registerTask('watch:client2', ['watch:client-step2-build']);
     grunt.registerTask('watch:server', ['nodemon:server']);
 
-    grunt.registerTask('default', ['shell:help']);
+    grunt.registerTask('default', ['help']);
 };
