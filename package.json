@@ -1,7 +1,7 @@
 {
     "name": "default-webapp-heroku",
     "description": "Default Webapp",
-    "version": "0.7.32",
+    "version": "0.7.33",
     "license": "MIT",
     "author": "Eirik Torske <eirik.torske@gmail.com>",
     "repository": {
@@ -40,6 +40,9 @@
         "autoprefixer": "6.x",
         "postcss-safe-parser": "1.x",
         "postcss-scss": "0.1.x"
+    },
+    "config": {
+        "port": 8000
     },
     "scripts": {
         "postinstall": "npm outdated",

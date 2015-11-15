@@ -11,9 +11,12 @@
 
 'use strict';
 
+// Project configuration
+const project = require('./../../package.json');
+
 // Environment
 const env = process.env.NODE_ENV || 'development';
-const port = Number(process.env.PORT || 8000);
+const port = Number(process.env.PORT || project.config.port);
 
 const applicationRootAbsolutePath = __dirname;
 const developmentStaticResourcesRelativePath = '../../build/client'; // Readable and executable
