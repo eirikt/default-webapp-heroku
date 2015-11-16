@@ -1,4 +1,4 @@
-/* global window, document, console, setTimeout */
+/* global window, document */
 
 /* eslint-disable no-console */
 /* eslint-disable no-mixed-requires */
@@ -14,8 +14,11 @@ import AppCacheUpdateReady from './appcache-updateready.jsx';
 
 import Title from './title.jsx';
 import NetworkStatus from './network-status.jsx';
+import ConnectionStatus from './connection-status.jsx';
+import ConnectionCount from './connection-count.jsx';
 
 const fadingDuration = 1000;
+
 
 // UI Component structure:
 // -------------------------------
@@ -32,119 +35,6 @@ const fadingDuration = 1000;
 //         DevelopmentLabel
 // -------------------------------
 
-const ConnectionStatus = React.createClass({
-    removeAllFadingClasses: function(el) {
-        el.classList.remove('fadein-connection-status-disconnected');
-        el.classList.remove('fadeout-connection-status-disconnected');
-        el.classList.remove('fadein-connection-status-connected');
-        el.classList.remove('fadeout-connection-status-connected');
-    },
-    fadeinConnection: function() {
-        const el = this.refs.connectionStatus;
-        this.removeAllFadingClasses(el);
-        if (window.connected) {
-            el.classList.add('fadein-connection-status-connected');
-        } else {
-            el.classList.add('fadeout-connection-status-disconnected');
-            setTimeout(() => {
-                el.classList.remove('fadeout-connection-status-disconnected');
-                el.classList.add('fadein-connection-status-connected');
-            }, fadingDuration);
-        }
-        Array.prototype.forEach.call(document.getElementsByClassName('connected-only'), (connectedOnlyElements) => {
-            connectedOnlyElements.classList.remove('fadeout');
-            connectedOnlyElements.classList.add('fadein');
-            setTimeout(() => {
-                connectedOnlyElements.removeAttribute('hidden');
-            }, fadingDuration);
-        });
-    },
-    fadeoutConnection: function() {
-        const el = this.refs.connectionStatus;
-        this.removeAllFadingClasses(el);
-        if (window.connected) {
-            el.classList.add('fadeout-connection-status-connected');
-            setTimeout(() => {
-                el.classList.remove('fadeout-connection-status-connected');
-                el.classList.add('fadein-connection-status-disconnected');
-            }, fadingDuration);
-        } else {
-            el.classList.add('fadein-connection-status-disconnected');
-        }
-        Array.prototype.forEach.call(document.getElementsByClassName('connected-only'), (connectedOnlyElements) => {
-            connectedOnlyElements.classList.remove('fadein');
-            connectedOnlyElements.classList.add('fadeout');
-            setTimeout(() => {
-                connectedOnlyElements.setAttribute('hidden', 'true');
-                connectedOnlyElements.classList.remove('fadeout');
-            }, fadingDuration);
-        });
-    },
-    render: function() {
-        console.log('React :: ConnectionStatus component: rendering ...');
-        return (
-            <span ref='connectionStatus'></span>
-        );
-    },
-    componentDidMount: function() {
-        console.log('React :: ConnectionStatus component: mounted ...');
-        window.addEventListener('connected', this.fadeinConnection, false);
-        window.addEventListener('disconnected', this.fadeoutConnection, false);
-        window.addEventListener('connection-failed', this.fadeoutConnection, false);
-        window.addEventListener('connection-error', this.fadeoutConnection, false);
-    },
-    componentWillUnmount: function() {
-        console.log('React :: ConnectionStatus component: unmounted ...');
-        window.removeEventListener('connected', () => {
-            console.log('React :: ConnectionStatus component: \'connected\' event listener removed ...');
-        }, false);
-        window.removeEventListener('disconnected', () => {
-            console.log('React :: ConnectionStatus component: \'disconnected\' event listener removed ...');
-        }, false);
-        window.removeEventListener('connection-failed', () => {
-            console.log('React :: ConnectionStatus component: \'connection-failed\' event listener removed ...');
-        }, false);
-        window.removeEventListener('connection-error', () => {
-            console.log('React :: ConnectionStatus component: \'connection-error\' event listener removed ...');
-        }, false);
-    }
-});
-
-const ConnectionCount = React.createClass({
-    render: function() {
-        console.log('React :: ConnectionCount component: rendering ...');
-        return (
-            <span className='connected-only connection-count' ref='connectionCount'></span>
-        );
-    },
-    componentDidMount: function() {
-        console.log('React :: ConnectionCount component: mounted ...');
-        const el = this.refs.connectionCount;
-
-        window.addEventListener('connection-count', (event) => {
-            const connectionCount = event.detail.connectionCount;
-            console.log('React :: ConnectionCount component: CONNECTIONCOUNT received ... (' + JSON.stringify(event.detail) + ')');
-            el.classList.remove('fadein');
-            el.classList.add('fadeout');
-            setTimeout(() => {
-                if (connectionCount === 1) {
-                    el.textContent = 'You\'re the only user connected ...';
-                } else {
-                    el.textContent = connectionCount + ' active connections';
-                }
-                el.classList.remove('fadeout');
-                el.classList.add('fadein');
-            }, fadingDuration);
-        }, false);
-    },
-    componentWillUnmount: function() {
-        console.log('React :: ConnectionCount component: unmounted ...');
-        window.removeEventListener('connection-count', () => {
-            console.log('React :: ConnectionCount component: \'connection-count\' event listener removed ...');
-        }, false);
-    }
-});
-
 const StatusContainer = React.createClass({
     render: function() {
         return (
@@ -152,7 +42,7 @@ const StatusContainer = React.createClass({
                 <section>
                     <section className='network-status-container'></section>
                     <section className='connection-status-container'>
-                        <ConnectionCount/>
+                        <ConnectionCount fadingDuration={fadingDuration}/>
                     </section>
                 </section>
                 <section>
@@ -160,7 +50,7 @@ const StatusContainer = React.createClass({
                         <NetworkStatus fadingDuration={fadingDuration}/>
                     </section>
                     <section className='connection-status-container'>
-                        <ConnectionStatus/>
+                        <ConnectionStatus fadingDuration={fadingDuration}/>
                     </section>
                 </section>
             </section>
