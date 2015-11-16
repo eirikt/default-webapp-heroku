@@ -69,7 +69,8 @@ CD default-webapp-heroku
 Depending on your editors auto-save configuration (and capabilities), you should now just be able to code away with instant feedback.
 I use [Atom][atom], the hackable text editor.
 
-These three steps could be easily scripted, but I leave that as an exercise to the reader ;-)
+These three steps are a clear candidate for inclusion in a start-up script.
+(I leave that as an exercise to the reader ;-)
 
 ## Deploy locally
 1. If watchers are running, kill them!
@@ -233,6 +234,7 @@ in which he talks about the necessity of _having an immediate connection with wh
   Server-side resource files moved into `server` source folder.
   It gives a cleaner project layout.
 - [EditorConfig](https://github.com/eirikt/default-webapp-heroku/commit/af9af9df9b720994f21352225a65c6fb24c59c78), IDE-agnostic editor configurations.
+- [Node config](https://github.com/eirikt/default-webapp-heroku/commit/14e19c9aeb393d8183e2a141e56a00daa656d4ae)
 
 _Tell your client that their webapp is developing at full speed, with no waste - The code base is ~~idiomatic~~ quite ordinary stuff, and can be transferred to other teams with great ease - Also, one can monitor all progress, live._
 

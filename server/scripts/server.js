@@ -11,6 +11,12 @@
 
 'use strict';
 
+// Core components
+const path = require('path');
+const express = require('express');
+const http = require('http');
+const socketio = require('socket.io');
+
 // Project configuration
 const project = require('./../../package.json');
 
@@ -21,18 +27,12 @@ const port = Number(process.env.PORT || project.config.port);
 const applicationRootAbsolutePath = __dirname;
 const developmentStaticResourcesRelativePath = '../../build/client'; // Readable and executable
 const productionStaticResourcesRelativePath = '../../public'; // Unreadable and executable
-
-const path = require('path');
-const express = require('express');
-const http = require('http');
-const socketio = require('socket.io');
-
-let connectionCount = 0;
-
 const staticResourcesAbsolutePath = (env === 'development') ?
     path.join(applicationRootAbsolutePath, developmentStaticResourcesRelativePath) :
     path.join(applicationRootAbsolutePath, productionStaticResourcesRelativePath);
 
+// Global variables
+let connectionCount = 0;
 
 // Application server (Express middleware configuration)
 const appServer = express();

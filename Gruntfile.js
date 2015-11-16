@@ -122,6 +122,29 @@ module.exports = function(grunt) {
         },
 
         eslint: {
+            'server': {
+                options: {
+                    configFile: '.eslintrc-server.json'
+                },
+                src: [
+                    'server/scripts/**/*.js'
+                ]
+            },
+            'server-dump': {
+                options: {
+                    configFile: '.eslintrc-server.json',
+                    format: require('eslint-json'),
+                    outputFile: './build/analysis/eslint-server-dump.json'
+                },
+                src: ['server/scripts/**/*.js']
+            },
+            // Not feasable (mostly due to browserify) ... put the effort on testing/specifications
+            //'server-build': {
+            //    options: {
+            //        configFile: '.eslintrc-server-transpiled.json'
+            //    },
+            //    src: ['build/server/scripts/server.js']
+            //},
             'client': {
                 options: {
                     configFile: '.eslintrc-client.json'
@@ -143,36 +166,13 @@ module.exports = function(grunt) {
                     'client/scripts/**/*.jsx',
                     'client/scripts/**/*.js'
                 ]
-            },
+            }
             // Not feasable (mostly due to browserify) ... put the effort on testing/specifications
             //'client-build': {
             //    options: {
             //        configFile: '.eslintrc-client-transpiled.json'
             //    },
             //    src: ['build/client/scripts/app.js']
-            //},
-            'server': {
-                options: {
-                    configFile: '.eslintrc-server.json'
-                },
-                src: [
-                    'server/scripts/**/*.js'
-                ]
-            },
-            'server-dump': {
-                options: {
-                    configFile: '.eslintrc-server.json',
-                    format: require('eslint-json'),
-                    outputFile: './build/analysis/eslint-server-dump.json'
-                },
-                src: ['server/scripts/**/*.js']
-            } //,
-            // Not feasable (mostly due to browserify) ... put the effort on testing/specifications
-            //'server-build': {
-            //    options: {
-            //        configFile: '.eslintrc-server-transpiled.json'
-            //    },
-            //    src: ['build/server/scripts/server.js']
             //},
         },
 
@@ -218,23 +218,20 @@ module.exports = function(grunt) {
                     version: '<%= project.version %>',
                     timestamp: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
                     eslintErrors: (function() {
-                        const jsonfile = require('jsonfile');
                         const eslintResultsExist = grunt.file.exists('./build/analysis/eslint.json');
-                        const eslintResults = (eslintResultsExist) ? jsonfile.readFileSync('./build/analysis/eslint.json') : null;
+                        const eslintResults = (eslintResultsExist) ? require('jsonfile').readFileSync('./build/analysis/eslint.json') : null;
 
                         return (eslintResultsExist) ? eslintResults[0].data.errors : '(unknown)';
                     }()),
                     eslintWarnings: (function() {
-                        const jsonfile = require('jsonfile');
                         const eslintResultsExist = grunt.file.exists('./build/analysis/eslint.json');
-                        const eslintResults = (eslintResultsExist) ? jsonfile.readFileSync('./build/analysis/eslint.json') : null;
+                        const eslintResults = (eslintResultsExist) ? require('jsonfile').readFileSync('./build/analysis/eslint.json') : null;
 
                         return (eslintResultsExist) ? eslintResults[0].data.warnings : '(unknown)';
                     }()),
                     scsslintWarnings: (function() {
-                        const jsonfile = require('jsonfile');
                         const scsslintResultsExist = grunt.file.exists('./build/analysis/scsslint.json');
-                        const scsslintResults = (scsslintResultsExist) ? jsonfile.readFileSync('./build/analysis/scsslint.json') : null;
+                        const scsslintResults = (scsslintResultsExist) ? require('jsonfile').readFileSync('./build/analysis/scsslint.json') : null;
 
                         return (scsslintResultsExist) ? scsslintResults[0].data.warnings : '(unknown)';
                     }())
@@ -264,15 +261,18 @@ module.exports = function(grunt) {
             }
         },
 
-
         watch: {
             'client-step1-analysis': {
                 options: {
-                    atBegin: true,
+                    atBegin: false,
                     livereload: false
                 },
                 files: [
                     '!build',
+                    '!build/analysis',
+                    '!build/client',
+                    '!build/client/scripts',
+                    '!build/client/styles',
                     '!public',
                     '.jshintrc',
                     '.eslintrs-client.json',
@@ -288,7 +288,7 @@ module.exports = function(grunt) {
             },
             'client-step2-build': {
                 options: {
-                    atBegin: false,
+                    atBegin: true,
                     livereload: true
                 },
                 files: [
@@ -309,6 +309,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('help', () => {
         const project = grunt.file.readJSON('package.json');
+
         grunt.log.writeln();
         grunt.log.writeln('#######################################');
         grunt.log.writeln('##   ' + project.name + ' v' + project.version);
