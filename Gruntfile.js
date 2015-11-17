@@ -8,7 +8,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -107,18 +106,6 @@ module.exports = function(grunt) {
                     'public/styles/app.min.css': 'build/client/styles/app.css'
                 }
             }
-        },
-
-        jshint: {
-            options: {
-                jshintrc: true,
-                reporter: 'checkstyle'
-            },
-            files: [
-                'Gruntfile.js',
-                'client/scripts/**/*.js',
-                'server/scripts/**/*.js'
-            ]
         },
 
         eslint: {
@@ -274,7 +261,6 @@ module.exports = function(grunt) {
                     '!build/client/scripts',
                     '!build/client/styles',
                     '!public',
-                    '.jshintrc',
                     '.eslintrs-client.json',
                     '.eslintrs-server.json',
                     '.scss-lint.yml',
@@ -318,7 +304,7 @@ module.exports = function(grunt) {
         grunt.log.writeln('Essential Grunt tasks are:');
         grunt.log.writeln();
         grunt.log.writeln('   grunt clean              Removes all built stuff');
-        grunt.log.writeln('   grunt lint:js            Runs JSHint and ESLint');
+        grunt.log.writeln('   grunt lint:js            Runs ESLint');
         grunt.log.writeln('   grunt lint:css           Runs SCSS Lint');
         grunt.log.writeln();
         grunt.log.writeln('   grunt build:prod         Builds the web application for production environment');
@@ -410,15 +396,17 @@ module.exports = function(grunt) {
     grunt.registerTask('compile:css:dev', ['sass', 'postcss']);
     grunt.registerTask('compile:css:prod', ['compile:css:dev', 'cssnano']);
 
-    grunt.registerTask('lint:js', ['jshint', 'eslint:client', 'eslint:server']);
+    grunt.registerTask('lint:js', ['eslint:client', 'eslint:server']);
+    grunt.registerTask('lint:js-dump', ['eslint:server-dump', 'eslint:client-dump']);
     grunt.registerTask('compile:js', ['browserify']);
 
     grunt.registerTask('compile:html:dev', ['processhtml:dev']);
     grunt.registerTask('compile:html:prod', ['processhtml:prod', 'htmlmin:prod']);
 
-    grunt.registerTask('build:analysis', ['force:on', 'lint:css', 'eslint:client-dump', 'eslint:server-dump', 'force:off', 'scsslint:export', 'eslint:export']);
+    grunt.registerTask('build:analysis', ['force:on', 'lint:css', 'lint:js-dump', 'force:off', 'scsslint:export', 'eslint:export']);
     grunt.registerTask('build:dev', ['copy:build', 'compile:css:dev', 'compile:js', 'compile:html:dev']);
     grunt.registerTask('build:prod', ['copy:build', 'compile:css:prod', 'compile:js', 'uglify', 'compile:html:prod', 'copy:public']);
+    grunt.registerTask('build:heroku', ['build:prod']);
     grunt.registerTask('build:travis', ['build:prod']);
 
     grunt.registerTask('watch:client1', ['watch:client-step1-analysis']);
