@@ -6,6 +6,7 @@
 
 /* eslint complexity: [1, 1] */
 /* eslint newline-after-var: 1 */
+/* eslint no-warning-comments: 1 */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -20,85 +21,71 @@ import ConnectionCount from './connection-count.jsx';
 const fadingDuration = 1000;
 
 
-// UI Component structure:
-// -------------------------------
-// Content
-//     Header
-//         Title
-//         StatusContainer
-//
-//     MainContentPlaceholder
-//
-//     Footer
-//         ApplicationLabel
-//         ApplicationBuiltLabel
-//         DevelopmentLabel
-// -------------------------------
+const Header = ({ appTitle }) => (
+    <header>
+        <section>
+            <Title title={appTitle}/>
+            <StatusContainer/>
+        </section>
+        <hr/>
+    </header>
+);
 
-const StatusContainer = React.createClass({
-    render: function() {
-        return (
-            <section className='status-container'>
-                <section>
-                    <section className='network-status-container'></section>
-                    <section className='connection-status-container'>
-                        <ConnectionCount fadingDuration={fadingDuration}/>
-                    </section>
-                </section>
-                <section>
-                    <section className='network-status-container'>
-                        <NetworkStatus fadingDuration={fadingDuration}/>
-                    </section>
-                    <section className='connection-status-container'>
-                        <ConnectionStatus fadingDuration={fadingDuration}/>
-                    </section>
-                </section>
+const StatusContainer = () => (
+    <section className='status-container'>
+        <section>
+            <section className='network-status-container'></section>
+            <section className='connection-status-container'>
+                <ConnectionCount fadingDuration={fadingDuration}/>
             </section>
-        );
-    }
-});
+        </section>
+        <section>
+            <section className='network-status-container'>
+                <NetworkStatus fadingDuration={fadingDuration}/>
+            </section>
+            <section className='connection-status-container'>
+                <ConnectionStatus fadingDuration={fadingDuration}/>
+            </section>
+        </section>
+    </section>
+);
 
-const Header = React.createClass({
-    render: function() {
-        return (
-            <header>
-                <section>
-                    <Title title={this.props.appTitle}/>
-                    <StatusContainer/>
-                </section>
-                <hr/>
-            </header>
-        );
-    }
-});
 
-const MainContentPlaceholder = React.createClass({
-    render: function() {
-        return (
-            <section className='watermark'>some content ...</section>
-        );
-    }
-});
+const MainContentPlaceholder = () => (
+    <section className='watermark'>some content ...</section>
+);
 
-const ApplicationLabel = React.createClass({
-    render: function() {
-        return (
-            <span>{this.props.appTitle}&nbsp;v{this.props.appVersion}</span>
-        );
-    }
-});
 
-const ApplicationBuiltLabel = React.createClass({
-    render: function() {
-        return (
-            <span>built&nbsp;{this.props.appBuildTimestamp}</span>
-        );
-    }
-});
+const Footer = ({ appTitle, appVersion, appBuildTimestamp, appBuildConfiguration, scsslintWarnings, eslintErrors, eslintWarnings }) => (
+    <footer>
+        <hr/>
+        <section>
+            <span>{appTitle} v{appVersion}</span>
+            <span>built {appBuildTimestamp}</span>
+            <DevelopmentLabel buildConfiguration={appBuildConfiguration}/>
+        </section>
+        <section>
+            <section>
+                <BadgeWithPill name={'JS errors'} type={'error'} pillText={eslintErrors}/>
+                <span>&nbsp;</span>
+                <BadgeWithPill name={'JS warnings'} type={'warning'} pillText={eslintWarnings}/>
+            </section>
+            <section>
+                <BadgeWithPill name={'CSS warnings'} type={'warning'} pillText={scsslintWarnings}/>
+            </section>
+        </section>
+        <section>
+            <CodacyBadge/>
+            <TravisBadge/>
+            <VersionEyeBadge/>
+        </section>
+    </footer>
+);
 
+// TODO: Simplify
 const DevelopmentLabel = React.createClass({
     render: function() {
-        if (this.props.appBuildConfiguration === 'development') {
+        if (this.props.buildConfiguration === 'development') {
             return (
                 <span className='development'>Development configuration</span>
             );
@@ -107,67 +94,59 @@ const DevelopmentLabel = React.createClass({
     }
 });
 
-const ESLintStatus = ({ errors, warnings }) => (
-    <section>
-        <span className='error-badge'>
-            <span>JS errors</span>
-            <span className='pill'>{ errors }</span>
-        </span>
-        <span>&nbsp;</span>
-        <span className='warning-badge'>
-            <span>JS warnings</span>
-            <span className='pill'>{ warnings }</span>
-        </span>
-    </section>
+const BadgeWithPill = ({ name, type, pillText }) => (
+    <span className={type + '-badge'}>
+        <span>{name}</span>
+        <span className='pill'>{pillText}</span>
+    </span>
 );
 
-const ScssLintStatus = ({ warnings }) => (
-    <section>
-        <span className='warning-badge'>
-            <span>CSS warnings</span>
-            <span className='pill'>{ warnings }</span>
-        </span>
-    </section>
+const CodacyBadge = () => (
+    <a href='https://www.codacy.com/app/eiriktorske/default-webapp-heroku'>
+        <img src='https://api.codacy.com/project/badge/grade/8454bc7b66e74cc4be1fa2d8b2a54394'/>
+    </a>
 );
 
-const Footer = React.createClass({
-    render: function() {
-        return (
-            <footer>
-                <hr/>
-                <section>
-                    <ApplicationLabel appTitle={this.props.appTitle} appVersion={this.props.appVersion}/>
-                    <ApplicationBuiltLabel appBuildTimestamp={this.props.appBuildTimestamp}/>
-                    <DevelopmentLabel appBuildConfiguration={this.props.appBuildConfiguration}/>
-                </section>
-                <section>
-                    <ESLintStatus errors={this.props.eslintErrors} warnings={this.props.eslintWarnings}/>
-                    <ScssLintStatus warnings={this.props.scsslintWarnings}/>
-                </section>
-                <section>
-                    <a href='https://www.codacy.com/app/eiriktorske/default-webapp-heroku'>
-                        <img src='https://api.codacy.com/project/badge/grade/8454bc7b66e74cc4be1fa2d8b2a54394'/>
-                    </a>
-                    <a href='https://travis-ci.org/eirikt/default-webapp-heroku'>
-                        <img src='https://travis-ci.org/eirikt/default-webapp-heroku.png'/>
-                    </a>
-                    <a href='https://www.versioneye.com/user/projects/55f51d813ed894001e000376'>
-                        <img src='https://www.versioneye.com/user/projects/55f51d813ed894001e000376/badge.svg'/>
-                    </a>
-                </section>
-            </footer>
-        );
-    }
-});
+const TravisBadge = () => (
+    <a href='https://travis-ci.org/eirikt/default-webapp-heroku'>
+        <img src='https://travis-ci.org/eirikt/default-webapp-heroku.png'/>
+    </a>
+);
 
-ReactDOM.render(
+const VersionEyeBadge = () => (
+    <a href='https://www.versioneye.com/user/projects/55f51d813ed894001e000376'>
+        <img src='https://www.versioneye.com/user/projects/55f51d813ed894001e000376/badge.svg'/>
+    </a>
+);
+
+// Fork me on GitHub (https://github.com/blog/273-github-ribbons)
+/* eslint max-len: 1 */
+const ForkMeOnGitHubBanner = () => (
+    <a href='//github.com/eirikt/default-webapp-heroku'>
+        <img className='banner' src='//camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67' alt='Fork me on GitHub' data-canonical-src='//s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png'/>
+    </a>
+);
+
+const Page = () => (
     <article className='page'>
-        <AppCacheUpdateReady enabled={window.appBuildConfiguration === 'production'} upgradeMessage={window.upgradeMessage}/>
         <Header appTitle={window.appTitle}/>
         <MainContentPlaceholder/>
         <Footer
-            appBuildConfiguration={window.appBuildConfiguration} appBuildTimestamp={window.appBuildTimestamp} appTitle={window.appTitle} appVersion={window.appVersion}
-            eslintErrors={window.eslintErrors} eslintWarnings={window.eslintWarnings} scsslintWarnings={window.scsslintWarnings}/>
-    </article>,
+            appBuildConfiguration={window.appBuildConfiguration}
+            appBuildTimestamp={window.appBuildTimestamp}
+            appTitle={window.appTitle}
+            appVersion={window.appVersion}
+            eslintErrors={window.eslintErrors}
+            eslintWarnings={window.eslintWarnings}
+            scsslintWarnings={window.scsslintWarnings}/>
+    </article>
+);
+
+ReactDOM.render(
+    <div>
+        <AppCacheUpdateReady enabled={window.appBuildConfiguration === 'production'} upgradeMessage={window.upgradeMessage}/>
+        <ForkMeOnGitHubBanner/>
+        <Page/>
+    </div>,
     document.getElementById('content')
 );

@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-parens */
 /* eslint-disable no-unused-vars */
 
 import React from 'react';
@@ -7,8 +8,6 @@ import React from 'react';
  *   'title' property
  *   'title' style class (for section element)
  */
-const Title = ({ title }) => (
-    <section className='title'>{ title }</section>
+export default ({ title }) => (
+    <section className='title'>{title}</section>
 );
-
-export default Title;

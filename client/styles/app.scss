@@ -5,16 +5,18 @@
 
 $black: #000;
 $white: #fff;
-$softred: rgba(#eb2424, 0.8);
-$orange: rgba(#e6a411, 0.87);
+$red: hsla(360, 100%, 50%, 1);
+$mutedred: hsla(0, 50%, 50%, 1);
+$orange: hsla(12, 81%, 50%, 1);
+$mutedorange: hsla(42, 58%, 50%, 1);
 
 $small-font-size: 12px;
-
 $primary-vertical-margin: 1rem;
 $primary-horizontal-margin: $primary-vertical-margin / 2;
-
 $led-size: $small-font-size - 4;
+
 $fading-duration: 1000ms;
+
 
 %flex-row-container {
     display: flex;
@@ -32,34 +34,45 @@ $fading-duration: 1000ms;
     max-height: 100vh;
 }
 
+%badge {
+    display: inline-block;
+    width: 115px;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    border-radius: 0.25rem;
+    color: $white;
+    font-size: small;
+    font-style: normal;
+    text-align: center;
+}
+
+
 header > {
     section {
         display: flex;
         flex-wrap: wrap-reverse;
         justify-content: space-between;
-
         margin-top: $primary-vertical-margin;
         margin-right: 12rem;
         margin-left: $primary-horizontal-margin;
     }
 }
 
-.page {
-    @extend %flex-column-container;
-    @extend %full-height;
-}
-
 footer > {
     section {
         display: flex;
         justify-content: space-between;
-
         margin-right: $primary-horizontal-margin;
         margin-bottom: $primary-vertical-margin;
         margin-left: $primary-horizontal-margin;
         color: $darkgrey;
         font-style: italic;
     }
+}
+
+.page {
+    @extend %flex-column-container;
+    @extend %full-height;
 }
 
 .title {
@@ -85,6 +98,12 @@ footer > {
     font-size: $small-font-size;
 }
 
+.banner {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 .watermark {
     font-size: 4rem;
     text-align: center;
@@ -102,35 +121,25 @@ footer > {
     width: 15px;
     height: 15px;
     margin-left: 0.2rem;
-    padding: 0.15rem;
+    padding-top: 0.15rem;
+    padding-right: 0.2rem;
+    padding-bottom: 0.05rem;
+    padding-left: 0.15rem;
     border-radius: 50%;
     background-color: $white;
     color: $black;
-    font-size: normal;
     font-weight: bolder;
-    text-align: center;
-}
-
-%badge {
-    display: inline-block;
-    width: 120px;
-    height: 20px;
-    padding: 0.2rem;
-    border-radius: 5px;
-    color: $white;
-    font-size: small;
-    font-style: normal;
     text-align: center;
 }
 
 .error-badge {
     @extend %badge;
-    background-color: $softred;
+    background-color: $mutedred;
 }
 
 .warning-badge {
     @extend %badge;
-    background-color: $orange;
+    background-color: $mutedorange;
 }
 
 .fadein {

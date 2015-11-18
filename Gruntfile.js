@@ -396,7 +396,7 @@ module.exports = function(grunt) {
     grunt.registerTask('compile:css:dev', ['sass', 'postcss']);
     grunt.registerTask('compile:css:prod', ['compile:css:dev', 'cssnano']);
 
-    grunt.registerTask('lint:js', ['eslint:client', 'eslint:server']);
+    grunt.registerTask('lint:js', ['eslint:server', 'eslint:client']);
     grunt.registerTask('lint:js-dump', ['eslint:server-dump', 'eslint:client-dump']);
     grunt.registerTask('compile:js', ['browserify']);
 
