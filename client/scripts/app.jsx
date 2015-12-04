@@ -21,6 +21,14 @@ import ConnectionCount from './connection-count.jsx';
 const fadingDuration = 1000;
 
 
+// Fork me on GitHub (https://github.com/blog/273-github-ribbons)
+/* eslint max-len: 1 */
+const ForkMeOnGitHubBanner = () => (
+    <a href='//github.com/eirikt/default-webapp-heroku'>
+        <img className='banner' src='//camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67' alt='Fork me on GitHub' data-canonical-src='//s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png'/>
+    </a>
+);
+
 const Header = ({ appTitle }) => (
     <header>
         <section>
@@ -116,14 +124,6 @@ const TravisBadge = () => (
 const VersionEyeBadge = () => (
     <a href='https://www.versioneye.com/user/projects/55f51d813ed894001e000376'>
         <img src='https://www.versioneye.com/user/projects/55f51d813ed894001e000376/badge.svg'/>
-    </a>
-);
-
-// Fork me on GitHub (https://github.com/blog/273-github-ribbons)
-/* eslint max-len: 1 */
-const ForkMeOnGitHubBanner = () => (
-    <a href='//github.com/eirikt/default-webapp-heroku'>
-        <img className='banner' src='//camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67' alt='Fork me on GitHub' data-canonical-src='//s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png'/>
     </a>
 );
 

@@ -2,7 +2,6 @@
 My default and opinionated/favourite setup (at the latest commit date, anyway) for web application development.
 The main objectives being:
 - Ease of development
-- [Continuous delivery][continuous-delivery]
 - Compact code base
 
 The web application is based on **_Node.js_** using [Express][express].
@@ -45,23 +44,21 @@ CD default-webapp-heroku
 ## Develop
 1. Open some terminal windows
 
-1. Start the server-side code monitoring (blocking command)
+1. Start monitoring for live reloading of server (blocking command)
    ```
    grunt watch:server
    ```
 
-1. Start client-side code monitoring (blocking command)
+1. Start code monitoring for automatic static code analysis and application re-building (blocking commands)
 
-   Step 1: Build (triggered by completed analysis tasks below)
+   Build - Triggered by completed analysis tasks below
    ```
-   grunt watch:client1
+   grunt watch:build
    ```
 
-1. Start client-side code monitoring (blocking command)
-
-   Step 2: Analysis (local static code analysis, monitors most source files)
+   Analyze - Static code analysis, monitors most source files
    ```
-   grunt watch:client2
+   grunt watch:analyze
    ```
 
 1. Navigate to [http://localhost:8000]()
@@ -90,11 +87,11 @@ These three steps are a clear candidate for inclusion in a start-up script.
 ## Stage the webapp
 1. Use Heroku Toolbelt to stage your web application using production environment configuration
 
-   If on Windows, first set the production environment variable.
+   If on Windows/PowerShell, first set the production environment variable.
    ```
    $env:NODE_ENV='production'
    ```
-   or in `cmd`.
+   or in Windows/`cmd`.
    ```
    set NODE_ENV=production
    ```
@@ -295,6 +292,7 @@ _Tell your client that their webapp's theme is highly customizable and switching
 
 ### v0.7: Client-side content rendering with [React][react]
 [React][react] has the world record of going from an obscure, experimental (WTF) framework - to become the de-facto standard.
+React has set the direction of web development in the years to come.
 This little application of React capabilities utilizes most of the features demonstrated in the [default tutorial](https://facebook.github.io/react/docs/tutorial.html).
 
 - [React trick for no DOM rendering](https://github.com/eirikt/default-webapp-heroku/commit/fb6e4c94671c540984cc4ff61d35cffdc88b96b3)
@@ -304,12 +302,15 @@ This little application of React capabilities utilizes most of the features demo
 - [ECMAScript 2015 with Babel (v5): Classes](https://github.com/eirikt/default-webapp-heroku/commit/4ae177778985f72974b6249af09cedbf7c82f406)
 - [ECMAScript 2015 with Babel (v5): Arrow functions and React v0.14 stateless functional components](https://github.com/eirikt/default-webapp-heroku/commit/c8f091d459c21eeba5f067dd6cb5af1d6bf76ef8)
 - [ECMAScript 2015 with Babel (v5): Destructuring and an implicit return](https://github.com/eirikt/default-webapp-heroku/commit/67e4161eb104cda6be5598b57a0a2f99f944a9f0)
-- [ESLint status badges](https://github.com/eirikt/default-webapp-heroku/commit/a93c61b6632c251f69266b5ffb54ddfc3d8f9210)
 - [Babel v6 upgrade](https://github.com/eirikt/default-webapp-heroku/commit/c554d66bed54e66fbdbfe38603ef017d7ad39bb1)
 
 ...
 
 ### v0.8: Testing ...
+
+...
+
+### v0.9: Redux / React-Router / Relay / GraphQL / Graffiti ... Oh my ?
 
 
 

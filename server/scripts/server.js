@@ -18,11 +18,11 @@ const http = require('http');
 const socketio = require('socket.io');
 
 // Project configuration
-const project = require('./../../package.json');
+const appConfig = require('./../../package.json').config;
 
 // Environment
 const env = process.env.NODE_ENV || 'development';
-const port = Number(process.env.PORT || project.config.port);
+const port = Number(process.env.PORT || appConfig.port);
 
 const applicationRootAbsolutePath = __dirname;
 const developmentStaticResourcesRelativePath = '../../build/client'; // Readable and executable

@@ -3,6 +3,8 @@
 /* eslint-disable global-require */
 /* eslint-disable spaced-comment */
 
+/* eslint complexity: [1, 1] */
+
 module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-clean');
@@ -23,7 +25,6 @@ module.exports = function(grunt) {
 
         clean: {
             build: [
-                'build/client/scripts/vendor',
                 'build/client/scripts',
                 'build/client/styles',
                 'build/client',
@@ -208,19 +209,19 @@ module.exports = function(grunt) {
                         const eslintResultsExist = grunt.file.exists('./build/analysis/eslint.json');
                         const eslintResults = (eslintResultsExist) ? require('jsonfile').readFileSync('./build/analysis/eslint.json') : null;
 
-                        return (eslintResultsExist) ? eslintResults[0].data.errors : '(unknown)';
+                        return (eslintResultsExist) ? eslintResults[0].data.errors : '?';
                     }()),
                     eslintWarnings: (function() {
                         const eslintResultsExist = grunt.file.exists('./build/analysis/eslint.json');
                         const eslintResults = (eslintResultsExist) ? require('jsonfile').readFileSync('./build/analysis/eslint.json') : null;
 
-                        return (eslintResultsExist) ? eslintResults[0].data.warnings : '(unknown)';
+                        return (eslintResultsExist) ? eslintResults[0].data.warnings : '?';
                     }()),
                     scsslintWarnings: (function() {
                         const scsslintResultsExist = grunt.file.exists('./build/analysis/scsslint.json');
                         const scsslintResults = (scsslintResultsExist) ? require('jsonfile').readFileSync('./build/analysis/scsslint.json') : null;
 
-                        return (scsslintResultsExist) ? scsslintResults[0].data.warnings : '(unknown)';
+                        return (scsslintResultsExist) ? scsslintResults[0].data.warnings : '?';
                     }())
                 }
             },
@@ -249,30 +250,23 @@ module.exports = function(grunt) {
         },
 
         watch: {
-            'client-step1-analysis': {
+            step1: {
                 options: {
                     atBegin: false,
                     livereload: false
                 },
                 files: [
-                    '!build',
-                    '!build/analysis',
-                    '!build/client',
-                    '!build/client/scripts',
-                    '!build/client/styles',
-                    '!public',
                     '.eslintrs-client.json',
                     '.eslintrs-server.json',
                     '.scss-lint.yml',
+                    'client/**/*',
+                    'server/**/*',
                     'Gruntfile.js',
-                    'client/index.html',
-                    'client/**/*.js',
-                    'client/**/*.jsx',
-                    'client/**/*.scss'
+                    'package.json'
                 ],
                 tasks: ['build:analysis']
             },
-            'client-step2-build': {
+            step2: {
                 options: {
                     atBegin: true,
                     livereload: true
@@ -310,21 +304,19 @@ module.exports = function(grunt) {
         grunt.log.writeln('   grunt build:prod         Builds the web application for production environment');
         grunt.log.writeln('   grunt build:dev          Builds the web application');
         grunt.log.writeln();
-        grunt.log.writeln('   grunt watch:client1      Monitors most client source code, runs all analysis tasks on every change             (blocking command)');
-        grunt.log.writeln('   grunt watch:client2      Monitors analysis result files, runs \'build:dev\' on every change, refreshes page      (blocking command)');
-        grunt.log.writeln();
-        grunt.log.writeln('   grunt watch:server       Monitors all server source code, restart server on every change                       (blocking command)');
+        grunt.log.writeln('   grunt watch:server       Monitors all server source code, restarts server on every change                       (blocking command)');
+        grunt.log.writeln('   grunt watch:build        Monitors analysis result files, runs \'build:dev\' on every change, refreshes page       (blocking command)');
+        grunt.log.writeln('   grunt watch:analyze      Monitors most source code, runs all analysis tasks on every change                     (blocking command)');
         grunt.log.writeln();
         grunt.log.writeln();
         grunt.log.writeln('Other commands are:');
         grunt.log.writeln();
-        grunt.log.writeln('   node server/scripts/server.js      Start web application locally (using latest built configuration)');
-        grunt.log.writeln('   heroku local -p 8000               Start web application locally with production configuration');
+        grunt.log.writeln('   node server/scripts/server.js      Starts web application locally (using latest built configuration)');
+        grunt.log.writeln('   heroku local -p 8000               Starts web application locally with production configuration');
     });
 
 
     // Grunt task for (temporarily) disable/enable forced continuation of execution
-    /* eslint complexity: [2, 2] */
     grunt.registerTask('force', (set) => {
         if (set === 'on') {
             grunt.option('force', true);
@@ -334,7 +326,6 @@ module.exports = function(grunt) {
     });
 
 
-    /* eslint complexity: [2, 3] */
     grunt.registerTask('scsslint:export', 'Extracting essential data out of sccs-lint dumps', () => {
         const project = grunt.file.readJSON('package.json');
         const scsslintDump = grunt.file.read('./build/analysis/scsslint-dump.xml');
@@ -345,7 +336,7 @@ module.exports = function(grunt) {
             type: 'scss-lint (static analysis: application style sheet (in SCSS) source code)',
             timestamp: new Date().toJSON(),
             data: {
-                warnings: 0
+                warnings: '?'
             }
         };
         const indexOfErrorCountStart = scsslintDump.indexOf('errors=') + 'errors="'.length;
@@ -360,7 +351,6 @@ module.exports = function(grunt) {
     });
 
 
-    /* eslint complexity: [2, 3] */
     grunt.registerTask('eslint:export', 'Extracting essential data out of ESLint dumps', () => {
         const jsonfile = require('jsonfile');
         const project = grunt.file.readJSON('package.json');
@@ -373,11 +363,17 @@ module.exports = function(grunt) {
             type: 'ESLint (static analysis: application JavaScript (in ECMAScript 2015) source code)',
             timestamp: new Date().toJSON(),
             data: {
-                errors: 0,
-                warnings: 0
+                errors: '?',
+                warnings: '?'
             }
         };
 
+        if (currentEslintResult.data.errors === '?') {
+            currentEslintResult.data.errors = 0;
+        }
+        if (currentEslintResult.data.warnings === '?') {
+            currentEslintResult.data.warnings = 0;
+        }
         eslintClientDump.results.forEach((fileResult/*, index, array*/) => {
             currentEslintResult.data.errors += fileResult.errorCount;
             currentEslintResult.data.warnings += fileResult.warningCount;
@@ -398,20 +394,21 @@ module.exports = function(grunt) {
 
     grunt.registerTask('lint:js', ['eslint:server', 'eslint:client']);
     grunt.registerTask('lint:js-dump', ['eslint:server-dump', 'eslint:client-dump']);
-    grunt.registerTask('compile:js', ['browserify']);
+    grunt.registerTask('compile:js:dev', ['browserify']);
+    grunt.registerTask('compile:js:prod', ['compile:js:dev', 'uglify']);
 
     grunt.registerTask('compile:html:dev', ['processhtml:dev']);
     grunt.registerTask('compile:html:prod', ['processhtml:prod', 'htmlmin:prod']);
 
     grunt.registerTask('build:analysis', ['force:on', 'lint:css', 'lint:js-dump', 'force:off', 'scsslint:export', 'eslint:export']);
-    grunt.registerTask('build:dev', ['copy:build', 'compile:css:dev', 'compile:js', 'compile:html:dev']);
-    grunt.registerTask('build:prod', ['copy:build', 'compile:css:prod', 'compile:js', 'uglify', 'compile:html:prod', 'copy:public']);
+    grunt.registerTask('build:dev', ['copy:build', 'compile:css:dev', 'compile:js:dev', 'compile:html:dev']);
+    grunt.registerTask('build:prod', ['copy:build', 'compile:css:prod', 'compile:js:prod', 'compile:html:prod', 'copy:public']);
     grunt.registerTask('build:heroku', ['build:prod']);
     grunt.registerTask('build:travis', ['build:prod']);
 
-    grunt.registerTask('watch:client1', ['watch:client-step1-analysis']);
-    grunt.registerTask('watch:client2', ['watch:client-step2-build']);
     grunt.registerTask('watch:server', ['nodemon:server']);
+    grunt.registerTask('watch:build', ['build:analysis', 'watch:step2']);
+    grunt.registerTask('watch:analysis', ['watch:step1']);
 
     grunt.registerTask('default', ['help']);
 };

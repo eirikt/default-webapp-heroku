@@ -254,6 +254,6 @@
         "max-params": [2, 4],
         "max-statements": [2, 30],
         "no-bitwise": 2,
-        "no-plusplus": 2,
+        "no-plusplus": 2
     }
 }
