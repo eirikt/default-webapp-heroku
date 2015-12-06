@@ -2,6 +2,7 @@
 
 /* eslint-disable no-alert */
 /* eslint-disable no-console */
+/* eslint-disable no-extra-parens */
 /* eslint-disable no-unused-vars */
 
 /* eslint complexity: [1, 1] */

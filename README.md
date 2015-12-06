@@ -58,7 +58,7 @@ CD default-webapp-heroku
 
    Analyze - Static code analysis, monitors most source files
    ```
-   grunt watch:analyze
+   grunt watch:analysis
    ```
 
 1. Navigate to [http://localhost:8000]()

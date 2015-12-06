@@ -1,6 +1,7 @@
 /* global setTimeout */
 
 /* eslint-disable no-console */
+/* eslint-disable no-extra-parens */
 /* eslint-disable no-inline-comments */
 /* eslint-disable no-mixed-requires */
 /* eslint-disable no-process-env */
@@ -11,16 +12,16 @@
 
 'use strict';
 
-// Core components
-const path = require('path');
+// Application core components
 const express = require('express');
 const http = require('http');
+const path = require('path');
 const socketio = require('socket.io');
 
-// Project configuration
+// Application configuration
 const appConfig = require('./../../package.json').config;
 
-// Environment
+// Application environment
 const env = process.env.NODE_ENV || 'development';
 const port = Number(process.env.PORT || appConfig.port);
 

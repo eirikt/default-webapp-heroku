@@ -1,6 +1,7 @@
 /* global window, document */
 
 /* eslint-disable no-console */
+/* eslint-disable no-extra-parens */
 /* eslint-disable no-mixed-requires */
 /* eslint-disable no-alert */
 

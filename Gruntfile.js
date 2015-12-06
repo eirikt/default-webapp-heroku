@@ -1,5 +1,6 @@
 /* global module, require */
 
+/* eslint-disable no-extra-parens */
 /* eslint-disable global-require */
 /* eslint-disable spaced-comment */
 
@@ -126,7 +127,7 @@ module.exports = function(grunt) {
                 },
                 src: ['server/scripts/**/*.js']
             },
-            // Not feasable (mostly due to browserify) ... put the effort on testing/specifications
+            // Not feasable (mostly due to browserify) ... put the effort on testing/specifications instead
             //'server-build': {
             //    options: {
             //        configFile: '.eslintrc-server-transpiled.json'
@@ -155,7 +156,7 @@ module.exports = function(grunt) {
                     'client/scripts/**/*.js'
                 ]
             }
-            // Not feasable (mostly due to browserify) ... put the effort on testing/specifications
+            // Not feasable (mostly due to browserify) ... put the effort on testing/specifications instead
             //'client-build': {
             //    options: {
             //        configFile: '.eslintrc-client-transpiled.json'
@@ -306,7 +307,7 @@ module.exports = function(grunt) {
         grunt.log.writeln();
         grunt.log.writeln('   grunt watch:server       Monitors all server source code, restarts server on every change                       (blocking command)');
         grunt.log.writeln('   grunt watch:build        Monitors analysis result files, runs \'build:dev\' on every change, refreshes page       (blocking command)');
-        grunt.log.writeln('   grunt watch:analyze      Monitors most source code, runs all analysis tasks on every change                     (blocking command)');
+        grunt.log.writeln('   grunt watch:analysis      Monitors most source code, runs all analysis tasks on every change                     (blocking command)');
         grunt.log.writeln();
         grunt.log.writeln();
         grunt.log.writeln('Other commands are:');
