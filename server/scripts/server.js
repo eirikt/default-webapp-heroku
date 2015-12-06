@@ -13,6 +13,7 @@
 'use strict';
 
 // Application core components
+const compression = require('compression');
 const express = require('express');
 const http = require('http');
 const path = require('path');
@@ -51,6 +52,9 @@ appServer.use((request, response, next) => {
     response.setHeader('Expires', '0'); // Proxies
     return next();
 });
+
+// Compress all requests
+appServer.use(compression());
 
 appServer.use(express.static(staticResourcesAbsolutePath));
 // /Application server (Express middleware configuration)
