@@ -16,6 +16,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-cssnano');
     grunt.loadNpmTasks('grunt-eslint');
+    grunt.loadNpmTasks('grunt-jsinspect');
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-postcss');
     grunt.loadNpmTasks('grunt-processhtml');
@@ -165,6 +166,30 @@ module.exports = function(grunt) {
             //},
         },
 
+        jsinspect: {
+            options: {
+                threshold: 30, // Number of nodes (default: 30)
+                failOnMatch: true,
+                suppress: 0
+            },
+            jsx: {
+                src: [
+                    'client/scripts/**/*.jsx'
+                ]
+            },
+            js: {
+                src: [
+                    'client/scripts/**/*.js',
+                    'server/scripts/**/*.js'
+                ]
+            } //, Takes forever ...
+            //transpiled: {
+            //    src: [
+            //        'build/client/scripts/app.js'
+            //    ]
+            //}
+        },
+
         browserify: {
             build: {
                 options: {
@@ -307,7 +332,7 @@ module.exports = function(grunt) {
         grunt.log.writeln();
         grunt.log.writeln('   grunt watch:server       Monitors all server source code, restarts server on every change                       (blocking command)');
         grunt.log.writeln('   grunt watch:build        Monitors analysis result files, runs \'build:dev\' on every change, refreshes page       (blocking command)');
-        grunt.log.writeln('   grunt watch:analysis      Monitors most source code, runs all analysis tasks on every change                     (blocking command)');
+        grunt.log.writeln('   grunt watch:analysis     Monitors most source code, runs all analysis tasks on every change                     (blocking command)');
         grunt.log.writeln();
         grunt.log.writeln();
         grunt.log.writeln('Other commands are:');
@@ -393,7 +418,7 @@ module.exports = function(grunt) {
     grunt.registerTask('compile:css:dev', ['sass', 'postcss']);
     grunt.registerTask('compile:css:prod', ['compile:css:dev', 'cssnano']);
 
-    grunt.registerTask('lint:js', ['eslint:server', 'eslint:client']);
+    grunt.registerTask('lint:js', ['eslint:server', 'eslint:client', 'jsinspect']);
     grunt.registerTask('lint:js-dump', ['eslint:server-dump', 'eslint:client-dump']);
     grunt.registerTask('compile:js:dev', ['browserify']);
     grunt.registerTask('compile:js:prod', ['compile:js:dev', 'uglify']);

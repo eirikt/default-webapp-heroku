@@ -1,7 +1,7 @@
 {
     "name": "default-webapp-heroku",
     "description": "Default Webapp",
-    "version": "0.7.40",
+    "version": "0.7.41",
     "license": "MIT",
     "author": "Eirik Torske <eirik.torske@gmail.com>",
     "repository": {
@@ -32,6 +32,7 @@
         "grunt-contrib-watch": "0.6.x",
         "grunt-cssnano": "2.0.x",
         "grunt-eslint": "17.x",
+        "grunt-jsinspect" : "1.x",
         "grunt-nodemon": "0.4.x",
         "grunt-postcss": "0.7.x",
         "grunt-processhtml": "0.3.x",
