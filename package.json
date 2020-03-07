@@ -22,7 +22,7 @@
         "eslint-json": "1.x",
         "eslint-plugin-react": "3.x",
         "grunt": "0.4.x",
-        "grunt-browserify": "4.x",
+        "grunt-browserify": "5.3.0",
         "grunt-cli": "0.1.x",
         "grunt-contrib-clean": "0.7.x",
         "grunt-contrib-copy": "0.8.x",
