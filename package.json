@@ -9,7 +9,7 @@
         "url": "https://github.com/eirikt/default-webapp-heroku.git"
     },
     "dependencies": {
-        "socket.io": "1.x",
+        "socket.io": "3.0.0",
         "react": "0.14.x",
         "react-dom": "0.14.x",
 
@@ -39,9 +39,9 @@
         "grunt-scss-lint": "0.3.x",
         "jsonfile": "2.x",
 
-        "autoprefixer": "6.x",
-        "postcss-safe-parser": "1.x",
-        "postcss-scss": "0.1.x"
+        "autoprefixer": "10.0.0",
+        "postcss-safe-parser": "5.0.0",
+        "postcss-scss": "3.0.0"
     },
     "config": {
         "port": 8000
