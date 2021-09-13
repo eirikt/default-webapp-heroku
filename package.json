@@ -27,11 +27,11 @@
         "grunt-contrib-clean": "0.7.x",
         "grunt-contrib-copy": "0.8.x",
         "grunt-contrib-htmlmin": "0.6.x",
-        "grunt-contrib-sass": "0.9.x",
+        "grunt-contrib-sass": "1.0.0",
         "grunt-contrib-uglify": "0.11.x",
         "grunt-contrib-watch": "0.6.x",
         "grunt-cssnano": "2.0.x",
-        "grunt-eslint": "17.x",
+        "grunt-eslint": "23.0.0",
         "grunt-jsinspect" : "1.x",
         "grunt-nodemon": "0.4.x",
         "grunt-postcss": "0.7.x",
@@ -39,9 +39,9 @@
         "grunt-scss-lint": "0.3.x",
         "jsonfile": "2.x",
 
-        "autoprefixer": "6.x",
-        "postcss-safe-parser": "1.x",
-        "postcss-scss": "0.1.x"
+        "autoprefixer": "10.0.0",
+        "postcss-safe-parser": "6.0.0",
+        "postcss-scss": "4.0.0"
     },
     "config": {
         "port": 8000
