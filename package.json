@@ -35,7 +35,7 @@
         "grunt-jsinspect" : "1.x",
         "grunt-nodemon": "0.4.x",
         "grunt-postcss": "0.7.x",
-        "grunt-processhtml": "0.3.x",
+        "grunt-processhtml": "0.4.3",
         "grunt-scss-lint": "0.3.x",
         "jsonfile": "2.x",
 
