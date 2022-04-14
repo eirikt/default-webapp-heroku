@@ -21,7 +21,7 @@
         "babel-preset-react": "6.x",
         "eslint-json": "1.x",
         "eslint-plugin-react": "3.x",
-        "grunt": "0.4.x",
+        "grunt": "1.5.0",
         "grunt-browserify": "4.x",
         "grunt-cli": "0.1.x",
         "grunt-contrib-clean": "0.7.x",
