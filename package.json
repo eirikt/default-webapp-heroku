@@ -39,7 +39,7 @@
         "grunt-scss-lint": "0.3.x",
         "jsonfile": "2.x",
 
-        "autoprefixer": "6.x",
+        "autoprefixer": "9.0.0",
         "postcss-safe-parser": "1.x",
         "postcss-scss": "0.1.x"
     },
