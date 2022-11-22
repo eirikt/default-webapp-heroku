@@ -9,7 +9,7 @@
         "url": "https://github.com/eirikt/default-webapp-heroku.git"
     },
     "dependencies": {
-        "socket.io": "1.x",
+        "socket.io": "2.5.0",
         "react": "0.14.x",
         "react-dom": "0.14.x",
 
