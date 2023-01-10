@@ -9,7 +9,7 @@
         "url": "https://github.com/eirikt/default-webapp-heroku.git"
     },
     "dependencies": {
-        "socket.io": "1.x",
+        "socket.io": "2.1.0",
         "react": "0.14.x",
         "react-dom": "0.14.x",
 
@@ -31,7 +31,7 @@
         "grunt-contrib-uglify": "0.11.x",
         "grunt-contrib-watch": "0.6.x",
         "grunt-cssnano": "2.0.x",
-        "grunt-eslint": "17.x",
+        "grunt-eslint": "20.0.0",
         "grunt-jsinspect" : "1.x",
         "grunt-nodemon": "0.4.x",
         "grunt-postcss": "0.7.x",
