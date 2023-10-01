@@ -39,9 +39,9 @@
         "grunt-scss-lint": "0.3.x",
         "jsonfile": "2.x",
 
-        "autoprefixer": "6.x",
-        "postcss-safe-parser": "1.x",
-        "postcss-scss": "0.1.x"
+        "autoprefixer": "10.0.0",
+        "postcss-safe-parser": "5.0.0",
+        "postcss-scss": "3.0.0"
     },
     "config": {
         "port": 8000
