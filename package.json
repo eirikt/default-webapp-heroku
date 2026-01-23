@@ -32,7 +32,7 @@
         "grunt-contrib-watch": "0.6.x",
         "grunt-cssnano": "2.0.x",
         "grunt-eslint": "17.x",
-        "grunt-jsinspect" : "1.x",
+        "grunt-jsinspect" : "3.0.0",
         "grunt-nodemon": "0.4.x",
         "grunt-postcss": "0.7.x",
         "grunt-processhtml": "0.3.x",
